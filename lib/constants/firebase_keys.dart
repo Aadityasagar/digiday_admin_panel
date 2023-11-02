@@ -24,4 +24,6 @@ class FirebaseKeys{
   static const referredBy = "referredBy";
   static const payoutStatus = "status";
   static const userWalletId = "walletId";
+  static const isCm= "isCm";
+  static const isVendor= "isCm";
 }

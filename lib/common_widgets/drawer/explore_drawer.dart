@@ -4,6 +4,7 @@ import 'package:digiday_admin_panel/features/account/view/components/profile_men
 import 'package:digiday_admin_panel/features/account/view/components/profile_pic.dart';
 import 'package:digiday_admin_panel/features/common/common_functions.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -31,23 +32,23 @@ class ExploreDrawer extends StatelessWidget {
               const SizedBox(height: 20),
               ProfileMenu(
                   text: "My Account",
-                  icon: "assets/icons/User Icon.svg",
+                  icon: CupertinoIcons.person_alt,
                   press: ()=>Get.toNamed(AppRoutes.editProfileScreen)
               ),
               ProfileMenu(
                 text: "Notifications",
-                icon: "assets/icons/Bell.svg",
+                icon: CupertinoIcons.bell_fill,
                 press: () {},
               ),
               ProfileMenu(
                 text: "Settings",
-                icon: "assets/icons/Settings.svg",
+                icon: Icons.settings,
                 press: () {},
               ),
 
               ProfileMenu(
                 text: "Log Out",
-                icon: "assets/icons/Log out.svg",
+                icon: Icons.logout,
                 press: ()=> CommonFunctions.logoutUser(),
               ),
               Expanded(

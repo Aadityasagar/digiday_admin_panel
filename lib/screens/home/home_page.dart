@@ -3,13 +3,13 @@ import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/features/account/controller/account_controller.dart';
 import 'package:digiday_admin_panel/features/account/view/components/profile_menu.dart';
-import 'package:digiday_admin_panel/features/account/view/components/profile_pic.dart';
 import 'package:digiday_admin_panel/features/add_admin/add_admin_screen.dart';
 import 'package:digiday_admin_panel/features/common/common_functions.dart';
 import 'package:digiday_admin_panel/features/payouts/payout_screen.dart';
+import 'package:digiday_admin_panel/screens/cm/cm_screen.dart';
+import 'package:digiday_admin_panel/screens/vendors/vendor_screen.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -55,21 +55,30 @@ class HomePage extends StatelessWidget {
           title: "Total Vendors",
           icon: CupertinoIcons.person_alt,
           count: "10",
-          press: () {}),
+          press: () {
+            Get.to(()=>VendorScreen());
+          },
+      color: const Color(0xfffbbd05)
+      ),
       HomeActions(title: "CM Team",
           icon: CupertinoIcons.person_3_fill,
           count: "100",
-          press: () {}),
+          press: () {
+        Get.to(()=>CmScreen());
+          },
+          color: const Color(0xff4387f5)),
       HomeActions(
           title: "Total Orders",
           icon: Icons.shopping_cart,
           count: "1000+",
-          press: () {}),
+          press: () {},
+          color: const Color(0xffeb4234)),
       HomeActions(
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {})
+          press: () {},
+          color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [
       QuickAction(
@@ -97,13 +106,19 @@ class HomePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
         children: [SizedBox(height: MediaQuery.of(context).size.height,
-          child: Column(
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
+              const Padding(
+                padding: EdgeInsets.only(left: 10.0),
+                child: Text("Welcome, Admin", style: TextStyle(
+                    fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800
+                ),),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height/2.5,
                 child: GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio:4.0/2.7,
+                      childAspectRatio:4.0/2.2,
                       mainAxisSpacing: 5.0,
                       crossAxisSpacing: 5.0,
                     ),
@@ -113,18 +128,21 @@ class HomePage extends StatelessWidget {
                           icon: homeActions[index].icon,
                           title: homeActions[index].title,
                           press: homeActions[index].press,
-                        count: homeActions[index].count,);
+                        count: homeActions[index].count,
+                        color: homeActions[index].color,);
                     }
                 ),
               ),
 
               /// quick actions
-              const  Text('Quick Actions',
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                ),),
+              Center(
+                child: const  Text('Quick Actions',
+                  style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold
+                  ),),
+              ),
               Expanded(child:  ListView.builder(
                   scrollDirection: Axis.vertical,
                   itemCount: actions.length,
@@ -151,21 +169,30 @@ class HomePage extends StatelessWidget {
           title: "Total Vendors",
           icon: CupertinoIcons.person_alt,
           count: "10",
-          press: () {}),
+          press: () {
+            Get.to(()=>VendorScreen());
+          },
+          color: const Color(0xfffbbd05)
+      ),
       HomeActions(title: "CM Team",
           icon: CupertinoIcons.person_3_fill,
           count: "100",
-          press: () {}),
+          press: () {
+            Get.to(()=>CmScreen());
+          },
+          color: const Color(0xff4387f5)),
       HomeActions(
           title: "Total Orders",
           icon: Icons.shopping_cart,
           count: "1000+",
-          press: () {}),
+          press: () {},
+          color: const Color(0xffeb4234)),
       HomeActions(
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {})
+          press: () {},
+          color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [
       QuickAction(
@@ -195,7 +222,8 @@ class HomePage extends StatelessWidget {
         children: [SizedBox(height: MediaQuery.of(context).size.height,
           child: Column(
             children: [
-              SizedBox(height: MediaQuery.of(context).size.height/3.2,
+
+              SizedBox(height: MediaQuery.of(context).size.height/4.5,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     itemCount: homeActions.length,
@@ -205,6 +233,7 @@ class HomePage extends StatelessWidget {
                         title: homeActions[index].title,
                         press: homeActions[index].press,
                         count: homeActions[index].count,
+                        color: homeActions[index].color,
 
                       );
                     }
@@ -242,21 +271,30 @@ class HomePage extends StatelessWidget {
           title: "Total Vendors",
           icon: CupertinoIcons.person_alt,
           count: "10",
-          press: () {}),
+          press: () {
+            Get.to(()=>VendorScreen());
+          },
+          color: const Color(0xfffbbd05)
+      ),
       HomeActions(title: "CM Team",
           icon: CupertinoIcons.person_3_fill,
           count: "100",
-          press: () {}),
+          press: () {
+            Get.to(()=>CmScreen());
+          },
+          color: const Color(0xff4387f5)),
       HomeActions(
           title: "Total Orders",
           icon: Icons.shopping_cart,
           count: "1000+",
-          press: () {}),
+          press: () {},
+          color: const Color(0xffeb4234)),
       HomeActions(
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {})
+          press: () {},
+          color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [
       QuickAction(
@@ -294,23 +332,23 @@ class HomePage extends StatelessWidget {
                 children: [
                   ProfileMenu(
                       text: "My Account",
-                      icon: "assets/icons/User Icon.svg",
+                      icon: CupertinoIcons.person_alt,
                       press: ()=>Get.toNamed(AppRoutes.editProfileScreen)
                   ),
                   ProfileMenu(
                     text: "Notifications",
-                    icon: "assets/icons/Bell.svg",
+                    icon: CupertinoIcons.bell_fill,
                     press: () {},
                   ),
                   ProfileMenu(
                     text: "Settings",
-                    icon: "assets/icons/Settings.svg",
+                    icon: Icons.settings,
                     press: () {},
                   ),
 
                   ProfileMenu(
                     text: "Log Out",
-                    icon: "assets/icons/Log out.svg",
+                    icon: Icons.logout,
                     press: ()=> CommonFunctions.logoutUser(),
                   ),
                 ],
@@ -322,7 +360,7 @@ class HomePage extends StatelessWidget {
             SizedBox(width: MediaQuery.of(context).size.width/1.4,
               child: Column(
                 children: [
-                  SizedBox( height:MediaQuery.of(context).size.height/3,
+                  SizedBox( height:MediaQuery.of(context).size.height/4.5,
                     child:  ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: homeActions.length,
@@ -332,6 +370,7 @@ class HomePage extends StatelessWidget {
                           title: homeActions[index].title,
                           press: homeActions[index].press,
                           count: homeActions[index].count,
+                          color: homeActions[index].color,
 
                         );
                       }
@@ -344,21 +383,32 @@ class HomePage extends StatelessWidget {
                         color: Colors.black,
                         fontWeight: FontWeight.bold
                     ),),
-                  Expanded(child:  ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: actions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return QuickActionsCard(
-                          icon: actions[index].icon,
-                          title: actions[index].title,
-                          press: actions[index].press,
+                 
 
-                        );
-                      }
-                  ),),
+                  Expanded(
+                    child: SizedBox(width: MediaQuery.of(context).size.width/1.4,
+                      child: GridView.builder(
+                          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio:4/1,
+                            mainAxisSpacing: 5.0,
+                            crossAxisSpacing: 5.0,
+                          ),
+                          itemCount: actions.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return QuickActionsCard(
+                              icon: actions[index].icon,
+                              title: actions[index].title,
+                              press: actions[index].press,
+                            );
+                          }
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
+
           ],
         ),
       )],
@@ -368,11 +418,12 @@ class HomePage extends StatelessWidget {
 
 class HomeActions {
   String title;
+  Color color;
   String count;
   IconData icon;
   VoidCallback press;
 
-  HomeActions({required this.title, required this.icon, required this.press, required this.count});
+  HomeActions({required this.title, required this.icon, required this.press, required this.count, required this.color});
 }
 
 class HomeActionsCard extends StatelessWidget {
@@ -382,46 +433,46 @@ class HomeActionsCard extends StatelessWidget {
     required this.title,
     required this.count,
     required this.press,
+    required this.color,
   }) : super(key: key);
 
   final String title;
   final String count;
   final IconData icon;
   final GestureTapCallback press;
-
+  final Color color;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(
-        width: ResponsiveWidget.isMediumScreen(context)? MediaQuery.of(context).size.width/3:
-        MediaQuery.of(context).size.width/6,
-        decoration: BoxDecoration(color: Colors.blue.shade50,
-            borderRadius: BorderRadius.circular(15),),
+      child: InkWell(onTap: press,
+        child: Container(
+          width: ResponsiveWidget.isMediumScreen(context)? MediaQuery.of(context).size.width/3:
+          MediaQuery.of(context).size.width/6,
+          decoration: BoxDecoration(color: color,
+              borderRadius: BorderRadius.circular(15),),
 
-        child: GestureDetector(
-          onTap: press,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(width: 10),
-                Icon(icon, color: kPrimaryColor,
-                  size: ResponsiveWidget.isSmallScreen(context)? MediaQuery.of(context).size.height/10:
-                  MediaQuery.of(context).size.height/6),
-                const SizedBox(height: 10,),
-                Text(title!, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.w800,
-                      fontSize: 18
+                Text(count!, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w900,
+                      fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/40:
+                      MediaQuery.of(context).size.width/20
                   ),),
 
                 const SizedBox(height: 5,),
-                Text(count!, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15
+                Text(title!, overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
+                      fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
+                      MediaQuery.of(context).size.width/40
                   ),),
               ],
             ),
@@ -460,7 +511,7 @@ class QuickActionsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Container(decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(15)),
+      child: Container(decoration: BoxDecoration(color: Colors.grey.shade100, borderRadius: BorderRadius.circular(15)),
 
         child: GestureDetector(
           onTap: press,
@@ -469,20 +520,17 @@ class QuickActionsCard extends StatelessWidget {
             child: Row(
               children: [
                 const SizedBox(width: 10),
-                Container(
+                SizedBox(
                   height: 60,
                   width: 60,
-                  decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Icon(icon, color: Colors.white, size: 45,),
+                  child: Icon(icon, color: kPrimaryColor, size: 45,),
                 ),
                 const SizedBox(width: 20),
                 Text(title!, overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
+                  style: TextStyle(
                       color: Colors.black,
-                      fontSize: 18
+                      fontSize: ResponsiveWidget.isSmallScreen(context)? MediaQuery.of(context).size.width/30:
+                      MediaQuery.of(context).size.width/60
                   ),),
 
                 const SizedBox(width: 20),

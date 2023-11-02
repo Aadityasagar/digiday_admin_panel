@@ -19,9 +19,9 @@ class SplashScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Image.asset("assets/images/logo-rec.png",width: 250,),
+              Image.asset("images/logo-rec.png",width: 250,),
               const Text(
-               "Welcome to DigiDay Admin App",
+               "Welcome to DigiDay Admin Panel",
                 textAlign: TextAlign.center,
               )
             ],

@@ -3,6 +3,7 @@ import 'package:digiday_admin_panel/features/policies/privacy-policy.dart';
 import 'package:digiday_admin_panel/features/policies/refund-and-cancellation-policy.dart';
 import 'package:digiday_admin_panel/features/policies/terms-and-conditions.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,46 +21,25 @@ class Body extends StatelessWidget {
           const SizedBox(height: 20),
           ProfileMenu(
             text: "My Account",
-            icon: "assets/icons/User Icon.svg",
+            icon: CupertinoIcons.person_alt,
             press: ()=>Get.toNamed(AppRoutes.editProfileScreen)
           ),
           ProfileMenu(
             text: "Notifications",
-            icon: "assets/icons/Bell.svg",
+            icon: CupertinoIcons.bell_fill,
             press: () {},
           ),
           ProfileMenu(
             text: "Settings",
-            icon: "assets/icons/Settings.svg",
+            icon: Icons.settings,
             press: () {},
           ),
-          ProfileMenu(
-            text: "Help Center",
-            icon: "assets/icons/Question mark.svg",
-            press: () {},
-          ),
-          ProfileMenu(
-            text: "Terms & Conditions",
-            icon: "assets/icons/Question mark.svg",
-            press: () {
-              Get.to(()=> TermsAndConditions());
-            },
-          ),
-          ProfileMenu(
-              text: "Privacy policy",
-              icon: "assets/icons/User Icon.svg",
-              press: ()=>Get.to(()=> PrivacyPolicy())
-          ),
-          ProfileMenu(
-            text: "Refund & cancellation",
-            icon: "assets/icons/Cash.svg",
-            press: () => {
-              Get.to(()=>RefundPolicy())
-            },
-          ),
+
+
+
           ProfileMenu(
             text: "Log Out",
-            icon: "assets/icons/Log out.svg",
+            icon: Icons.logout,
             press: ()=> CommonFunctions.logoutUser(),
           ),
         ],

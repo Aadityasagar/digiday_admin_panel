@@ -47,7 +47,7 @@ class FirebaseService{
     }
   }
 
-  static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsByWhereClause(String filterKey,String filterValue,String collection)async{
+  static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsByWhereClause(String filterKey, dynamic filterValue,String collection)async{
     try {
       QuerySnapshot<Map<String, dynamic>> result = await fireStore.collection(
           collection).where(filterKey, isEqualTo: filterValue).get();
