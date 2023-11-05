@@ -8,6 +8,7 @@ import 'package:digiday_admin_panel/features/account/view/components/profile_men
 import 'package:digiday_admin_panel/features/add_admin/add_admin_screen.dart';
 import 'package:digiday_admin_panel/features/common/common_functions.dart';
 import 'package:digiday_admin_panel/features/payouts/payout_screen.dart';
+import 'package:digiday_admin_panel/features/products/product_screen.dart';
 import 'package:digiday_admin_panel/screens/cm/cm_screen.dart';
 import 'package:digiday_admin_panel/screens/vendors/vendor_screen.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
@@ -77,7 +78,9 @@ class HomePage extends StatelessWidget {
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {},
+          press: () {
+            Get.to(()=>ProductScreen());
+          },
           color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [
@@ -191,7 +194,9 @@ class HomePage extends StatelessWidget {
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {},
+          press: () {
+            Get.to(()=>ProductScreen());
+          },
           color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [
@@ -293,7 +298,9 @@ class HomePage extends StatelessWidget {
           title: "Total Products",
           icon: Icons.local_mall,
           count: "10000+",
-          press: () {},
+          press: () {
+            Get.to(()=>ProductScreen());
+          },
           color: const Color(0xff34a952))
     ];
     List<QuickAction> actions = [

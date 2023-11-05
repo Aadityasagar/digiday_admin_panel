@@ -1,20 +1,18 @@
+// import 'package:digiday_admin_panel/components/coustom_bottom_nav_bar.dart';
+// import 'package:digiday_admin_panel/constants.dart';
+// import 'package:digiday_admin_panel/features/business/controllers/business_controller.dart';
+// import 'package:digiday_admin_panel/features/business/edit_business.dart';
+// import 'package:digiday_admin_panel/features/common/widgets/app_themed_loader.dart';
+// import 'package:digiday_admin_panel/features/offers/add_offer.dart';
+// import 'package:digiday_admin_panel/features/offers/components/offer_card_widget.dart';
+// import 'package:digiday_admin_panel/features/offers/controller/offer_controller.dart';
+// import 'package:digiday_admin_panel/features/offers/offers_screen.dart';
+// import 'package:digiday_admin_panel/features/products/add_products.dart';
+// import 'package:digiday_admin_panel/size_config.dart';
 // import 'package:flutter/material.dart';
 // import 'package:get/get.dart';
-// import 'package:hikesmoney/components/coustom_bottom_nav_bar.dart';
-// import 'package:hikesmoney/components/product_card.dart';
-// import 'package:hikesmoney/constants.dart';
-// import 'package:hikesmoney/features/business/components/profile_buttons.dart';
-// import 'package:hikesmoney/features/business/components/shop_header.dart';
-// import 'package:hikesmoney/features/business/controllers/business_controller.dart';
-// import 'package:hikesmoney/features/business/edit_business.dart';
-// import 'package:hikesmoney/features/common/widgets/app_themed_loader.dart';
-// import 'package:hikesmoney/features/home/components/section_title.dart';
-// import 'package:hikesmoney/features/offers/add_offer.dart';
-// import 'package:hikesmoney/features/offers/components/offer_card_widget.dart';
-// import 'package:hikesmoney/features/offers/controller/offer_controller.dart';
-// import 'package:hikesmoney/features/offers/offers_screen.dart';
-// import 'package:hikesmoney/features/products/add_products.dart';
-// import 'package:hikesmoney/size_config.dart';
+//
+// import '../home/components/section_title.dart';
 //
 // class MyShopScreen extends StatelessWidget {
 //   final BusinessController _businessController=Get.find<BusinessController>();
@@ -31,10 +29,10 @@
 //                   physics: const ScrollPhysics(),
 //                   child: Column(
 //                     children: [
-//                       Container(
-//                         height: MediaQuery.of(context).size.height/4,
-//                         width: double.infinity,
-//                         child: const ShopHeader(),),
+//                       // Container(
+//                       //   height: MediaQuery.of(context).size.height/4,
+//                       //   width: double.infinity,
+//                       //   child: const ShopHeader(),),
 //                       Container(
 //                         height: MediaQuery.of(context).size.height/8,
 //                         child: Padding(
@@ -80,7 +78,7 @@
 //                         ),
 //                       ),
 //                       SizedBox(height: getProportionateScreenWidth(10)),
-//                       ProfileButtons(),
+//                       // ProfileButtons(),
 //                       Padding(
 //                         padding:
 //                         EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),

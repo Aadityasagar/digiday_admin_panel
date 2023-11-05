@@ -12,29 +12,32 @@ class Product{
   String? id;
   String? productTitle;
   String? productDescription;
-  String? productType;
+  String? productBrand;
+  String? productCategory;
   String? productRegularPrice;
   String? productSalePrice;
   String? productImage;
-  List<String>? productImageGallery;
+  List<dynamic>? productImageGallery;
 
   Product({
     this.id,
     this.productTitle,
     this.productDescription,
-    this.productType,
+    this.productBrand,
+    this.productCategory,
     this.productRegularPrice,
     this.productSalePrice,
     this.productImage,
     this.productImageGallery
-   });
+  });
 
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
-    id: json["id"],
-    productTitle: json["productTitle"],
-    productDescription: json["productDescription"],
-    productType: json["productType"],
+      id: json["id"],
+      productTitle: json["productTitle"],
+      productDescription: json["productDescription"],
+      productBrand: json["productBrand"],
+      productCategory: json["productCategory"],
       productRegularPrice: json["productRegularPrice"],
       productSalePrice: json["productSalePrice"],
       productImage: json["productImage"],
@@ -45,7 +48,8 @@ class Product{
     "id": id,
     "productTitle": productTitle,
     "productDescription": productDescription,
-    "productType": productType,
+    "productBrand": productBrand,
+    "productCategory": productCategory,
     "productRegularPrice": productRegularPrice,
     "productSalePrice": productSalePrice,
     "productImage": productImage,

@@ -3,6 +3,7 @@ import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/constants/firebase_keys.dart';
 import 'package:digiday_admin_panel/features/business/data/business_model.dart';
 import 'package:digiday_admin_panel/features/offers/data/offer_model.dart';
+import 'package:digiday_admin_panel/features/products/data/product_model.dart';
 import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:digiday_admin_panel/utils/shared_prefs/shared_prefrence_refs.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,32 +74,33 @@ class ProductRepository {
 
   }
 
-  Future<List<Offer>?> fetchProducts(String businessId) async{
-   try{
-     return FirebaseService.fetchDocsByWhereClause(FirebaseKeys.businessId, businessId, FirebaseKeys.productsCollection)
-         .then((QuerySnapshot? snapshot){
-       if (snapshot != null) {
-         List<Offer> offersList=[];
-       for (var element in snapshot.docs) {
-         String? offerId=element.id;
-         var offerData=element.data()  as Map<String,dynamic>;
-         offerData['id']=offerId;
-        Offer obj=Offer.fromJson(offerData);
-        offersList.add(obj);
-       }
 
-       if(offersList!=null){
-           return offersList;
-         }
-       }
-       else{
-         debugPrint("No offers available");
-       }
-     });
-   }
-   on FirebaseException catch(e){
-    debugPrint(e.message);
-   }
+  Future<List<Product>?> fetchProducts() async{
+    try{
+      return FirebaseService.fetchDocs(FirebaseKeys.productsCollection)
+          .then((QuerySnapshot? snapshot){
+        if (snapshot != null) {
+          List<Product> productsList=[];
+          for (var element in snapshot.docs) {
+            String? productId=element.id;
+            var productData=element.data()  as Map<String,dynamic>;
+            productData['id']=productId;
+            Product obj=Product.fromJson(productData);
+            productsList.add(obj);
+          }
+
+          if(productsList!=null){
+            return productsList;
+          }
+        }
+        else{
+          debugPrint("No Products available");
+        }
+      });
+    }
+    on FirebaseException catch(e){
+      debugPrint(e.message);
+    }
 
   }
 }

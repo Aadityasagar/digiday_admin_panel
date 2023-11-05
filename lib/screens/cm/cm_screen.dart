@@ -1,16 +1,16 @@
 import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
+import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/screens/cm/controller/cm_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 
 class CmScreen extends StatelessWidget {
   CmScreen({super.key});
-
-  final CmController _cmController=Get.put(CmController());
-
+  
   double _opacity = 0;
 
   final double _scrollPosition = 0;
@@ -38,22 +38,22 @@ class CmScreen extends StatelessWidget {
   }
 }
 Widget getMobileCmScreen() {
-  final CmController _cmController = Get.put(CmController());
+  final CmController cmController = Get.put(CmController());
   return Column(
     children: [
       const Text("CM Team", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),),
       const SizedBox(height: 10,),
       Expanded(
-        child: _cmController.cmTeamMates.isNotEmpty
+        child: cmController.cmTeamMates.isNotEmpty
             ? ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: _cmController.cmTeamMates.length,
+            itemCount: cmController.cmTeamMates.length,
             itemBuilder: (BuildContext context, int index) {
               return CmTeamCard(
                 firstName:
-                "${_cmController.cmTeamMates[index].firstName} ${_cmController.cmTeamMates[index].lastName}",
-                phone: _cmController.cmTeamMates[index].phone,
-                email: _cmController.cmTeamMates[index].email,
+                "${cmController.cmTeamMates[index].firstName} ${cmController.cmTeamMates[index].lastName}",
+                phone: cmController.cmTeamMates[index].phone,
+                email: cmController.cmTeamMates[index].email,
               );
             })
             : const Center(child: Text("No CM Added")),
@@ -63,13 +63,13 @@ Widget getMobileCmScreen() {
 }
 
 Widget getTabCmScreen() {
-  final CmController _cmController = Get.put(CmController());
+  final CmController cmController = Get.put(CmController());
   return Column(
     children: [
       const Text("CM Team", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
       const SizedBox(height: 10,),
       Expanded(
-        child: _cmController.cmTeamMates.isNotEmpty
+        child: cmController.cmTeamMates.isNotEmpty
             ? GridView.builder(
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
@@ -77,13 +77,13 @@ Widget getTabCmScreen() {
               mainAxisSpacing: 5.0,
               crossAxisSpacing: 5.0,
             ),
-            itemCount: _cmController.cmTeamMates.length,
+            itemCount: cmController.cmTeamMates.length,
             itemBuilder: (BuildContext context, int index) {
               return CmTeamCard(
                 firstName:
-                "${_cmController.cmTeamMates[index].firstName} ${_cmController.cmTeamMates[index].lastName}",
-                phone: _cmController.cmTeamMates[index].phone,
-                email: _cmController.cmTeamMates[index].email,
+                "${cmController.cmTeamMates[index].firstName} ${cmController.cmTeamMates[index].lastName}",
+                phone: cmController.cmTeamMates[index].phone,
+                email: cmController.cmTeamMates[index].email,
               );
             })
             : const Center(child: Text("No CM Added")),
@@ -225,9 +225,10 @@ class CmTeamCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(
-                  height: 30,
-                ),
+                MaterialButton(onPressed: (){},
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  color: kPrimaryColor,
+                child: const Icon(CupertinoIcons.delete_solid, color: Colors.white,),)
 
                 // DefaultButton(
                 //   text: 'Contact',

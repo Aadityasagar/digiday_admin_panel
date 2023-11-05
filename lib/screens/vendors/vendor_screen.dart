@@ -1,7 +1,9 @@
 import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
+import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/screens/vendors/controller/vendor_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -113,7 +115,7 @@ Widget getDesktopVendorScreen() {
                     email: _vendorController.vendorMates[index].email,
                   );
                 })
-            : const Center(child: Text("No CM Added")),
+            : const Center(child: Text("No Vendor Added")),
       ),
     ],
   );
@@ -222,9 +224,10 @@ class VendorCard extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(
-                  height: 30,
-                ),
+                MaterialButton(onPressed: (){},
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  color: kPrimaryColor,
+                  child: const Icon(CupertinoIcons.delete_solid, color: Colors.white,),)
 
                 // DefaultButton(
                 //   text: 'Contact',
