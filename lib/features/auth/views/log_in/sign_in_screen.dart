@@ -14,15 +14,23 @@ class LogInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      body: SingleChildScrollView(
-        child: ResponsiveWidget(
-          largeScreen: getDesktopSignInScreen(context),
-          mediumScreen: getTabSignInScreen(context),
-          smallScreen: getMobileSignInScreen(context),
+    return Stack(
+      children: [
+        Scaffold(
+          extendBody: true,
+          body: SingleChildScrollView(
+            child: ResponsiveWidget(
+              largeScreen: getDesktopSignInScreen(context),
+              mediumScreen: getTabSignInScreen(context),
+              smallScreen: getMobileSignInScreen(context),
+            ),
+          ),
         ),
-      ),
+        Obx(() => Offstage(
+            offstage: !_loginController.isLoading.value,
+            child: const AppThemedLoader()))
+
+      ],
     );
   }
 
@@ -92,10 +100,7 @@ class LogInScreen extends StatelessWidget {
                 ],
               ),
             ),
-          ),
-          Obx(() => Offstage(
-              offstage: !_loginController.isLoading.value,
-              child: const AppThemedLoader()))
+          )
         ],
       ),
     );
@@ -168,9 +173,6 @@ class LogInScreen extends StatelessWidget {
               ),
             ),
           ),
-          Obx(() => Offstage(
-              offstage: !_loginController.isLoading.value,
-              child: const AppThemedLoader()))
         ],
       ),
     );
@@ -243,9 +245,6 @@ class LogInScreen extends StatelessWidget {
               ),
             ),
           ),
-          Obx(() => Offstage(
-              offstage: !_loginController.isLoading.value,
-              child: const AppThemedLoader()))
         ],
       ),
     );

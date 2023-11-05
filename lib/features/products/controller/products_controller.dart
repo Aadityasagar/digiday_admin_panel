@@ -6,6 +6,7 @@ import 'package:digiday_admin_panel/features/products/add_products.dart';
 import 'package:digiday_admin_panel/features/products/data/product_repository.dart';
 import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../offers/edit_offer.dart';
@@ -22,10 +23,7 @@ class ProductController extends GetxController{
   TextEditingController productRegularPrice = TextEditingController();
   TextEditingController productSalePrice = TextEditingController();
 
-
-
-  final addOfferFormKey = GlobalKey<FormState>();
-  final updateOfferFormKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
 
 
@@ -247,10 +245,6 @@ class ProductController extends GetxController{
       if(response!=null){
         // setBusinessData=response;
         products.addAll(response);
-
-        for (var product in products) {
-          product.productImage = await fetchImgUrl(product.productImage!);
-        }
       }
       else{
         Get.to(()=>AddProduct());

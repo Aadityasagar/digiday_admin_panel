@@ -42,7 +42,8 @@ class ProductScreen extends StatelessWidget {
                         itemCount: _productController.products.length,
                         itemBuilder: (BuildContext context, int index) {
 
-                          return ProductCard(product: _productController.products[index]);
+                          return ProductCard(
+                              product: _productController.products[index]);
                         }
                     ),
                   ),
@@ -103,7 +104,7 @@ class ProductCard extends StatelessWidget {
                   child: AspectRatio(
                     aspectRatio: aspectRatio,
                     child: Hero(
-                      tag: product.id.toString(),
+                      tag: UniqueKey(),
                       child:  FutureBuilder(
                         future: FirebaseService.getImageUrl("${ApiUrl.productPicFolder}/${product.productImage}"),
                         builder: (context, snapshot) {

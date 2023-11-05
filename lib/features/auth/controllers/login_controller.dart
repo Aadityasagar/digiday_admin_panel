@@ -21,7 +21,7 @@ class LoginController extends GetxController{
 
   final GlobalKey<FormState> emailLoginForm = GlobalKey<FormState>();
 
-  TextEditingController email=TextEditingController(text: "webearlydotin@gmail.com");
+  TextEditingController email=TextEditingController(text: "hireaxia@gmail.com");
   TextEditingController passwordController = TextEditingController(text: "User@1234567");
 
   @override
