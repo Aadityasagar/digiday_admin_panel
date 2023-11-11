@@ -1,19 +1,15 @@
-<<<<<<< Updated upstream:lib/features/products/product_screen.dart
 import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
-=======
->>>>>>> Stashed changes:lib/features/products/products_screen.dart
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/features/products/controller/products_controller.dart';
-import 'package:digiday_admin_panel/size_config.dart';
+import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'data/product_model.dart';
 
-<<<<<<< Updated upstream:lib/features/products/product_screen.dart
 class ProductScreen extends StatelessWidget {
   ProductScreen({Key? key}) : super(key: key);
 
@@ -74,59 +70,6 @@ Widget getMobileProductScreen(BuildContext context) {
           ),
         ),
       ));
-=======
-class ProductsScreen extends StatelessWidget {
-  final ProductController _productController = Get.put(ProductController());
-
-  @override
-  Widget build(BuildContext context) {
-    SizeConfig().init(context);
-    return GetBuilder<ProductController>(
-      builder: (controller) {
-        return Scaffold(
-          key: _productController.productsScaffoldKey,
-          appBar: AppBar(
-            title: Text("Products", style: TextStyle(
-              fontSize: getProportionateScreenWidth(8),
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-              height: 1.5,
-            )),
-          ),
-          body:  Obx(()=> SingleChildScrollView(
-            child: Container(
-              color: Colors.white,
-              height: MediaQuery.of(context).size.height,
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: GridView.builder(
-                          gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5,
-                            mainAxisSpacing: 1,
-                            crossAxisSpacing: 1,
-                          ),
-                          scrollDirection: Axis.vertical,
-                          itemCount: _productController.products.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return ProductCard(
-                                product: _productController.products[index]);
-                          }
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          ),
-        );
-      },
-    );
-  }
->>>>>>> Stashed changes:lib/features/products/products_screen.dart
 }
 
 Widget getTabProductScreen(BuildContext context) {
@@ -208,9 +151,6 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final ProductController _productController = Get.find<ProductController>();
-
     return InkWell(
       onTap: () {},
       child: Padding(
@@ -236,14 +176,9 @@ class ProductCard extends StatelessWidget {
                     aspectRatio: aspectRatio,
                     child: Hero(
                       tag: UniqueKey(),
-<<<<<<< Updated upstream:lib/features/products/product_screen.dart
                       child: FutureBuilder(
                         future: FirebaseService.getImageUrl(
                             "${ApiUrl.productPicFolder}/${product.productImage}"),
-=======
-                      child:  FutureBuilder(
-                        future: _productController.fetchImgUrl("${ApiUrl.productPicFolder}/${product.productImage}"),
->>>>>>> Stashed changes:lib/features/products/products_screen.dart
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return const Text(

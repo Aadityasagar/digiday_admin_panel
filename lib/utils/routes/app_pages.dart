@@ -56,7 +56,7 @@ class AppPages {
 
     GetPage(
       name: AppRoutes.products,
-      page: () =>  ProductsScreen(),
+      page: () =>  ProductScreen(),
     ),
     GetPage(
       name: AppRoutes.vendors,

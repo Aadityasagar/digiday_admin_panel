@@ -1,5 +1,4 @@
 import 'package:digiday_admin_panel/features/app_session/app_session.dart';
-import 'package:digiday_admin_panel/features/splash/view/splash_screen.dart';
 import 'package:digiday_admin_panel/theme.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:digiday_admin_panel/utils/services/network/api_base_helper.dart';

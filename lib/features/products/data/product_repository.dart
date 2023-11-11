@@ -1,10 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/constants/firebase_keys.dart';
-<<<<<<< Updated upstream
-import 'package:digiday_admin_panel/features/business/data/business_model.dart';
-=======
->>>>>>> Stashed changes
 import 'package:digiday_admin_panel/features/products/data/product_model.dart';
 import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:digiday_admin_panel/utils/shared_prefs/shared_prefrence_refs.dart';
