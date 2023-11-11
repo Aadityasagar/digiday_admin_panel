@@ -2,6 +2,7 @@ import 'package:digiday_admin_panel/components/default_button.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/features/auth/controllers/register_controller.dart';
 import 'package:digiday_admin_panel/features/common/widgets/app_themed_loader.dart';
+import 'package:digiday_admin_panel/features/policies/terms-and-conditions.dart';
 import 'package:digiday_admin_panel/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,7 +38,7 @@ class RegisterScreenWithEmail extends StatelessWidget {
                       SizedBox(height: getProportionateScreenHeight(20)),
                       InkWell(
                         onTap: (){
-
+                          Get.to(()=> TermsAndConditions());
                         },
                         child: Text(
                           'By continuing you confirm that you agree \nwith our Term and Condition',

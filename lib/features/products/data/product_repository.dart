@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/constants/firebase_keys.dart';
-<<<<<<< Updated upstream
 import 'package:digiday_admin_panel/features/business/data/business_model.dart';
-=======
->>>>>>> Stashed changes
 import 'package:digiday_admin_panel/features/products/data/product_model.dart';
 import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:digiday_admin_panel/utils/shared_prefs/shared_prefrence_refs.dart';
@@ -42,6 +39,39 @@ class ProductRepository {
   }
 
 
+  Future<BusinessData?> fetchProductDetails()async{
+    String? currentUid=FirebaseAuth.instance.currentUser?.uid;
+    if(currentUid!=null){
+      return await FirebaseService.fetchDocsByWhereClause(FirebaseKeys.ownerId, currentUid, FirebaseKeys.businessesCollection)
+          .then((QuerySnapshot? snapshot){
+        if (snapshot?.docs != null) {
+          QueryDocumentSnapshot<Object?>? businessData=snapshot?.docs.first;
+          if(businessData!=null){
+            BusinessData _business = BusinessData(
+              id: businessData.id,
+              businessName: businessData?['businessName'],
+              address: businessData?['address'],
+              phoneNumber: businessData?['phoneNumber'],
+              city: businessData?['city'],
+              state: businessData?['state'],
+              pinCode: businessData?['pinCode'],
+              banner: businessData?['banner'],
+              profilePicture: businessData?['profilePicture'],
+            );
+
+            return _business;
+          }
+        }
+        else{
+          debugPrint("Users has not added  any business");
+        }
+      });
+    }
+    else{
+      debugPrint("No user logged in");
+    }
+
+  }
 
 
   Future<List<Product>?> fetchProducts() async{

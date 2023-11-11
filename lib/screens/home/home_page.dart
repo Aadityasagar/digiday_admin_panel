@@ -5,19 +5,15 @@ import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/features/account/controller/account_controller.dart';
 import 'package:digiday_admin_panel/features/account/view/components/profile_menu.dart';
+import 'package:digiday_admin_panel/features/add_admin/add_admin_screen.dart';
 import 'package:digiday_admin_panel/features/common/common_functions.dart';
-<<<<<<< Updated upstream
 import 'package:digiday_admin_panel/features/payouts/payout_screen.dart';
 import 'package:digiday_admin_panel/features/products/controller/products_controller.dart';
 import 'package:digiday_admin_panel/features/products/product_screen.dart';
-=======
-import 'package:digiday_admin_panel/features/products/products_screen.dart';
->>>>>>> Stashed changes
 import 'package:digiday_admin_panel/screens/cm/cm_screen.dart';
 import 'package:digiday_admin_panel/screens/cm/controller/cm_controller.dart';
 import 'package:digiday_admin_panel/screens/vendors/controller/vendor_controller.dart';
 import 'package:digiday_admin_panel/screens/vendors/vendor_screen.dart';
-import 'package:digiday_admin_panel/size_config.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,15 +21,17 @@ import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
+
   final AppStateController _appStateController = Get.put(AppStateController());
+
   final AccountController _accountController = Get.put(AccountController());
 
   double _opacity = 0;
+
   final double _scrollPosition = 0;
 
   @override
   Widget build(BuildContext context) {
-
     var screenSize = MediaQuery.of(context).size;
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
@@ -87,11 +85,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: productController.products.length.toString(),
           press: () {
-<<<<<<< Updated upstream
             Get.to(() => ProductScreen());
-=======
-            Get.toNamed("/products");
->>>>>>> Stashed changes
           },
           color: const Color(0xff34a952))
     ];
@@ -99,25 +93,15 @@ class HomePage extends StatelessWidget {
       QuickAction(
           title: "Add Admin",
           icon: Icons.person_add_sharp,
-<<<<<<< Updated upstream
           press: () {
             Get.to(AddAdminScreen());
-=======
-          press: (){
-            //Get.to(AddAdminScreen());
->>>>>>> Stashed changes
           }),
       QuickAction(title: "Admins", icon: Icons.person_2_sharp, press: () {}),
       QuickAction(
           title: "Process Withdrawals",
           icon: Icons.monetization_on,
-<<<<<<< Updated upstream
           press: () {
             Get.to(const PayoutScreen());
-=======
-          press: (){
-          //  Get.to(const PayoutScreen());
->>>>>>> Stashed changes
           }),
       QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
     ];
@@ -162,7 +146,6 @@ class HomePage extends StatelessWidget {
                       }),
                 ),
 
-<<<<<<< Updated upstream
                 /// quick actions
                 const Center(
                   child: Text(
@@ -189,33 +172,6 @@ class HomePage extends StatelessWidget {
             ),
           )
         ],
-=======
-              /// quick actions
-              const Center(
-                child:   Text('Quick Actions',
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold
-                  ),),
-              ),
-              Expanded(child:  ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: actions.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return QuickActionsCard(
-                      icon: actions[index].icon,
-                      title: actions[index].title,
-                      press: actions[index].press,
-
-                    );
-                  }
-              ),),
-
-            ],
-          ),
-        )],
->>>>>>> Stashed changes
       ),
     );
   }
@@ -252,11 +208,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: productController.products.length.toString(),
           press: () {
-<<<<<<< Updated upstream
             Get.to(() => ProductScreen());
-=======
-            Get.toNamed("/products");
->>>>>>> Stashed changes
           },
           color: const Color(0xff34a952))
     ];
@@ -264,32 +216,21 @@ class HomePage extends StatelessWidget {
       QuickAction(
           title: "Add Admin",
           icon: Icons.person_add_sharp,
-<<<<<<< Updated upstream
           press: () {
             Get.to(AddAdminScreen());
-=======
-          press: (){
-           // Get.to(AddAdminScreen());
->>>>>>> Stashed changes
           }),
       QuickAction(title: "Admins", icon: Icons.person_2_sharp, press: () {}),
       QuickAction(
           title: "Process Withdrawals",
           icon: Icons.monetization_on,
-<<<<<<< Updated upstream
           press: () {
             Get.to(const PayoutScreen());
-=======
-          press: (){
-           // Get.to(const PayoutScreen());
->>>>>>> Stashed changes
           }),
       QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
-<<<<<<< Updated upstream
         children: [
           SizedBox(
             height: MediaQuery.of(context).size.height,
@@ -298,153 +239,6 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 4.5,
                   child: ListView.builder(
-=======
-        children: [SizedBox(height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-
-              SizedBox(height: MediaQuery.of(context).size.height/4.5,
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: homeActions.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return HomeActionsCard(
-                        icon: homeActions[index].icon,
-                        title: homeActions[index].title,
-                        press: homeActions[index].press,
-                        count: homeActions[index].count,
-                        color: homeActions[index].color,
-
-                      );
-                    }
-                ),
-              ),
-              /// quick actions
-              const  Text('Quick Actions',
-                style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold
-                ),),
-              Expanded(child:  ListView.builder(
-                  scrollDirection: Axis.vertical,
-                  itemCount: actions.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return QuickActionsCard(
-                      icon: actions[index].icon,
-                      title: actions[index].title,
-                      press: actions[index].press,
-
-                    );
-                  }
-              ),),
-            ],
-          ),
-        )],
-      ),
-    );
-  }
-
-  Widget getDesktopHomePage(BuildContext context) {
-    List<HomeActions> homeActions = [
-      HomeActions(
-          title: "Total Vendors",
-          icon: CupertinoIcons.person_alt,
-          count: "10",
-          press: () {
-            Get.to(()=>VendorScreen());
-          },
-          color: const Color(0xfffbbd05)
-      ),
-      HomeActions(title: "CM Team",
-          icon: CupertinoIcons.person_3_fill,
-          count: "100",
-          press: () {
-            Get.to(()=>CmScreen());
-          },
-          color: const Color(0xff4387f5)),
-      HomeActions(
-          title: "Total Orders",
-          icon: Icons.shopping_cart,
-          count: "1000+",
-          press: () {},
-          color: const Color(0xffeb4234)),
-      HomeActions(
-          title: "Total Products",
-          icon: Icons.local_mall,
-          count: "10000+",
-          press: () {
-            Get.toNamed("/products");
-          },
-          color: const Color(0xff34a952))
-    ];
-    List<QuickAction> actions = [
-      QuickAction(
-          title: "Add Admin",
-          icon: Icons.person_add_sharp,
-          press: (){
-           // Get.to(AddAdminScreen());
-          }),
-      QuickAction(
-          title: "Admins",
-          icon: Icons.person_2_sharp,
-          press: (){}),
-      QuickAction(
-          title: "Process Withdrawals",
-          icon: Icons.monetization_on,
-          press: (){
-           // Get.to(const PayoutScreen());
-          }),
-      QuickAction(
-          title: "Referer Someone",
-          icon: Icons.share,
-          press: (){})
-    ];
-    return Column(
-      children: [SizedBox(height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Row(
-          children: [
-            /// blank space
-
-            SizedBox(width: MediaQuery.of(context).size.width/4,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  ProfileMenu(
-                      text: "My Account",
-                      icon: CupertinoIcons.person_alt,
-                      press: ()=>Get.toNamed(AppRoutes.editProfileScreen)
-                  ),
-                  ProfileMenu(
-                    text: "Notifications",
-                    icon: CupertinoIcons.bell_fill,
-                    press: () {},
-                  ),
-                  ProfileMenu(
-                    text: "Settings",
-                    icon: Icons.settings,
-                    press: () {},
-                  ),
-
-                  ProfileMenu(
-                    text: "Log Out",
-                    icon: Icons.logout,
-                    press: ()=> CommonFunctions.logoutUser(),
-                  ),
-                ],
-              ),
-            ),
-
-            /// side space
-
-            SizedBox(width: MediaQuery.of(context).size.width/1.4,
-              child: Column(
-                children: [
-                  SizedBox( height:MediaQuery.of(context).size.height/4.5,
-                    child:  ListView.builder(
->>>>>>> Stashed changes
                       scrollDirection: Axis.horizontal,
                       itemCount: homeActions.length,
                       itemBuilder: (BuildContext context, int index) {

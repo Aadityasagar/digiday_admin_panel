@@ -1,5 +1,4 @@
 import 'package:digiday_admin_panel/features/app_session/app_session.dart';
-import 'package:digiday_admin_panel/features/splash/view/splash_screen.dart';
 import 'package:digiday_admin_panel/theme.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:digiday_admin_panel/utils/services/network/api_base_helper.dart';
@@ -15,9 +14,7 @@ Future main() async{
       apiKey: "AIzaSyAEUp2fIjgcEDgaFXNsKHh3yqEGA1VAmm0",
       appId: "1:606357839477:web:6b1ecc6b6d6e4633e1a23c",
       messagingSenderId: "606357839477",
-      projectId: "digiday-7570a",
-      storageBucket: "digiday-7570a.appspot.com",
-  ));
+      projectId: "digiday-7570a"));
   setDefault();
   runApp(MyApp());
 }

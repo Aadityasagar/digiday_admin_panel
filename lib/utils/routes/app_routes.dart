@@ -13,7 +13,4 @@ abstract class AppRoutes {
   static const myShopScreen = "/my_shop_screen";
   static const editMyBusinessScreen = "/edit_my_business_screen";
   static const addProduct = "/add_product";
-  static const products = "/products";
-  static const vendors = "/vendors";
-  static const cms = "/cms";
 }

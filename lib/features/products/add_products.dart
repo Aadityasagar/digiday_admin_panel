@@ -26,7 +26,7 @@ class _AddProductState extends State<AddProduct> {
     });
   }
 
-  final _AddProductformKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   String? productName;
   String? regularPrice;
   String? salePrice;
@@ -231,7 +231,7 @@ class _AddProductState extends State<AddProduct> {
               SizedBox(height: SizeConfig.screenHeight * 0.08),
 
               Form(
-                key: _AddProductformKey,
+                key: _formKey,
                 child: Column(
                   children: [
                     buildProductNameFormField(),
