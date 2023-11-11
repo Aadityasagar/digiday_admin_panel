@@ -1,7 +1,4 @@
 import 'package:digiday_admin_panel/features/common/common_functions.dart';
-import 'package:digiday_admin_panel/features/policies/privacy-policy.dart';
-import 'package:digiday_admin_panel/features/policies/refund-and-cancellation-policy.dart';
-import 'package:digiday_admin_panel/features/policies/terms-and-conditions.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

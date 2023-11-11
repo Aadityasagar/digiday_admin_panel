@@ -19,7 +19,7 @@ class ApiUrl {
 
   static const vendorProfilePicsDirectory = '/images/vendor/profile_pics/';
   static const googleStorageBase = 'gs://digiday-7570a.appspot.com';
-  static const profilePicsFolder = '/images/users/profile_pics';
+  static const profilePicsFolder = '/images/admin/profile_pics';
   static const offerBannersFolder = '/images/vendors/business/offer_banners';
   static const productPicFolder = '/images/vendors/business/product_pics';
   static const businessPicsFolder = '/images/vendors/business/profile_pics';

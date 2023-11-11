@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/constants/firebase_keys.dart';
 import 'package:digiday_admin_panel/features/account/data/account_repository.dart';
 import 'package:digiday_admin_panel/features/account/data/models/user_model.dart';
@@ -59,7 +60,7 @@ class AccountController extends GetxController{
 
   void fetchimg()async{
     if(_currentUser?.photo!=null){
-      profilePicUrl.value = await downloadURLExample("/images/users/profile_pics/${_currentUser?.photo}");
+      profilePicUrl.value = await downloadURLExample("${ApiUrl.profilePicsFolder}/${_currentUser?.photo}");
     }
   }
 

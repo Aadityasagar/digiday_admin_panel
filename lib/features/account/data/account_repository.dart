@@ -55,7 +55,6 @@ class AccountRepository {
   Future<String?> profilePicUpload(File imgFile) async {
     String uniqueFileName = "profile_pic_"+Timestamp.now().microsecondsSinceEpoch.toString();
    String? response=await  FirebaseService.uploadImageMethod( folder: ApiUrl.profilePicsFolder, fileToUpload: imgFile.path,uniqueFileName: uniqueFileName);
-
     if (response!=null) {
       return response;
     }
