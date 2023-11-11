@@ -1,5 +1,4 @@
 import 'package:digiday_admin_panel/features/app_session/app_session.dart';
-import 'package:digiday_admin_panel/features/wallet/wallet_screen.dart';
 import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,7 +52,7 @@ class CustomBottomNavBar extends StatelessWidget {
                   onPressed: () {
                     _appSessionController.selectedMenu=MenuState.shop;
                     // Get.toNamed(AppRoutes.myShopScreen);
-                    Get.to(()=>WalletScreen());
+                   // Get.to(()=>WalletScreen());
                   }),
 
               // IconButton(

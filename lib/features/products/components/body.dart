@@ -3,8 +3,6 @@
 import 'package:digiday_admin_panel/size_config.dart';
 import 'package:flutter/material.dart';
 
-import '../../offers/components/create_offer_form.dart';
-
 
 class Body extends StatelessWidget {
   @override
@@ -23,24 +21,6 @@ class Body extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: SizeConfig.screenHeight * 0.05),
-                const CreateOfferForm(),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SocalCard(
-                //       icon: "assets/icons/google-icon.svg",
-                //       press: () {},
-                //     ),
-                //     SocalCard(
-                //       icon: "assets/icons/facebook-2.svg",
-                //       press: () {},
-                //     ),
-                //     SocalCard(
-                //       icon: "assets/icons/twitter.svg",
-                //       press: () {},
-                //     ),
-                //   ],
-                // ),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 Text(
                   'By continuing you confirm that you agree \nwith our Term and Condition',

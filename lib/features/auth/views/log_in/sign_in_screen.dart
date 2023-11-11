@@ -186,7 +186,7 @@ class LogInScreen extends StatelessWidget {
           SizedBox(
             width: MediaQuery.of(context).size.width,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 350),
               child: Column(
                 children: [
                   const SizedBox(height: 10),
@@ -231,11 +231,14 @@ class LogInScreen extends StatelessWidget {
                           ],
                         ),
                         const SizedBox(height: 20),
-                        DefaultButton(
-                          text: "Login",
-                          press: () {
-                            _loginController.validateAndSubmit();
-                          },
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 50.0),
+                          child: DefaultButton(
+                            text: "Login",
+                            press: () {
+                              _loginController.validateAndSubmit();
+                            },
+                          ),
                         ),
                       ],
                     ),

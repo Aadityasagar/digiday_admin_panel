@@ -27,7 +27,7 @@ class _CreateOfferFormState extends State<CreateOfferForm> {
     });
   }
 
-  final _formKey = GlobalKey<FormState>();
+  final _offerFormKey = GlobalKey<FormState>();
   String? discount;
   String? category;
   String? couponCode;
@@ -37,7 +37,7 @@ class _CreateOfferFormState extends State<CreateOfferForm> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _offerFormKey,
       child: Column(
         children: [
           buildDiscountFormField(),
