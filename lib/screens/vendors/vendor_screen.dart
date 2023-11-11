@@ -28,218 +28,330 @@ class VendorScreen extends StatelessWidget {
           ),
           drawer: ExploreDrawer(),
           body: ResponsiveWidget(
-            largeScreen: getDesktopVendorScreen(),
-            mediumScreen: getTabVendorScreen(),
-            smallScreen: getMobileVendorScreen(),
+            largeScreen: getDesktopVendorScreen(context),
+            mediumScreen: getTabVendorScreen(context),
+            smallScreen: getMobileVendorScreen(context),
           )),
     );
   }
 }
 
-Widget getMobileVendorScreen() {
+Widget getMobileVendorScreen(BuildContext context) {
+
   final VendorController _vendorController = Get.put(VendorController());
-  return Column(
-    children: [
-      const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: _vendorController.vendorMates.isNotEmpty
-            ? ListView.builder(
-                scrollDirection: Axis.vertical,
-                itemCount: _vendorController.vendorMates.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return VendorCard(
-                    firstName:
-                        "${_vendorController.vendorMates[index].firstName} ${_vendorController.vendorMates[index].lastName}",
-                    phone: _vendorController.vendorMates[index].phone,
-                    email: _vendorController.vendorMates[index].email,
-                  );
-                })
-            : const Center(child: Text("No CM Added")),
-      ),
-    ],
-  );
-}
-
-Widget getTabVendorScreen() {
-  final VendorController _vendorController = Get.put(VendorController());
-  return Column(
-    children: [
-      const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: _vendorController.vendorMates.isNotEmpty
-            ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 4.0 / 2,
-              mainAxisSpacing: 5.0,
-              crossAxisSpacing: 5.0,
-            ),
-            itemCount: _vendorController.vendorMates.length,
-            itemBuilder: (BuildContext context, int index) {
-              return VendorCard(
-                firstName:
-                "${_vendorController.vendorMates[index].firstName} ${_vendorController.vendorMates[index].lastName}",
-                phone: _vendorController.vendorMates[index].phone,
-                email: _vendorController.vendorMates[index].email,
-              );
-            })
-            : const Center(child: Text("No CM Added")),
-      ),
-    ],
-  );
-}
-
-Widget getDesktopVendorScreen() {
-  final VendorController _vendorController = Get.put(VendorController());
-  return Column(
-    children: [
-      const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: _vendorController.vendorMates.isNotEmpty
-            ? GridView.builder(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  childAspectRatio: 4.0 / 2,
-                  mainAxisSpacing: 5.0,
-                  crossAxisSpacing: 5.0,
-                ),
-                itemCount: _vendorController.vendorMates.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return VendorCard(
-                    firstName:
-                        "${_vendorController.vendorMates[index].firstName} ${_vendorController.vendorMates[index].lastName}",
-                    phone: _vendorController.vendorMates[index].phone,
-                    email: _vendorController.vendorMates[index].email,
-                  );
-                })
-            : const Center(child: Text("No Vendor Added")),
-      ),
-    ],
-  );
-}
-
-class VendorCard extends StatelessWidget {
-  String? firstName;
-  String? phone;
-  String? email;
-
-  VendorCard({
-    super.key,
-    required this.firstName,
-    required this.phone,
-    required this.email,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.blue.shade50,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  return SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),),
+          const SizedBox(height: 10,),
+          SizedBox(height: MediaQuery.of(context).size.height,
+            child: _vendorController.vendorMates.isNotEmpty ? Table(
+              columnWidths: const {
+              0: FlexColumnWidth(1),
+              1: FlexColumnWidth(4),
+              2: FlexColumnWidth(5),
+            },
+              border: TableBorder.all(width: 1.0, color: Colors.black),
               children: [
-                const SizedBox(
-                  height: 10,
-                ),
 
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Name : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
+                const TableRow(
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor
                     ),
-                    Text(
-                      "$firstName",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Phone Number : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
-                    ),
-                    Text(
-                      phone ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Email : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
-                    ),
-                    Text(
-                      email ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
+                    children: [
 
-                MaterialButton(onPressed: (){},
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  color: kPrimaryColor,
-                  child: const Icon(CupertinoIcons.delete_solid, color: Colors.white,),)
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "S. NO.",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "NAME",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "EMAIL",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ]),
 
-                // DefaultButton(
-                //   text: 'Contact',
-                //   press: (){
-                //     Get.to(EditBankAccountDetails());
-                //   },
-                // )
+                ..._vendorController.vendorMates.asMap().entries.map(
+                      (vendorMates) {
+                    return TableRow(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        children: [
+
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                "${vendorMates.key + 1}",
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                vendorMates.value.email.toString(),
+                              ),
+                            ),
+                          ),
+                        ]);
+                  },
+                )
+
               ],
-            ),
+            ) :
+
+            Center(child: Text('No Vendor Added'),),
+
           ),
-        ),
+
+
+
+
+        ]
+
       ),
-    );
-  }
+    ),
+  );
 }
+
+Widget getTabVendorScreen(BuildContext context) {
+  final VendorController _vendorController = Get.put(VendorController());
+  return SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
+          const SizedBox(height: 10,),
+          SizedBox(height: MediaQuery.of(context).size.height,
+            child: _vendorController.vendorMates.isNotEmpty ? Table(
+              columnWidths: const {
+                0: FlexColumnWidth(1),
+                1: FlexColumnWidth(4),
+                2: FlexColumnWidth(5),
+              },
+              border: TableBorder.all(width: 1.0, color: Colors.black),
+              children: [
+
+                const TableRow(
+                    decoration: BoxDecoration(
+                        color: kPrimaryColor
+                    ),
+                    children: [
+
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "S. NO.",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "NAME",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            "EMAIL",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                    ]),
+
+                ..._vendorController.vendorMates.asMap().entries.map(
+                      (vendorMates) {
+                    return TableRow(
+                        decoration: const BoxDecoration(color: Colors.white),
+                        children: [
+
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                "${vendorMates.key + 1}",
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                              ),
+                            ),
+                          ),
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              child: Text(
+                                vendorMates.value.email.toString(),
+                              ),
+                            ),
+                          ),
+                        ]);
+                  },
+                )
+
+              ],
+            ) :
+
+            Center(child: Text('No Vendor Added'),),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget getDesktopVendorScreen(BuildContext context) {
+  final VendorController _vendorController = Get.put(VendorController());
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        const Text("Vendors", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
+        const SizedBox(height: 10,),
+        Row(
+          children: [
+            SizedBox(width:MediaQuery.of(context).size.width/4,),
+            SizedBox(
+              width: MediaQuery.of(context).size.width/1.4,
+              height: MediaQuery.of(context).size.height,
+              child: _vendorController.vendorMates.isNotEmpty ? Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(1),
+                  1: FlexColumnWidth(4),
+                  2: FlexColumnWidth(5),
+                },
+                border: TableBorder.all(width: 1.0, color: Colors.black),
+                children: [
+
+                  const TableRow(
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor
+                    ),
+                      children: [
+
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "S. NO.",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "NAME",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Center(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          "EMAIL",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ]),
+
+                  ..._vendorController.vendorMates.asMap().entries.map(
+                        (vendorMates) {
+                      return TableRow(
+                          decoration: const BoxDecoration(color: Colors.white),
+                          children: [
+
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  "${vendorMates.key + 1}",
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 20),
+                                child: Text(
+                                  vendorMates.value.email.toString(),
+                                ),
+                              ),
+                            ),
+                          ]);
+                    },
+                  )
+
+                ],
+              ) :
+
+                  Center(child: Text('No Vendor Added'),),
+
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
+}
+
+

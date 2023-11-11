@@ -1,5 +1,5 @@
-import 'dart:html';
-
+import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
+import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
@@ -13,55 +13,128 @@ import 'data/product_model.dart';
 class ProductScreen extends StatelessWidget {
   ProductScreen({Key? key}) : super(key: key);
 
-  final ProductController _productController = Get.put(ProductController());
+  final ProductController _productController = Get.find<ProductController>();
+
+  double _opacity = 0;
+
+  final double _scrollPosition = 0;
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
+    _opacity = _scrollPosition < screenSize.height * 0.40
+        ? _scrollPosition / (screenSize.height * 0.40)
+        : 1;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Products", style: headingStyle),
-      ),
+        appBar: PreferredSize(
+          preferredSize: Size(screenSize.width, 1000),
+          child: HeaderWidget(opacity: _opacity),
+        ),
+        drawer: ExploreDrawer(),
+        body: ResponsiveWidget(
+          largeScreen: getDesktopProductScreen(context),
+          mediumScreen: getTabProductScreen(context),
+          smallScreen: getMobileProductScreen(context),
+        ));
+  }
+}
 
-      body:  Obx( ()=> SingleChildScrollView(
-          child: Container(
-            color: Colors.white,
-            height: MediaQuery.of(context).size.height,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Column(
-                children: [
-                  Expanded(
-                    child: GridView.builder(
-                        gridDelegate:  const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 1,
-                          crossAxisSpacing: 1,
-                        ),
-                        scrollDirection: Axis.vertical,
-                        itemCount: _productController.products.length,
-                        itemBuilder: (BuildContext context, int index) {
-
-                          return ProductCard(
-                              product: _productController.products[index]);
-                        }
-                    ),
-                  ),
-                ],
-              ),
+Widget getMobileProductScreen(BuildContext context) {
+  final ProductController _productController = Get.find<ProductController>();
+  return Obx(() => SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 1,
+                      ),
+                      scrollDirection: Axis.vertical,
+                      itemCount: _productController.products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(
+                            product: _productController.products[index]);
+                      }),
+                ),
+              ],
             ),
           ),
         ),
-      ),
-    );
-
-  }
-
-
-
+      ));
 }
 
+Widget getTabProductScreen(BuildContext context) {
+  final ProductController _productController = Get.find<ProductController>();
+  return Obx(() => SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 1,
+                      ),
+                      scrollDirection: Axis.vertical,
+                      itemCount: _productController.products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(
+                            product: _productController.products[index]);
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ));
+}
 
+Widget getDesktopProductScreen(BuildContext context) {
+  final ProductController _productController = Get.find<ProductController>();
+  return Obx(() => SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height,
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Column(
+              children: [
+                Expanded(
+                  child: GridView.builder(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 1,
+                        crossAxisSpacing: 1,
+                      ),
+                      scrollDirection: Axis.vertical,
+                      itemCount: _productController.products.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductCard(
+                            product: _productController.products[index]);
+                      }),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ));
+}
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
@@ -73,21 +146,19 @@ class ProductCard extends StatelessWidget {
   }) : super(key: key);
 
   final double width;
-  final double height,
-      aspectRatio;
+  final double height, aspectRatio;
   final Product product;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){},
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Material(
           elevation: 3,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15)
-          ),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
           child: Container(
             width: width,
             padding: const EdgeInsets.all(10),
@@ -105,30 +176,31 @@ class ProductCard extends StatelessWidget {
                     aspectRatio: aspectRatio,
                     child: Hero(
                       tag: UniqueKey(),
-                      child:  FutureBuilder(
-                        future: FirebaseService.getImageUrl("${ApiUrl.productPicFolder}/${product.productImage}"),
+                      child: FutureBuilder(
+                        future: FirebaseService.getImageUrl(
+                            "${ApiUrl.productPicFolder}/${product.productImage}"),
                         builder: (context, snapshot) {
                           if (snapshot.hasError) {
                             return const Text(
                               "Something went wrong",
                             );
                           }
-                          if (snapshot.connectionState == ConnectionState.done) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
                             return Image.network(
                               snapshot.data.toString(),
                               fit: BoxFit.cover,
                             );
                           }
-                          return const Center(child: CircularProgressIndicator());
+                          return const Center(
+                              child: CircularProgressIndicator());
                         },
                       ),
                     ),
                   ),
                 ),
-
-
                 Text(
-                  product.productTitle??"",
+                  product.productTitle ?? "",
                   style: const TextStyle(color: Colors.black),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -169,12 +241,10 @@ class ProductCard extends StatelessWidget {
                     // ),
                   ],
                 )
-
               ],
             ),
           ),
         ),
-
       ),
     );
   }

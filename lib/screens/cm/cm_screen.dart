@@ -3,244 +3,372 @@ import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/screens/cm/controller/cm_controller.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
 class CmScreen extends StatelessWidget {
   CmScreen({super.key});
-  
+
   double _opacity = 0;
 
   final double _scrollPosition = 0;
 
   @override
   Widget build(BuildContext context) {
-
     var screenSize = MediaQuery.of(context).size;
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
 
-    return Obx( ()=> Scaffold(
+    return Obx(
+      () => Scaffold(
         appBar: PreferredSize(
           preferredSize: Size(screenSize.width, 1000),
           child: HeaderWidget(opacity: _opacity),
         ),
         drawer: ExploreDrawer(),
         body: ResponsiveWidget(
-            largeScreen: getDesktopCmScreen(),
-        smallScreen: getMobileCmScreen(),
-        mediumScreen: getTabCmScreen(),),
-      ),
-    );
-  }
-}
-Widget getMobileCmScreen() {
-  final CmController cmController = Get.put(CmController());
-  return Column(
-    children: [
-      const Text("CM Team", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: cmController.cmTeamMates.isNotEmpty
-            ? ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: cmController.cmTeamMates.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CmTeamCard(
-                firstName:
-                "${cmController.cmTeamMates[index].firstName} ${cmController.cmTeamMates[index].lastName}",
-                phone: cmController.cmTeamMates[index].phone,
-                email: cmController.cmTeamMates[index].email,
-              );
-            })
-            : const Center(child: Text("No CM Added")),
-      ),
-    ],
-  );
-}
-
-Widget getTabCmScreen() {
-  final CmController cmController = Get.put(CmController());
-  return Column(
-    children: [
-      const Text("CM Team", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: cmController.cmTeamMates.isNotEmpty
-            ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 4.0 / 2,
-              mainAxisSpacing: 5.0,
-              crossAxisSpacing: 5.0,
-            ),
-            itemCount: cmController.cmTeamMates.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CmTeamCard(
-                firstName:
-                "${cmController.cmTeamMates[index].firstName} ${cmController.cmTeamMates[index].lastName}",
-                phone: cmController.cmTeamMates[index].phone,
-                email: cmController.cmTeamMates[index].email,
-              );
-            })
-            : const Center(child: Text("No CM Added")),
-      ),
-    ],
-  );
-}
-
-Widget getDesktopCmScreen() {
-  final CmController _cmController = Get.put(CmController());
-  return Column(
-    children: [
-      const Text("CM Team", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),),
-      const SizedBox(height: 10,),
-      Expanded(
-        child: _cmController.cmTeamMates.isNotEmpty
-            ? GridView.builder(
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 3,
-              childAspectRatio: 4.0 / 2,
-              mainAxisSpacing: 5.0,
-              crossAxisSpacing: 5.0,
-            ),
-            itemCount: _cmController.cmTeamMates.length,
-            itemBuilder: (BuildContext context, int index) {
-              return CmTeamCard(
-                firstName:
-                "${_cmController.cmTeamMates[index].firstName} ${_cmController.cmTeamMates[index].lastName}",
-                phone: _cmController.cmTeamMates[index].phone,
-                email: _cmController.cmTeamMates[index].email,
-              );
-            })
-            : const Center(child: Text("No CM Added")),
-      ),
-    ],
-  );
-}
-
-class CmTeamCard extends StatelessWidget {
-  String? firstName;
-  String? phone;
-  String? email;
-
-  CmTeamCard({
-    super.key,
-    required this.firstName,
-    required this.phone,
-    required this.email,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Material(
-        elevation: 3,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(15),
-            color: Colors.blue.shade50,
-          ),
-          width: MediaQuery.of(context).size.width,
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Name : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
-                    ),
-                    Text(
-                      "$firstName",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Phone Number : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
-                    ),
-                    Text(
-                      phone ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Email : ",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/60:
-                        MediaQuery.of(context).size.width/40,
-                      ),
-                    ),
-                    Text(
-                      email ?? "",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w600,
-                        fontSize: ResponsiveWidget.isLargeScreen(context)? MediaQuery.of(context).size.width/80:
-                        MediaQuery.of(context).size.width/50,
-                      ),
-                    ),
-                  ],
-                ),
-
-                MaterialButton(onPressed: (){},
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                  color: kPrimaryColor,
-                child: const Icon(CupertinoIcons.delete_solid, color: Colors.white,),)
-
-                // DefaultButton(
-                //   text: 'Contact',
-                //   press: (){
-                //     Get.to(EditBankAccountDetails());
-                //   },
-                // )
-              ],
-            ),
-          ),
+          largeScreen: getDesktopCmScreen(context),
+          smallScreen: getMobileCmScreen(context),
+          mediumScreen: getTabCmScreen(context),
         ),
       ),
     );
   }
+}
+
+Widget getMobileCmScreen(BuildContext context) {
+  final CmController _cmController = Get.put(CmController());
+  return SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text(
+            "CM Team",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 30, color: Colors.black),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          _cmController.cmTeamMates.isNotEmpty
+              ? SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  child: Table(
+                    columnWidths: const {
+                      0: FlexColumnWidth(1),
+                      1: FlexColumnWidth(4),
+                      2: FlexColumnWidth(5),
+                    },
+                    border: TableBorder.all(width: 1.0, color: Colors.black),
+                    children: [
+                      const TableRow(
+                          decoration: BoxDecoration(color: kPrimaryColor),
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "S. NO.",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "NAME",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "EMAIL",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ]),
+                      ..._cmController.cmTeamMates.asMap().entries.map(
+                        (cmTeamMates) {
+                          return TableRow(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              children: [
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      "${cmTeamMates.key + 1}",
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      '${cmTeamMates.value.firstName} ${cmTeamMates.value.lastName}',
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      cmTeamMates.value.email.toString(),
+                                    ),
+                                  ),
+                                ),
+                              ]);
+                        },
+                      )
+                    ],
+                  ),
+                )
+              : const Center(
+                  child: Text('No Cm Added'),
+                ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget getTabCmScreen(BuildContext context) {
+  final CmController _cmController = Get.put(CmController());
+  return SingleChildScrollView(
+    child: Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          const Text(
+            "CM Team",
+            style: TextStyle(
+                fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: _cmController.cmTeamMates.isNotEmpty
+                ? Table(
+                    columnWidths: const {
+                      0: FlexColumnWidth(1),
+                      1: FlexColumnWidth(4),
+                      2: FlexColumnWidth(5),
+                    },
+                    border: TableBorder.all(width: 1.0, color: Colors.black),
+                    children: [
+                      const TableRow(
+                          decoration: BoxDecoration(color: kPrimaryColor),
+                          children: [
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "S. NO.",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "NAME",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            Center(
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Text(
+                                  "EMAIL",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white),
+                                ),
+                              ),
+                            ),
+                          ]),
+                      ..._cmController.cmTeamMates.asMap().entries.map(
+                        (cmTeamMates) {
+                          return TableRow(
+                              decoration:
+                                  const BoxDecoration(color: Colors.white),
+                              children: [
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      "${cmTeamMates.key + 1}",
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      '${cmTeamMates.value.firstName} ${cmTeamMates.value.lastName}',
+                                    ),
+                                  ),
+                                ),
+                                Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20),
+                                    child: Text(
+                                      cmTeamMates.value.email.toString(),
+                                    ),
+                                  ),
+                                ),
+                              ]);
+                        },
+                      )
+                    ],
+                  )
+                : const Center(
+                    child: Text('No Cm Added'),
+                  ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+Widget getDesktopCmScreen(BuildContext context) {
+  final CmController _cmController = Get.put(CmController());
+  return SingleChildScrollView(
+    child: Column(
+      children: [
+        const Text(
+          "CM Team",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 40, color: Colors.black),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          children: [
+            SizedBox(width:MediaQuery.of(context).size.width/4,),
+            SizedBox(
+              width: MediaQuery.of(context).size.width/1.4,
+              height: MediaQuery.of(context).size.height,
+              child: _cmController.cmTeamMates.isNotEmpty
+                  ? Table(
+                      columnWidths: const {
+                        0: FlexColumnWidth(1),
+                        1: FlexColumnWidth(4),
+                        2: FlexColumnWidth(5),
+                      },
+                      border: TableBorder.all(width: 1.0, color: Colors.black),
+                      children: [
+                        const TableRow(
+                            decoration: BoxDecoration(color: kPrimaryColor),
+                            children: [
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "S. NO.",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "NAME",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "EMAIL",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        ..._cmController.cmTeamMates.asMap().entries.map(
+                          (cmTeamMates) {
+                            return TableRow(
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                children: [
+                                  Center(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 20),
+                                      child: Text(
+                                        "${cmTeamMates.key + 1}",
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 20),
+                                      child: Text(
+                                        '${cmTeamMates.value.firstName} ${cmTeamMates.value.lastName}',
+                                      ),
+                                    ),
+                                  ),
+                                  Center(
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.symmetric(vertical: 20),
+                                      child: Text(
+                                        cmTeamMates.value.email.toString(),
+                                      ),
+                                    ),
+                                  ),
+                                ]);
+                          },
+                        )
+                      ],
+                    )
+                  : const Center(
+                      child: Text('No Cm Added'),
+                    ),
+            ),
+          ],
+        ),
+      ],
+    ),
+  );
 }
