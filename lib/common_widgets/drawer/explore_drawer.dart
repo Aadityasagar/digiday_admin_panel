@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ExploreDrawer extends StatelessWidget {
-  final AppStateController _appStateController=Get.find<AppStateController>();
 
   ExploreDrawer({
     Key? key,

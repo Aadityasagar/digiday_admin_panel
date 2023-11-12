@@ -13,10 +13,7 @@ import 'data/product_model.dart';
 class ProductScreen extends StatelessWidget {
   ProductScreen({Key? key}) : super(key: key);
 
-  final ProductController _productController = Get.find<ProductController>();
-
   double _opacity = 0;
-
   final double _scrollPosition = 0;
 
   @override
@@ -25,6 +22,8 @@ class ProductScreen extends StatelessWidget {
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
+
+    final ProductController _productController= Get.put<ProductController>(ProductController(), tag: "products");
 
     return Scaffold(
         appBar: PreferredSize(
@@ -41,7 +40,7 @@ class ProductScreen extends StatelessWidget {
 }
 
 Widget getMobileProductScreen(BuildContext context) {
-  final ProductController _productController = Get.find<ProductController>();
+  final ProductController _productController = Get.put(ProductController());
   return Obx(() => SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -73,7 +72,7 @@ Widget getMobileProductScreen(BuildContext context) {
 }
 
 Widget getTabProductScreen(BuildContext context) {
-  final ProductController _productController = Get.find<ProductController>();
+  final ProductController _productController = Get.find<ProductController>(tag: "products") ?? ProductController();
   return Obx(() => SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -105,7 +104,7 @@ Widget getTabProductScreen(BuildContext context) {
 }
 
 Widget getDesktopProductScreen(BuildContext context) {
-  final ProductController _productController = Get.find<ProductController>();
+  final ProductController _productController = Get.find<ProductController>(tag: "products") ?? ProductController();
   return Obx(() => SingleChildScrollView(
         child: Container(
           color: Colors.white,
@@ -118,7 +117,7 @@ Widget getDesktopProductScreen(BuildContext context) {
                   child: GridView.builder(
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
+                        crossAxisCount: 5,
                         mainAxisSpacing: 1,
                         crossAxisSpacing: 1,
                       ),
@@ -241,10 +240,12 @@ class ProductCard extends StatelessWidget {
                     // ),
                   ],
                 )
+
               ],
             ),
           ),
         ),
+
       ),
     );
   }

@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
   Widget getMobileHomePage(BuildContext context) {
     final VendorController vendorController = Get.put(VendorController());
     final CmController cmController =Get.put(CmController());
-    final ProductController productController =Get.put(ProductController());
+   // final ProductController productController =Get.put(ProductController());
     List<HomeActions> homeActions = [
       HomeActions(
           title: "Total Vendors",
@@ -81,9 +81,9 @@ class HomePage extends StatelessWidget {
       HomeActions(
           title: "Total Products",
           icon: Icons.local_mall,
-          count: productController.products.length.toString(),
+          count: "100",
           press: () {
-            Get.to(() => ProductScreen());
+            Get.toNamed(AppRoutes.products);
           },
           color: const Color(0xff34a952))
     ];
@@ -177,7 +177,8 @@ class HomePage extends StatelessWidget {
   Widget getTabHomePage(BuildContext context) {
     final VendorController vendorController = Get.put(VendorController());
     final CmController cmController =Get.put(CmController());
-    final ProductController productController =Get.put(ProductController());
+    final ProductController productController = Get.put(ProductController());
+
     List<HomeActions> homeActions = [
       HomeActions(
           title: "Total Vendors",
@@ -206,7 +207,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: productController.products.length.toString(),
           press: () {
-            Get.to(() => ProductScreen());
+            Get.toNamed(AppRoutes.products);
           },
           color: const Color(0xff34a952))
     ];
@@ -310,7 +311,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: productController.products.length.toString(),
           press: () {
-            Get.to(() => ProductScreen());
+            Get.toNamed(AppRoutes.products);
           },
           color: const Color(0xff34a952))
     ];
