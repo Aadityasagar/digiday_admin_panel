@@ -26,6 +26,7 @@ class HomePage extends StatelessWidget {
           icon: CupertinoIcons.person_alt,
           count: 0.toString(),
           press: () {
+            Navigator.of(context).pushReplacementNamed(Routes.vendorScreen);
           },
           color: const Color(0xfffbbd05)),
       HomeActions(
