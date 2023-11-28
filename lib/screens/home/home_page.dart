@@ -1,31 +1,15 @@
-import 'package:digiday_admin_panel/appstate_controller/appstate_controller.dart';
 import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
+import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/features/account/controller/account_controller.dart';
-import 'package:digiday_admin_panel/features/account/view/components/profile_menu.dart';
-import 'package:digiday_admin_panel/features/common/common_functions.dart';
-import 'package:digiday_admin_panel/features/products/controller/products_controller.dart';
-import 'package:digiday_admin_panel/features/products/products_screen.dart';
-import 'package:digiday_admin_panel/screens/cm/cm_screen.dart';
-import 'package:digiday_admin_panel/screens/cm/controller/cm_controller.dart';
-import 'package:digiday_admin_panel/screens/vendors/controller/vendor_controller.dart';
-import 'package:digiday_admin_panel/screens/vendors/vendor_screen.dart';
-import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
-
-  final AppStateController _appStateController = Get.put(AppStateController());
-
-  final AccountController _accountController = Get.put(AccountController());
-
   double _opacity = 0;
-
   final double _scrollPosition = 0;
 
   @override
@@ -35,41 +19,21 @@ class HomePage extends StatelessWidget {
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
 
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size(screenSize.width, 1000),
-        child: HeaderWidget(opacity: _opacity),
-      ),
-      drawer: ExploreDrawer(),
-      body: SingleChildScrollView(
-        child: ResponsiveWidget(
-          largeScreen: getDesktopHomePage(context),
-          mediumScreen: getTabHomePage(context),
-          smallScreen: getMobileHomePage(context),
-        ),
-      ),
-    );
-  }
 
-  Widget getMobileHomePage(BuildContext context) {
-    final VendorController vendorController = Get.put(VendorController());
-    final CmController cmController =Get.put(CmController());
-   // final ProductController productController =Get.put(ProductController());
     List<HomeActions> homeActions = [
       HomeActions(
           title: "Total Vendors",
           icon: CupertinoIcons.person_alt,
-          count: vendorController.vendorMates.length.toString(),
+          count: 0.toString(),
           press: () {
-            Get.to(() => VendorScreen());
           },
           color: const Color(0xfffbbd05)),
       HomeActions(
           title: "CM Team",
           icon: CupertinoIcons.person_3_fill,
-          count: cmController.cmTeamMates.length.toString(),
+          count: 0.toString(),
           press: () {
-            Get.to(() => CmScreen());
+            Navigator.of(context).pushReplacementNamed(Routes.cmScreen);
           },
           color: const Color(0xff4387f5)),
       HomeActions(
@@ -81,9 +45,8 @@ class HomePage extends StatelessWidget {
       HomeActions(
           title: "Total Products",
           icon: Icons.local_mall,
-          count: "100",
+          count: 0.toString(),
           press: () {
-            Get.toNamed(AppRoutes.products);
           },
           color: const Color(0xff34a952))
     ];
@@ -92,17 +55,35 @@ class HomePage extends StatelessWidget {
           title: "Add Admin",
           icon: Icons.person_add_sharp,
           press: () {
-            //Get.to(AddAdminScreen());
+            // Get.to(AddAdminScreen());
           }),
       QuickAction(title: "Admins", icon: Icons.person_2_sharp, press: () {}),
       QuickAction(
           title: "Process Withdrawals",
           icon: Icons.monetization_on,
           press: () {
-            //Get.to(const PayoutScreen());
+            // Get.to(const PayoutScreen());
           }),
       QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
     ];
+
+    return Scaffold(
+      appBar: PreferredSize(
+        preferredSize: Size(screenSize.width, 1000),
+        child: HeaderWidget(opacity: _opacity),
+      ),
+      drawer: ExploreDrawer(),
+      body: SingleChildScrollView(
+        child: ResponsiveWidget(
+          largeScreen: getDesktopHomePage(context,homeActions,actions),
+          mediumScreen: getTabHomePage(context,homeActions,actions),
+          smallScreen: getMobileHomePage(context,homeActions,actions),
+        ),
+      ),
+    );
+  }
+
+  Widget getMobileHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -112,16 +93,6 @@ class HomePage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    "Welcome, Admin",
-                    style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w800),
-                  ),
-                ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height / 2.5,
                   child: GridView.builder(
@@ -174,59 +145,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget getTabHomePage(BuildContext context) {
-    final VendorController vendorController = Get.put(VendorController());
-    final CmController cmController =Get.put(CmController());
-    final ProductController productController = Get.put(ProductController());
-
-    List<HomeActions> homeActions = [
-      HomeActions(
-          title: "Total Vendors",
-          icon: CupertinoIcons.person_alt,
-          count: vendorController.vendorMates.length.toString(),
-          press: () {
-            Get.to(() => VendorScreen());
-          },
-          color: const Color(0xfffbbd05)),
-      HomeActions(
-          title: "CM Team",
-          icon: CupertinoIcons.person_3_fill,
-          count: cmController.cmTeamMates.length.toString(),
-          press: () {
-            Get.to(() => CmScreen());
-          },
-          color: const Color(0xff4387f5)),
-      HomeActions(
-          title: "Total Orders",
-          icon: Icons.shopping_cart,
-          count: "1000+",
-          press: () {},
-          color: const Color(0xffeb4234)),
-      HomeActions(
-          title: "Total Products",
-          icon: Icons.local_mall,
-          count: productController.products.length.toString(),
-          press: () {
-            Get.toNamed(AppRoutes.products);
-          },
-          color: const Color(0xff34a952))
-    ];
-    List<QuickAction> actions = [
-      QuickAction(
-          title: "Add Admin",
-          icon: Icons.person_add_sharp,
-          press: () {
-           // Get.to(AddAdminScreen());
-          }),
-      QuickAction(title: "Admins", icon: Icons.person_2_sharp, press: () {}),
-      QuickAction(
-          title: "Process Withdrawals",
-          icon: Icons.monetization_on,
-          press: () {
-            //Get.to(const PayoutScreen());
-          }),
-      QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
-    ];
+  Widget getTabHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       child: Column(
@@ -279,58 +198,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget getDesktopHomePage(BuildContext context) {
-    final VendorController vendorController = Get.put(VendorController());
-    final CmController cmController =Get.put(CmController());
-    final ProductController productController =Get.put(ProductController());
-    List<HomeActions> homeActions = [
-      HomeActions(
-          title: "Total Vendors",
-          icon: CupertinoIcons.person_alt,
-          count: vendorController.vendorMates.length.toString(),
-          press: () {
-            Get.to(() => VendorScreen());
-          },
-          color: const Color(0xfffbbd05)),
-      HomeActions(
-          title: "CM Team",
-          icon: CupertinoIcons.person_3_fill,
-          count: cmController.cmTeamMates.length.toString(),
-          press: () {
-            Get.to(() => CmScreen());
-          },
-          color: const Color(0xff4387f5)),
-      HomeActions(
-          title: "Total Orders",
-          icon: Icons.shopping_cart,
-          count: "1000+",
-          press: () {},
-          color: const Color(0xffeb4234)),
-      HomeActions(
-          title: "Total Products",
-          icon: Icons.local_mall,
-          count: productController.products.length.toString(),
-          press: () {
-            Get.toNamed(AppRoutes.products);
-          },
-          color: const Color(0xff34a952))
-    ];
-    List<QuickAction> actions = [
-      QuickAction(
-          title: "Add Admin",
-          icon: Icons.person_add_sharp,
-          press: () {
-           // Get.to(AddAdminScreen());
-          }),
-      QuickAction(title: "Admins", icon: Icons.person_2_sharp, press: () {}),
-      QuickAction(
-          title: "Process Withdrawals",
-          icon: Icons.monetization_on,
-          press: () {
-           // Get.to(const PayoutScreen());
-          }),
-      QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
-    ];
+  Widget getDesktopHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
     return Column(
       children: [
         SizedBox(
@@ -341,39 +209,17 @@ class HomePage extends StatelessWidget {
               /// blank space
 
               SizedBox(
-                width: MediaQuery.of(context).size.width / 4,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ProfileMenu(
-                        text: "My Account",
-                        icon: CupertinoIcons.person_alt,
-                        press: () => Get.toNamed(AppRoutes.editProfileScreen)),
-                    ProfileMenu(
-                      text: "Notifications",
-                      icon: CupertinoIcons.bell_fill,
-                      press: () {},
-                    ),
-                    ProfileMenu(
-                      text: "Settings",
-                      icon: Icons.settings,
-                      press: () {},
-                    ),
-                    ProfileMenu(
-                      text: "Log Out",
-                      icon: Icons.logout,
-                      press: () => CommonFunctions.logoutUser(),
-                    ),
-                  ],
-                ),
+                width: MediaQuery.of(context).size.width / 5,
+                child: const SideBarMenu(),
               ),
+              SizedBox(width: 20,),
 
               /// side space
 
               SizedBox(
                 width: MediaQuery.of(context).size.width / 1.4,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 4.5,
@@ -434,6 +280,8 @@ class HomePage extends StatelessWidget {
     );
   }
 }
+
+
 
 class HomeActions {
   String title;

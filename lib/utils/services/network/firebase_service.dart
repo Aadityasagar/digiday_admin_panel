@@ -47,10 +47,28 @@ class FirebaseService{
     }
   }
 
-  static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsByWhereClause(String filterKey, dynamic filterValue,String collection)async{
+  static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsByWhereClause({required String filterKey, dynamic filterValue,required String collection,
+    int? limitCount,
+    DocumentSnapshot? lastDocument
+  })async{
     try {
-      QuerySnapshot<Map<String, dynamic>> result = await fireStore.collection(
-          collection).where(filterKey, isEqualTo: filterValue).get();
+      late QuerySnapshot<Map<String, dynamic>> result;
+      if(limitCount!=null){
+
+        if(lastDocument!=null){
+          result = await fireStore.collection(
+              collection).where(filterKey, isEqualTo: filterValue).limit(limitCount).startAfterDocument(lastDocument).get();
+        }
+        else{
+          result = await fireStore.collection(
+              collection).where(filterKey, isEqualTo: filterValue).limit(limitCount).get();
+        }
+      }
+      else{
+         result = await fireStore.collection(
+            collection).where(filterKey, isEqualTo: filterValue).get();
+      }
+
       return result;
     } on FirebaseException catch(e){
       rethrow;

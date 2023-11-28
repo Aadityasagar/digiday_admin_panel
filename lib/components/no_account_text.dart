@@ -1,4 +1,3 @@
-import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,7 +19,7 @@ class NoAccountText extends StatelessWidget {
           style: TextStyle(fontSize: getProportionateScreenWidth(16)),
         ),
         GestureDetector(
-          onTap: () => Get.toNamed(AppRoutes.register),
+          onTap:(){},
           child: Text(
             "Register Now",
             style: TextStyle(

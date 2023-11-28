@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:digiday_admin_panel/constants/date_constants.dart';
-import 'package:digiday_admin_panel/features/app_session/app_session.dart';
 import 'package:digiday_admin_panel/utils/extensions/date_time_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:path/path.dart' as path_package;
 
 class AppUtility {
-  final AppSessionController _appState = Get.find<AppSessionController>();
+
 
   static bool get isTestModeActive =>
       Platform.environment.containsKey('FLUTTER_TEST');

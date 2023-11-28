@@ -1,10 +1,11 @@
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/constants/colour_scheme.dart';
-import 'package:digiday_admin_panel/features/account/controller/account_controller.dart';
+import 'package:digiday_admin_panel/provider/account_provider.dart';
+import 'package:digiday_admin_panel/routes.dart';
+import 'package:digiday_admin_panel/screens/common/common_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 
 class HeaderWidget extends StatefulWidget {
   final double opacity;
@@ -15,8 +16,6 @@ class HeaderWidget extends StatefulWidget {
 }
 
 class _HeaderWidgetState extends State<HeaderWidget> {
-
-  final AccountController _accountController=Get.find<AccountController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,145 +29,161 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
 
   Widget getMobileAppbar() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Image.asset("images/logo-rec.png", height: 60,),
+    return Consumer<AccountProvider>(
+      builder: (context,accountProvider,child) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset("images/logo-rec.png", height: 60,),
+
+              Row(children: [
+
+                accountProvider.getCurrentUser?.photo==null ? InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, Routes.account);
+                  },
+                  child: const CircleAvatar(
+                    backgroundImage:  AssetImage("images/ProfileImage.png"),
+                  ),
+                ):
+                accountProvider.profilePicUrl!=""? InkWell(
+                  onTap: (){
+                    Navigator.pushNamed(context, Routes.account);
+                  },
+                  child: CircleAvatar(
+                    backgroundImage:  NetworkImage(accountProvider.profilePicUrl),
+                  ),
+                ):const SizedBox(),
+                const SizedBox(width: 10,),
+                Text("${accountProvider.getCurrentUser?.firstName??""} ${accountProvider.getCurrentUser?.lastName??""}",
+                  style: const TextStyle(
+                      fontSize: 16
+                  ),),
+
+                const SizedBox(width: 20,),
+                const  Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
+                const SizedBox(width: 15,),
+                InkWell(child: const  Icon(Icons.logout, color: kPrimaryColor, size: 25,),
+                onTap: (){
+                  CommonFunctions.logoutUser(context);
+                },),
+                const SizedBox(width: 15,),
+              ],)
 
 
-          Row(children: [
-            Row(children: [
-              Icon(CupertinoIcons.search, color: kPrimaryColor, size: 25,),
-              SizedBox(width: 5,),
-              Text("Search"),
-            ],),
-            SizedBox(width: 40,),
-            Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
-            SizedBox(width: 15,),
 
-            _accountController.getCurrentUser?.photo==null ? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: const CircleAvatar(
-                backgroundImage:  AssetImage("images/ProfileImage.png"),
-              ),
-            ):
-            _accountController.profilePicUrl.value!=""? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: CircleAvatar(
-                backgroundImage:  NetworkImage(_accountController.profilePicUrl.value),
-              ),
-            ):const SizedBox(),
-          ],)
-
-
-
-        ],
-      ),
+            ],
+          ),
+        );
+      }
     );
   }
   Widget getTabAppbar() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return Consumer<AccountProvider>(
+      builder: (context,accountProvider,child) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset("images/logo-rec.png", height: 60,),
-              SizedBox(width: 10,),
-              Text("Welcome, Admin", style: TextStyle(
-                  fontSize: 20, color: Colors.black, fontWeight: FontWeight.w800
-              ),)
+
+              Row(
+                children: [
+                  Image.asset("images/logo-rec.png", height: 60,),
+                ],
+              ),
+
+              Row(children: [
+
+                accountProvider.getCurrentUser?.photo==null ? InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: const CircleAvatar(
+                    backgroundImage:  AssetImage("images/ProfileImage.png"),
+                  ),
+                ):
+                accountProvider.profilePicUrl!=""? InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CircleAvatar(
+                    backgroundImage:  NetworkImage(accountProvider.profilePicUrl),
+                  ),
+                ):const SizedBox(),
+                const SizedBox(width: 10,),
+                Text("${accountProvider.getCurrentUser?.firstName??""} ${accountProvider.getCurrentUser?.lastName??""}",
+                  style: const TextStyle(
+                      fontSize: 16
+                  ),),
+
+                const SizedBox(width: 20,),
+                const  Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
+                const SizedBox(width: 15,),
+                const  Icon(Icons.logout, color: kPrimaryColor, size: 25,),
+                const SizedBox(width: 15,),
+              ],)
+
+
             ],
           ),
-
-
-          Row(children: [
-            Row(children: [
-              Icon(CupertinoIcons.search, color: kPrimaryColor, size: 25,),
-              SizedBox(width: 5,),
-              Text("Search"),
-            ],),
-            SizedBox(width: 40,),
-            Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
-            SizedBox(width: 15,),
-
-            _accountController.getCurrentUser?.photo==null ? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: const CircleAvatar(
-                backgroundImage:  AssetImage("images/ProfileImage.png"),
-              ),
-            ):
-            _accountController.profilePicUrl.value!=""? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: CircleAvatar(
-                backgroundImage:  NetworkImage(_accountController.profilePicUrl.value),
-              ),
-            ):const SizedBox(),
-          ],)
-
-
-
-        ],
-      ),
+        );
+      }
     );
   }
+
+
   Widget getDesktopAppbar() {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
+    return Consumer<AccountProvider>(
+      builder: (context,accountProvider,child) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset("images/logo-rec.png", height: 60,),
-              SizedBox(width: 50,),
-              Text("Welcome, Admin", style: TextStyle(
-                fontSize: 35, color: Colors.black, fontWeight: FontWeight.w800
-              ),)
+              Row(
+                children: [
+                  Image.asset("images/logo-rec.png", height: 60,),
+                ],
+              ),
+
+              Row(children: [
+
+                accountProvider.getCurrentUser?.photo==null ? InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: const CircleAvatar(
+                    backgroundImage:  AssetImage("images/ProfileImage.png"),
+                  ),
+                ):
+                accountProvider.profilePicUrl!=""? InkWell(
+                  onTap: (){
+                    Scaffold.of(context).openDrawer();
+                  },
+                  child: CircleAvatar(
+                    backgroundImage:  NetworkImage(accountProvider.profilePicUrl),
+                  ),
+                ):const SizedBox(),
+                const SizedBox(width: 10,),
+                Text("${accountProvider.getCurrentUser?.firstName??""} ${accountProvider.getCurrentUser?.lastName??""}",
+                style: const TextStyle(
+                  fontSize: 16
+                ),),
+
+                const SizedBox(width: 20,),
+                const  Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
+                const SizedBox(width: 15,),
+                const  Icon(Icons.logout, color: kPrimaryColor, size: 25,),
+                const SizedBox(width: 15,),
+              ],)
+
             ],
           ),
-
-          Row(children: [
-            Row(children: [
-              Icon(CupertinoIcons.search, color: kPrimaryColor, size: 25,),
-              SizedBox(width: 5,),
-              Text("Search"),
-            ],),
-            SizedBox(width: 60,),
-            Icon(CupertinoIcons.bell_fill, color: kPrimaryColor, size: 25,),
-            SizedBox(width: 15,),
-
-            _accountController.getCurrentUser?.photo==null ? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: const CircleAvatar(
-                backgroundImage:  AssetImage("images/ProfileImage.png"),
-              ),
-            ):
-            _accountController.profilePicUrl.value!=""? InkWell(
-              onTap: (){
-                Scaffold.of(context).openDrawer();
-              },
-              child: CircleAvatar(
-                backgroundImage:  NetworkImage(_accountController.profilePicUrl.value),
-              ),
-            ):const SizedBox(),
-          ],)
-
-        ],
-      ),
+        );
+      }
     );
   }
 

@@ -1,9 +1,7 @@
-import 'package:digiday_admin_panel/appstate_controller/appstate_controller.dart';
 import 'package:digiday_admin_panel/constants/colour_scheme.dart';
-import 'package:digiday_admin_panel/features/account/view/components/profile_menu.dart';
-import 'package:digiday_admin_panel/features/account/view/components/profile_pic.dart';
-import 'package:digiday_admin_panel/features/common/common_functions.dart';
-import 'package:digiday_admin_panel/utils/routes/app_pages.dart';
+import 'package:digiday_admin_panel/screens/account/view/components/profile_menu.dart';
+import 'package:digiday_admin_panel/screens/account/view/components/profile_pic.dart';
+import 'package:digiday_admin_panel/screens/common/common_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -32,7 +30,7 @@ class ExploreDrawer extends StatelessWidget {
               ProfileMenu(
                   text: "My Account",
                   icon: CupertinoIcons.person_alt,
-                  press: ()=>Get.toNamed(AppRoutes.editProfileScreen)
+                  press: (){}
               ),
               ProfileMenu(
                 text: "Notifications",
@@ -48,7 +46,7 @@ class ExploreDrawer extends StatelessWidget {
               ProfileMenu(
                 text: "Log Out",
                 icon: Icons.logout,
-                press: ()=> CommonFunctions.logoutUser(),
+                press: ()=> CommonFunctions.logoutUser(context),
               ),
               Expanded(
                 child: Align(

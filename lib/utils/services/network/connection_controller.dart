@@ -1,6 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:digiday_admin_panel/features/common/common_functions.dart';
-import 'package:digiday_admin_panel/features/common/widgets/alerts-and-popups/single_button_popup.dart';
 import 'package:get/get.dart';
 
 class ConnectionController extends GetxController {

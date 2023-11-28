@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:digiday_admin_panel/constants/app_urls.dart';
-import 'package:digiday_admin_panel/features/auth/data/model/profile.dart';
 import 'package:digiday_admin_panel/utils/app_utility.dart';
 import 'package:digiday_admin_panel/utils/shared_prefs/shared_pref_keys.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -163,19 +162,12 @@ class SharedPreferenceRef {
     _addKey(SharedPrefsKeys.kTokenData, tokenData);
   }
 
-  Future<void> setProfileData(ProfileInfo profileData) async {
-    await _addKey(SharedPrefsKeys.kProfileData, jsonEncode(profileData));
-  }
 
   Future<String?> getTokenData() async {
     String? data = await _readKey(SharedPrefsKeys.kTokenData);
     return data;
   }
 
-  Future<ProfileInfo?> getProfileData() async {
-    String? data = await _readKey(SharedPrefsKeys.kProfileData);
-    return data != null ? ProfileInfo.fromJson(jsonDecode(data)) : null;
-  }
 
   Future<int?> getImageUploadType() async {
     String? value = await _readKey(SharedPrefsKeys.kImageUploadType);
