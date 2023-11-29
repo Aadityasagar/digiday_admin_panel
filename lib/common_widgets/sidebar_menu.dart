@@ -24,6 +24,26 @@ class SideBarMenu extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               ProfileMenu(
+                text: "All Vendors",
+                icon: Icons.add_business_sharp,
+                press: () {},
+              ),
+              ProfileMenu(
+                text: "All Circle Managers",
+                icon: Icons.person,
+                press: () {},
+              ),
+              ProfileMenu(
+                text: "All Products",
+                icon: Icons.account_balance_wallet_rounded,
+                press: () {},
+              ),
+              ProfileMenu(
+                text: "All Categories",
+                icon: Icons.category,
+                press: () {},
+              ),
+              ProfileMenu(
                 text: "Settings",
                 icon: Icons.settings,
                 press: () {},

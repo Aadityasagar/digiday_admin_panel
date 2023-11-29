@@ -13,7 +13,7 @@ class VendorProvider extends ChangeNotifier{
   List<UserData> itemsToDisplay=<UserData>[];
   DocumentSnapshot<Object?>? lastDocument;
   int currentPage=1;
-  int itemsPerPageLimit=2;
+  int itemsPerPageLimit=100;
   int totalItems=10;
 
   VendorProvider(){

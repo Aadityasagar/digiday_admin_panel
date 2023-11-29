@@ -3,10 +3,8 @@ import 'package:digiday_admin_panel/utils/shared_prefs/shared_prefrence_refs.dar
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_ip_address/get_ip_address.dart';
-import 'package:provider/provider.dart';
 
 class AppSessionProvider extends ChangeNotifier{
-  //AppSessionProvider.value({required super.value}) : super.value();
 
   String? hostUrl;
   double buildVersion = 3.12;
