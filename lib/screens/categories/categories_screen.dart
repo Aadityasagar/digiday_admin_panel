@@ -4,25 +4,24 @@ import 'package:digiday_admin_panel/common_widgets/no_data_view.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/provider/products_provider.dart';
+import 'package:digiday_admin_panel/provider/categories_provider.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-class ProductsScreen extends StatelessWidget {
-  ProductsScreen({super.key});
+class CategoriesScreen extends StatelessWidget {
+  CategoriesScreen({super.key});
 
   double _opacity = 0;
   final double _scrollPosition = 0;
-
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
-    return Consumer<ProductsProvider>(
-        builder: (context,productProvider,child) {
+    return Consumer<CategoriesProvider>(
+        builder: (context,categoriesProvider,child) {
           return Stack(
             children: [
               Scaffold(
@@ -32,13 +31,13 @@ class ProductsScreen extends StatelessWidget {
                 ),
                 drawer: ExploreDrawer(),
                 body: ResponsiveWidget(
-                  largeScreen: getDesktopProductsScreen(),
-                  smallScreen: getMobileProductsScreen(context),
-                  mediumScreen: getTabProductsScreen(context),
+                  largeScreen: getDesktopCategoriesScreen(),
+                  smallScreen: getMobileCategoriesScreen(context),
+                  mediumScreen: getTabCategoriesScreen(context),
                 ),
               ),
               Offstage(
-                  offstage: !productProvider.isLoading,
+                  offstage: !categoriesProvider.isLoading,
                   child: const AppThemedLoader())
             ],
           );
@@ -47,15 +46,16 @@ class ProductsScreen extends StatelessWidget {
   }
 }
 
-Widget getMobileProductsScreen(BuildContext context) {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+
+Widget getMobileCategoriesScreen(BuildContext context) {
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             const Text(
-              "Products",
+              "Categories",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -64,17 +64,16 @@ Widget getMobileProductsScreen(BuildContext context) {
             const SizedBox(
               height: 10,
             ),
-            productProvider.productsList.isNotEmpty
+            categoriesProvider.categoriesList.isNotEmpty
                 ? SizedBox(
               height: MediaQuery.of(context).size.height,
               child:
               Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(2),
+                  0: FlexColumnWidth(),
+                  1: FlexColumnWidth(),
+                  2: FlexColumnWidth(),
                   3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -123,20 +122,6 @@ Widget getMobileProductsScreen(BuildContext context) {
                           ),
                         ),
 
-                        /// price
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Price",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-
                         /// action
 
                         Center(
@@ -151,8 +136,8 @@ Widget getMobileProductsScreen(BuildContext context) {
                           ),
                         ),
                       ]),
-                  ...productProvider.productsList.asMap().entries.map(
-                        (products) {
+                  ...categoriesProvider.categoriesList.asMap().entries.map(
+                        (categories) {
                       return TableRow(
                           decoration:
                           const BoxDecoration(color: Colors.white),
@@ -165,7 +150,7 @@ Widget getMobileProductsScreen(BuildContext context) {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
                                 child: Text(
-                                  "${products.key + 1}",
+                                  "${categories.key + 1}",
                                 ),
                               ),
                             ),
@@ -173,13 +158,13 @@ Widget getMobileProductsScreen(BuildContext context) {
                             /// image
 
                             Center(
-                              child: products.value?.productImage==null ? Padding(
+                              child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Image.asset("images/ProfileImage.png"),
                               ):
                               Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Image.network(products.value?.productImage??"")
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Image.network(categories.value?.categoryIcon??"")
                               ),
                             ),
 
@@ -189,22 +174,10 @@ Widget getMobileProductsScreen(BuildContext context) {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
-                                child: Text(products.value.productTitle??"",
-                                maxLines: 1,
+                                child: Text(categories.value.categoryName??"",
+                                  maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: true,
-                                ),
-                              ),
-                            ),
-
-                            /// price
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  products.value.productRegularPrice??"",
                                 ),
                               ),
                             ),
@@ -236,7 +209,7 @@ Widget getMobileProductsScreen(BuildContext context) {
               ),
             )
                 : const Center(
-              child: Text('No Products Added'),
+              child: Text('No Category Added'),
             ),
           ],
         ),
@@ -245,15 +218,15 @@ Widget getMobileProductsScreen(BuildContext context) {
   });
 }
 
-Widget getTabProductsScreen(BuildContext context) {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+Widget getTabCategoriesScreen(BuildContext context) {
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             const Text(
-              "Products",
+              "Categories",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -264,14 +237,13 @@ Widget getTabProductsScreen(BuildContext context) {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: productProvider.productsList.isNotEmpty
+              child: categoriesProvider.categoriesList.isNotEmpty
                   ? Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(2),
+                  0: FlexColumnWidth(),
+                  1: FlexColumnWidth(),
+                  2: FlexColumnWidth(),
                   3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -319,20 +291,6 @@ Widget getTabProductsScreen(BuildContext context) {
                           ),
                         ),
 
-                        /// price
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Price",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-
                         /// action
 
                         Center(
@@ -347,8 +305,8 @@ Widget getTabProductsScreen(BuildContext context) {
                           ),
                         ),
                       ]),
-                  ...productProvider.productsList.asMap().entries.map(
-                        (products) {
+                  ...categoriesProvider.categoriesList.asMap().entries.map(
+                        (categories) {
                       return TableRow(
                           decoration:
                           const BoxDecoration(color: Colors.white),
@@ -361,7 +319,7 @@ Widget getTabProductsScreen(BuildContext context) {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
                                 child: Text(
-                                  "${products.key + 1}",
+                                  "${categories.key + 1}",
                                 ),
                               ),
                             ),
@@ -369,13 +327,13 @@ Widget getTabProductsScreen(BuildContext context) {
                             /// image
 
                             Center(
-                              child: products.value?.productImage==null ? Padding(
+                              child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Image.asset("images/ProfileImage.png"),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(products.value?.productImage??"")
+                                  child: Image.network(categories.value?.categoryIcon??"")
                               ),
                             ),
 
@@ -385,22 +343,10 @@ Widget getTabProductsScreen(BuildContext context) {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
-                                child: Text(products.value.productTitle??"",
+                                child: Text(categories.value.categoryName??"",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: true,
-                                ),
-                              ),
-                            ),
-
-                            /// price
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  products.value.productRegularPrice??"",
                                 ),
                               ),
                             ),
@@ -431,7 +377,7 @@ Widget getTabProductsScreen(BuildContext context) {
                 ],
               )
                   : const Center(
-                child: Text('No products Added'),
+                child: Text('No category Added'),
               ),
             ),
           ],
@@ -441,8 +387,8 @@ Widget getTabProductsScreen(BuildContext context) {
   });
 }
 
-Widget getDesktopProductsScreen() {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+Widget getDesktopCategoriesScreen() {
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -468,7 +414,7 @@ Widget getDesktopProductsScreen() {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Products",
+                          "Categories",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 23,
@@ -481,14 +427,13 @@ Widget getDesktopProductsScreen() {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            productProvider.productsList.isNotEmpty
+                            categoriesProvider.categoriesList.isNotEmpty
                                 ? Table(
                               columnWidths: const {
-                                0: FlexColumnWidth(1),
-                                1: FlexColumnWidth(1),
-                                2: FlexColumnWidth(2),
+                                0: FlexColumnWidth(),
+                                1: FlexColumnWidth(),
+                                2: FlexColumnWidth(),
                                 3: FlexColumnWidth(),
-                                4: FlexColumnWidth(),
                               },
                               children: [
                                 const TableRow(
@@ -536,19 +481,6 @@ Widget getDesktopProductsScreen() {
                                         ),
                                       ),
 
-                                      /// price
-
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 10),
-                                          child: Text(
-                                            "Price",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
 
                                       /// action
 
@@ -564,8 +496,8 @@ Widget getDesktopProductsScreen() {
                                         ),
                                       ),
                                     ]),
-                                ...productProvider.productsList.asMap().entries.map(
-                                      (products) {
+                                ...categoriesProvider.categoriesList.asMap().entries.map(
+                                      (categories) {
                                     return TableRow(
                                         decoration:
                                         const BoxDecoration(color: Colors.white),
@@ -578,7 +510,7 @@ Widget getDesktopProductsScreen() {
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 20),
                                               child: Text(
-                                                "${products.key + 1}",
+                                                "${categories.key + 1}",
                                               ),
                                             ),
                                           ),
@@ -586,13 +518,13 @@ Widget getDesktopProductsScreen() {
                                           /// image
 
                                           Center(
-                                            child: products.value?.productImage==null ? Padding(
+                                            child: categories.value?.categoryIcon==null ? Padding(
                                               padding: const EdgeInsets.all(2.0),
                                               child: Image.asset("images/ProfileImage.png"),
                                             ):
                                             Padding(
                                                 padding: const EdgeInsets.all(2.0),
-                                                child: Image.network(products.value?.productImage??"", height: 80,)
+                                                child: Image.network(categories.value?.categoryIcon??"", height: 80,)
                                             ),
                                           ),
 
@@ -602,7 +534,7 @@ Widget getDesktopProductsScreen() {
                                             child: Padding(
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 20),
-                                              child: Text(products.value.productTitle??"",
+                                              child: Text(categories.value.categoryName??"",
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: true,
@@ -610,17 +542,6 @@ Widget getDesktopProductsScreen() {
                                             ),
                                           ),
 
-                                          /// price
-
-                                          Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 20),
-                                              child: Text(
-                                                products.value.productRegularPrice??"",
-                                              ),
-                                            ),
-                                          ),
 
                                           /// action
 

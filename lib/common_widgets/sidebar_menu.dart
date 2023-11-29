@@ -1,3 +1,4 @@
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/account/view/components/profile_menu.dart';
 import 'package:digiday_admin_panel/screens/common/common_functions.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,22 +27,30 @@ class SideBarMenu extends StatelessWidget {
               ProfileMenu(
                 text: "All Vendors",
                 icon: Icons.add_business_sharp,
-                press: () {},
+                press: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.vendorScreen);
+                },
               ),
               ProfileMenu(
                 text: "All Circle Managers",
                 icon: Icons.person,
-                press: () {},
+                press: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.cmScreen);
+                },
               ),
               ProfileMenu(
                 text: "All Products",
                 icon: Icons.account_balance_wallet_rounded,
-                press: () {},
+                press: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.productsScreen);
+                },
               ),
               ProfileMenu(
                 text: "All Categories",
                 icon: Icons.category,
-                press: () {},
+                press: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);
+                },
               ),
               ProfileMenu(
                 text: "Settings",

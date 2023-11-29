@@ -48,6 +48,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: 0.toString(),
           press: () {
+            Navigator.of(context).pushReplacementNamed(Routes.productsScreen);
           },
           color: const Color(0xff34a952))
     ];
@@ -213,7 +214,7 @@ class HomePage extends StatelessWidget {
                 width: MediaQuery.of(context).size.width / 5,
                 child: const SideBarMenu(),
               ),
-              SizedBox(width: 20,),
+              const SizedBox(width: 20,),
 
               /// side space
 

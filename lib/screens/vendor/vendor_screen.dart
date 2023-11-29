@@ -6,8 +6,10 @@ import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/provider/vendors_provider.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
 class VendorScreen extends StatelessWidget {
   VendorScreen({super.key});
 
@@ -16,39 +18,35 @@ class VendorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-
     var screenSize = MediaQuery.of(context).size;
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
-    return Consumer<VendorProvider>(
-        builder: (context,vendorProvider,child) {
-          return Stack(
-            children: [
-              Scaffold(
-                appBar: PreferredSize(
-                  preferredSize: Size(screenSize.width, 1000),
-                  child: HeaderWidget(opacity: _opacity),
-                ),
-                drawer: ExploreDrawer(),
-                body: ResponsiveWidget(
-                  largeScreen: getDesktopCmScreen(),
-                  smallScreen: getMobileCmScreen(context),
-                  mediumScreen: getTabCmScreen(context),
-                ),
-              ),
-              Offstage(
-                  offstage: !vendorProvider.isLoading,
-                  child: const AppThemedLoader())
-            ],
-          );
-        }
-    );
+    return Consumer<VendorProvider>(builder: (context, vendorProvider, child) {
+      return Stack(
+        children: [
+          Scaffold(
+            appBar: PreferredSize(
+              preferredSize: Size(screenSize.width, 1000),
+              child: HeaderWidget(opacity: _opacity),
+            ),
+            drawer: ExploreDrawer(),
+            body: ResponsiveWidget(
+              largeScreen: getDesktopVendorScreen(),
+              smallScreen: getMobileVendorScreen(context),
+              mediumScreen: getTabVendorScreen(context),
+            ),
+          ),
+          Offstage(
+              offstage: !vendorProvider.isLoading,
+              child: const AppThemedLoader())
+        ],
+      );
+    });
   }
 }
 
-Widget getMobileCmScreen(BuildContext context) {
+Widget getMobileVendorScreen(BuildContext context) {
   return Consumer<VendorProvider>(builder: (context, vendorProvider, child) {
     return SingleChildScrollView(
       child: Padding(
@@ -67,112 +65,193 @@ Widget getMobileCmScreen(BuildContext context) {
             ),
             vendorProvider.vendorMates.isNotEmpty
                 ? SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child:
-              Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(4),
-                  2: FlexColumnWidth(5),
-                },
-                children: [
-                  const TableRow(
-                      decoration: BoxDecoration(color: kPrimaryColor),
+                    height: MediaQuery.of(context).size.height,
+                    child: Table(
+                      columnWidths: const {
+                        0: FlexColumnWidth(1),
+                        1: FlexColumnWidth(),
+                        2: FlexColumnWidth(),
+                        3: FlexColumnWidth(3),
+                        4: FlexColumnWidth(),
+                      },
                       children: [
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "NAME",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "EMAIL",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Action",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ]),
-                  ...vendorProvider.vendorMates.asMap().entries.map(
-                        (vendorMates) {
-                      return TableRow(
-                          decoration:
-                          const BoxDecoration(color: Colors.white),
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
-                                ),
-                              ),
-                            ),
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  vendorMates.value.email.toString(),
-                                ),
-                              ),
-                            ),
+                        const TableRow(
+                            decoration: BoxDecoration(color: kPrimaryColor),
+                            children: [
+                              /// s.no
 
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: DropdownButton<String>(
-                                  icon: Icon(Icons.arrow_downward),
-                                  iconSize: 24,
-                                  elevation: 16,
-                                  style: TextStyle(color: Colors.blue),
-                                  underline: Container(
-                                    height: 2,
-                                    color: Colors.blue,
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "S.No",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
                                   ),
-                                  onChanged: (String? newValue) {
-                                  },
-                                  items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                      .map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: Text(value),
-                                    );
-                                  }).toList(),
                                 ),
-
                               ),
-                            ),
-                          ]);
-                    },
+
+                              /// image
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Image",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+
+                              /// Name
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Name",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+
+                              /// email
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Email",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+
+                              /// action
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Action",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        ...vendorProvider.vendorMates.asMap().entries.map(
+                          (vendorMates) {
+                            return TableRow(
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                children: [
+                                  /// s.no
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        "${vendorMates.key + 1}",
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// image
+
+                                  Center(
+                                    child: vendorMates.value?.photo == null
+                                        ? const Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: CircleAvatar(
+                                        backgroundImage: AssetImage("images/ProfileImage.png"),
+                                        radius: 35,
+                                      ),
+                                    )
+                                        : Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(vendorMates.value?.photo ?? ""),
+                                          radius: 35,
+                                        )),
+                                  ),
+
+                                  /// name
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// email
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        vendorMates.value.email.toString(),
+                                        maxLines: 1,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// action
+
+                                  Center(
+                                    child: DropdownButton<String>(
+                                      icon: const Icon(
+                                        CupertinoIcons.chevron_down_circle,
+                                        color: kPrimaryColor,
+                                      ),
+                                      style:
+                                          const TextStyle(color: kPrimaryColor),
+                                      underline: Container(
+                                        height: 0,
+                                      ),
+                                      onChanged: (String? newValue) {},
+                                      items: <String>[
+                                        'Item 1',
+                                        'Item 2',
+                                        'Item 3',
+                                        'Item 4'
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ]);
+                          },
+                        )
+                      ],
+                    ),
                   )
-                ],
-              ),
-            )
                 : const Center(
-              child: Text('No Vendor Added'),
-            ),
+                    child: Text('No Vendor Added'),
+                  ),
           ],
         ),
       ),
@@ -180,7 +259,7 @@ Widget getMobileCmScreen(BuildContext context) {
   });
 }
 
-Widget getTabCmScreen(BuildContext context) {
+Widget getTabVendorScreen(BuildContext context) {
   return Consumer<VendorProvider>(builder: (context, vendorProvider, child) {
     return SingleChildScrollView(
       child: Padding(
@@ -201,91 +280,190 @@ Widget getTabCmScreen(BuildContext context) {
               height: MediaQuery.of(context).size.height,
               child: vendorProvider.vendorMates.isNotEmpty
                   ? Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(4),
-                  2: FlexColumnWidth(5),
-                },
-                border: TableBorder.all(width: 1.0, color: Colors.black),
-                children: [
-                  const TableRow(
-                      decoration: BoxDecoration(color: kPrimaryColor),
+                      columnWidths: const {
+                        0: FlexColumnWidth(1),
+                        1: FlexColumnWidth(),
+                        2: FlexColumnWidth(),
+                        3: FlexColumnWidth(3),
+                        4: FlexColumnWidth(),
+                      },
                       children: [
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "S. NO.",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "NAME",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "EMAIL",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ]),
-                  ...vendorProvider.vendorMates.asMap().entries.map(
-                        (vendorMates) {
-                      return TableRow(
-                          decoration:
-                          const BoxDecoration(color: Colors.white),
-                          children: [
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${vendorMates.key + 1}",
+                        const TableRow(
+                            decoration: BoxDecoration(color: kPrimaryColor),
+                            children: [
+                              /// s.no
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "S.No",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+
+                              /// image
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Image",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  vendorMates.value.email.toString(),
+
+                              /// Name
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Name",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ]);
-                    },
-                  )
-                ],
-              )
+
+                              /// email
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Email",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+
+                              /// action
+
+                              Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 10),
+                                  child: Text(
+                                    "Action",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ]),
+                        ...vendorProvider.vendorMates.asMap().entries.map(
+                          (vendorMates) {
+                            return TableRow(
+                                decoration:
+                                    const BoxDecoration(color: Colors.white),
+                                children: [
+                                  /// s.no
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        "${vendorMates.key + 1}",
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// image
+
+                                  Center(
+                                    child: vendorMates.value?.photo == null
+                                        ? const Padding(
+                                      padding: EdgeInsets.all(2.0),
+                                      child: CircleAvatar(
+                                        backgroundImage: AssetImage("images/ProfileImage.png"),
+                                        radius: 35,
+                                      ),
+                                    )
+                                        : Padding(
+                                        padding: const EdgeInsets.all(2.0),
+                                        child: CircleAvatar(
+                                          backgroundImage: NetworkImage(vendorMates.value?.photo ?? ""),
+                                          radius: 35,
+                                        )),
+                                  ),
+
+                                  /// name
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                                        maxLines: 2,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// email
+
+                                  Center(
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 20),
+                                      child: Text(
+                                        vendorMates.value.email.toString(),
+                                        maxLines: 1,
+                                        softWrap: true,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ),
+
+                                  /// action
+
+                                  Center(
+                                    child: DropdownButton<String>(
+                                      icon: const Icon(
+                                        CupertinoIcons.chevron_down_circle,
+                                        color: kPrimaryColor,
+                                      ),
+                                      style:
+                                          const TextStyle(color: kPrimaryColor),
+                                      underline: Container(
+                                        height: 0,
+                                      ),
+                                      onChanged: (String? newValue) {},
+                                      items: <String>[
+                                        'Item 1',
+                                        'Item 2',
+                                        'Item 3',
+                                        'Item 4'
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: Text(value),
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                                ]);
+                          },
+                        )
+                      ],
+                    )
                   : const Center(
-                child: Text('No Vendor Added'),
-              ),
+                      child: Text('No Vendor Added'),
+                    ),
             ),
           ],
         ),
@@ -294,7 +472,7 @@ Widget getTabCmScreen(BuildContext context) {
   });
 }
 
-Widget getDesktopCmScreen() {
+Widget getDesktopVendorScreen() {
   return Consumer<VendorProvider>(builder: (context, vendorProvider, child) {
     return SingleChildScrollView(
       child: Column(
@@ -336,100 +514,215 @@ Widget getDesktopCmScreen() {
                           children: [
                             vendorProvider.vendorMates.isNotEmpty
                                 ? Table(
-                              columnWidths: const {
-                                0: FlexColumnWidth(1),
-                                1: FlexColumnWidth(4),
-                                2: FlexColumnWidth(5),
-                              },
-                              children: [
-                                const TableRow(
-                                    decoration: BoxDecoration(color: kPrimaryColor),
+                                    columnWidths: const {
+                                      0: FlexColumnWidth(1),
+                                      1: FlexColumnWidth(),
+                                      2: FlexColumnWidth(),
+                                      3: FlexColumnWidth(3),
+                                      4: FlexColumnWidth(),
+                                    },
                                     children: [
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            "Photo",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            "NAME",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 10),
-                                          child: Text(
-                                            "EMAIL",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                                ...vendorProvider.vendorMates.asMap().entries.map(
-                                      (vendorMates) {
-                                    return TableRow(
-                                        decoration: const BoxDecoration(
-                                            color: Colors.white),
-                                        children: [
-                                          Center(
-                                            child: vendorMates.value?.photo==null ? const Padding(
-                                              padding: EdgeInsets.all(2.0),
-                                              child: CircleAvatar(
-                                                backgroundImage:  AssetImage("images/ProfileImage.png"),
-                                              ),
-                                            ):
-                                            Padding(
-                                              padding: const EdgeInsets.all(2.0),
-                                              child: CircleAvatar(
-                                                backgroundImage: NetworkImage(vendorMates.value?.photo??""),
+                                      const TableRow(
+                                          decoration: BoxDecoration(
+                                              color: kPrimaryColor),
+                                          children: [
+                                            /// s.no
+
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "S.No",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Center(
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 20),
-                                              child: Text(
-                                                '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+
+                                            /// image
+
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "Image",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          Center(
-                                            child: Padding(
-                                              padding:
-                                              const EdgeInsets.symmetric(
-                                                  vertical: 20),
-                                              child: Text(
-                                                vendorMates.value.email.toString(),
+
+                                            /// Name
+
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "Name",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                        ]);
-                                  },
-                                )
-                              ],
-                            )
-                                :  const Center(
-                              child: NoDataView(),
-                            ),
+
+                                            /// email
+
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "Email",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+
+                                            /// action
+
+                                            Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 10),
+                                                child: Text(
+                                                  "Action",
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.white),
+                                                ),
+                                              ),
+                                            ),
+                                          ]),
+                                      ...vendorProvider.vendorMates
+                                          .asMap()
+                                          .entries
+                                          .map(
+                                        (vendorMates) {
+                                          return TableRow(
+                                              decoration: const BoxDecoration(
+                                                  color: Colors.white),
+                                              children: [
+                                                /// s.no
+
+                                                Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 20),
+                                                    child: Text(
+                                                      "${vendorMates.key + 1}",
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                /// image
+
+                                                Center(
+                                                  child: vendorMates.value?.photo == null
+                                                      ? const Padding(
+                                                    padding: EdgeInsets.all(2.0),
+                                                    child: CircleAvatar(
+                                                      backgroundImage: AssetImage("images/ProfileImage.png"),
+                                                      radius: 30,
+                                                    ),
+                                                  )
+                                                      : Padding(
+                                                      padding: const EdgeInsets.all(2.0),
+                                                      child: CircleAvatar(
+                                                        backgroundImage: NetworkImage(vendorMates.value?.photo ?? ""),
+                                                        radius: 30,
+                                                      )),
+                                                ),
+
+                                                /// name
+
+                                                Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 20),
+                                                    child: Text(
+                                                      '${vendorMates.value.firstName} ${vendorMates.value.lastName}',
+                                                      maxLines: 2,
+                                                      softWrap: true,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                /// email
+
+                                                Center(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        vertical: 20),
+                                                    child: Text(
+                                                      vendorMates.value.email
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      softWrap: true,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                ),
+
+                                                /// action
+
+                                                Center(
+                                                  child: DropdownButton<String>(
+                                                    icon: const Icon(
+                                                      CupertinoIcons
+                                                          .chevron_down_circle,
+                                                      color: kPrimaryColor,
+                                                    ),
+                                                    style: const TextStyle(
+                                                        color: kPrimaryColor),
+                                                    underline: Container(
+                                                      height: 0,
+                                                    ),
+                                                    onChanged:
+                                                        (String? newValue) {},
+                                                    items: <String>[
+                                                      'Item 1',
+                                                      'Item 2',
+                                                      'Item 3',
+                                                      'Item 4'
+                                                    ].map<
+                                                            DropdownMenuItem<
+                                                                String>>(
+                                                        (String value) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: value,
+                                                        child: Text(value),
+                                                      );
+                                                    }).toList(),
+                                                  ),
+                                                ),
+                                              ]);
+                                        },
+                                      )
+                                    ],
+                                  )
+                                : const Center(
+                                    child: NoDataView(),
+                                  ),
                           ],
                         )
                       ],

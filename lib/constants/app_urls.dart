@@ -23,6 +23,7 @@ class ApiUrl {
   static const teamProfilePicsFolder = '/images/team/profile_pics';
   static const offerBannersFolder = '/images/vendors/business/offer_banners';
   static const productPicFolder = '/images/vendors/business/product_pics';
+  static const categoryPicFolder = '/images/categories';
   static const businessPicsFolder = '/images/vendors/business/profile_pics';
 
 
