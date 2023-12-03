@@ -218,30 +218,8 @@ Widget getMobileVendorScreen(BuildContext context) {
                                   /// action
 
                                   Center(
-                                    child: DropdownButton<String>(
-                                      icon: const Icon(
-                                        CupertinoIcons.chevron_down_circle,
-                                        color: kPrimaryColor,
-                                      ),
-                                      style:
-                                          const TextStyle(color: kPrimaryColor),
-                                      underline: Container(
-                                        height: 0,
-                                      ),
-                                      onChanged: (String? newValue) {},
-                                      items: <String>[
-                                        'Item 1',
-                                        'Item 2',
-                                        'Item 3',
-                                        'Item 4'
-                                      ].map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                    ),
+                                    child: IconButton(onPressed: (){},
+                                      icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                   ),
                                 ]);
                           },
@@ -431,30 +409,8 @@ Widget getTabVendorScreen(BuildContext context) {
                                   /// action
 
                                   Center(
-                                    child: DropdownButton<String>(
-                                      icon: const Icon(
-                                        CupertinoIcons.chevron_down_circle,
-                                        color: kPrimaryColor,
-                                      ),
-                                      style:
-                                          const TextStyle(color: kPrimaryColor),
-                                      underline: Container(
-                                        height: 0,
-                                      ),
-                                      onChanged: (String? newValue) {},
-                                      items: <String>[
-                                        'Item 1',
-                                        'Item 2',
-                                        'Item 3',
-                                        'Item 4'
-                                      ].map<DropdownMenuItem<String>>(
-                                          (String value) {
-                                        return DropdownMenuItem<String>(
-                                          value: value,
-                                          child: Text(value),
-                                        );
-                                      }).toList(),
-                                    ),
+                                    child: IconButton(onPressed: (){},
+                                      icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                   ),
                                 ]);
                           },
@@ -685,35 +641,8 @@ Widget getDesktopVendorScreen() {
                                                 /// action
 
                                                 Center(
-                                                  child: DropdownButton<String>(
-                                                    icon: const Icon(
-                                                      CupertinoIcons
-                                                          .chevron_down_circle,
-                                                      color: kPrimaryColor,
-                                                    ),
-                                                    style: const TextStyle(
-                                                        color: kPrimaryColor),
-                                                    underline: Container(
-                                                      height: 0,
-                                                    ),
-                                                    onChanged:
-                                                        (String? newValue) {},
-                                                    items: <String>[
-                                                      'Item 1',
-                                                      'Item 2',
-                                                      'Item 3',
-                                                      'Item 4'
-                                                    ].map<
-                                                            DropdownMenuItem<
-                                                                String>>(
-                                                        (String value) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: value,
-                                                        child: Text(value),
-                                                      );
-                                                    }).toList(),
-                                                  ),
+                                                  child: IconButton(onPressed: (){},
+                                                    icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                                 ),
                                               ]);
                                         },

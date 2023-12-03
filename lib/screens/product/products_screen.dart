@@ -9,6 +9,8 @@ import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dar
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../routes.dart';
 class ProductsScreen extends StatelessWidget {
   ProductsScreen({super.key});
 
@@ -212,22 +214,8 @@ Widget getMobileProductsScreen(BuildContext context) {
                             /// action
 
                             Center(
-                              child: DropdownButton<String>(
-                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                style: const TextStyle(color: kPrimaryColor),
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                onChanged: (String? newValue) {
-                                },
-                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
+                              child: IconButton(onPressed: (){},
+                                icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                             ),
                           ]);
                     },
@@ -408,22 +396,8 @@ Widget getTabProductsScreen(BuildContext context) {
                             /// action
 
                             Center(
-                              child: DropdownButton<String>(
-                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                style: const TextStyle(color: kPrimaryColor),
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                onChanged: (String? newValue) {
-                                },
-                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
+                              child: IconButton(onPressed: (){},
+                                icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                             ),
                           ]);
                     },
@@ -481,8 +455,7 @@ Widget getDesktopProductsScreen() {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            productProvider.productsList.isNotEmpty
-                                ? Table(
+                            if (productProvider.productsList.isNotEmpty) Table(
                               columnWidths: const {
                                 0: FlexColumnWidth(1),
                                 1: FlexColumnWidth(1),
@@ -625,29 +598,18 @@ Widget getDesktopProductsScreen() {
                                           /// action
 
                                           Center(
-                                            child: DropdownButton<String>(
-                                              icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                              style: const TextStyle(color: kPrimaryColor),
-                                              underline: Container(
-                                                height: 0,
-                                              ),
-                                              onChanged: (String? newValue) {
-                                              },
-                                              items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                                  .map<DropdownMenuItem<String>>((String value) {
-                                                return DropdownMenuItem<String>(
-                                                  value: value,
-                                                  child: Text(value),
-                                                );
-                                              }).toList(),
-                                            ),
+                                            child: IconButton(onPressed: (){
+                                             productProvider.selectedProduct=products.value;
+                                             Navigator.of(context).pushReplacementNamed(Routes.productDetailsScreen);
+
+                                            },
+                                            icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                           ),
                                         ]);
                                   },
                                 )
                               ],
-                            )
-                                :  const Center(
+                            ) else const Center(
                               child: NoDataView(),
                             ),
                           ],

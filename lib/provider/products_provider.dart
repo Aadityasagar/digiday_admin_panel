@@ -16,6 +16,8 @@ class ProductsProvider extends ChangeNotifier{
   int itemsPerPageLimit=100;
   int totalItems=10;
 
+  Product? selectedProduct;
+
   ProductsProvider(){
     fetchProductData();
   }
@@ -94,6 +96,14 @@ class ProductsProvider extends ChangeNotifier{
     finally{
       notifyListeners();
     }
+
+  }
+
+  Future<void> fetchCurrentProductDetail(String) async {
+    isLoading = true;
+
+
+
 
   }
 
