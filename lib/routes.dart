@@ -19,7 +19,7 @@ class Routes {
   static const String vendorScreen = '/vendorScreen';
   static const String productsScreen = '/productsScreen';
   static const String categoriesScreen = '/categoriesScreen';
-  static const String productDetailsScreen = '/categoriesScreen';
+  static const String productDetailsScreen = '/productDetailScreen';
 
   static final routes = <String, WidgetBuilder>{
     login: (BuildContext context) => LogInScreen(),

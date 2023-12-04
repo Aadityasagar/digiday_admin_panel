@@ -325,7 +325,7 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
 
 Widget getDesktopProductsDetailsScreen() {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return SingleChildScrollView(
+    return productProvider.selectedProduct!=null?SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(
@@ -476,7 +476,7 @@ Widget getDesktopProductsDetailsScreen() {
           ),
         ],
       ),
-    );
+    ):Text("No Product selected!");
   });
 }
 
