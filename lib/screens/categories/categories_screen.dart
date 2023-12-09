@@ -3,8 +3,10 @@ import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/no_data_view.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
+import 'package:digiday_admin_panel/components/default_button.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/provider/categories_provider.dart';
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,11 +31,26 @@ class CategoriesScreen extends StatelessWidget {
                   preferredSize: Size(screenSize.width, 1000),
                   child: HeaderWidget(opacity: _opacity),
                 ),
-                drawer: ExploreDrawer(),
+                drawer: const ExploreDrawer(),
                 body: ResponsiveWidget(
                   largeScreen: getDesktopCategoriesScreen(),
                   smallScreen: getMobileCategoriesScreen(context),
                   mediumScreen: getTabCategoriesScreen(context),
+                ),
+
+
+
+                bottomNavigationBar: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child:   DefaultButton(
+
+                    text: 'Add Category',
+
+                    press: (){
+                      Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
+                      },
+
+                  ),
                 ),
               ),
               Offstage(
@@ -390,6 +407,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
 Widget getDesktopCategoriesScreen() {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           SizedBox(
@@ -401,6 +419,7 @@ Widget getDesktopCategoriesScreen() {
 
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 5,
+                  height: MediaQuery.of(context).size.height,
                   child: const SideBarMenu(),
                 ),
                 const SizedBox(

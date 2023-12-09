@@ -74,7 +74,7 @@ class HomePage extends StatelessWidget {
         preferredSize: Size(screenSize.width, 1000),
         child: HeaderWidget(opacity: _opacity),
       ),
-      drawer: ExploreDrawer(),
+      drawer: const ExploreDrawer(),
       body: SingleChildScrollView(
         child: ResponsiveWidget(
           largeScreen: getDesktopHomePage(context,homeActions,actions),

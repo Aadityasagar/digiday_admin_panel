@@ -5,8 +5,8 @@ import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/provider/cms_provider.dart';
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -31,7 +31,7 @@ class CmScreen extends StatelessWidget {
               preferredSize: Size(screenSize.width, 1000),
               child: HeaderWidget(opacity: _opacity),
             ),
-            drawer: ExploreDrawer(),
+            drawer: const ExploreDrawer(),
             body: ResponsiveWidget(
               largeScreen: getDesktopCmScreen(),
               smallScreen: getMobileCmScreen(context),
@@ -212,7 +212,11 @@ Widget getMobileCmScreen(BuildContext context) {
                                   /// action
 
                                   Center(
-                                    child: IconButton(onPressed: (){},
+                                    child: IconButton(onPressed: (){
+                                      cmProvider.selectedCm=cmTeamMates.value;
+                                      Navigator.of(context).pushReplacementNamed(Routes.cmDetailsScreen);
+
+                                    },
                                       icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                   ),
                                 ]);
@@ -399,7 +403,11 @@ Widget getTabCmScreen(BuildContext context) {
                                     /// action
 
                                     Center(
-                                      child: IconButton(onPressed: (){},
+                                      child: IconButton(onPressed: (){
+                                        cmProvider.selectedCm=cmTeamMates.value;
+                                        Navigator.of(context).pushReplacementNamed(Routes.cmDetailsScreen);
+
+                                      },
                                         icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                     ),
                                   ]);
@@ -425,7 +433,6 @@ Widget getDesktopCmScreen() {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
@@ -433,14 +440,14 @@ Widget getDesktopCmScreen() {
 
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 5,
+                  height: MediaQuery.of(context).size.height,
+
                   child: const SideBarMenu(),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.4,
-                    height: MediaQuery.of(context).size.height,
+                Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -626,7 +633,11 @@ Widget getDesktopCmScreen() {
                                                   /// action
 
                                                   Center(
-                                                    child: IconButton(onPressed: (){},
+                                                    child: IconButton(onPressed: (){
+                                                      cmProvider.selectedCm=cmTeamMates.value;
+                                                      Navigator.of(context).pushReplacementNamed(Routes.cmDetailsScreen);
+
+                                                    },
                                                       icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                                   ),
                                                 ]);

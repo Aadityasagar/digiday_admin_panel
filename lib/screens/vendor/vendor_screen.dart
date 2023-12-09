@@ -5,6 +5,7 @@ import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/provider/vendors_provider.dart';
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class VendorScreen extends StatelessWidget {
               preferredSize: Size(screenSize.width, 1000),
               child: HeaderWidget(opacity: _opacity),
             ),
-            drawer: ExploreDrawer(),
+            drawer: const ExploreDrawer(),
             body: ResponsiveWidget(
               largeScreen: getDesktopVendorScreen(),
               smallScreen: getMobileVendorScreen(context),
@@ -218,7 +219,11 @@ Widget getMobileVendorScreen(BuildContext context) {
                                   /// action
 
                                   Center(
-                                    child: IconButton(onPressed: (){},
+                                    child: IconButton(onPressed: (){
+                                      vendorProvider.selectedVendor=vendorMates.value;
+                                      Navigator.of(context).pushReplacementNamed(Routes.vendorDetailsScreen);
+
+                                    },
                                       icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                   ),
                                 ]);
@@ -409,7 +414,11 @@ Widget getTabVendorScreen(BuildContext context) {
                                   /// action
 
                                   Center(
-                                    child: IconButton(onPressed: (){},
+                                    child: IconButton(onPressed: (){
+                                      vendorProvider.selectedVendor=vendorMates.value;
+                                      Navigator.of(context).pushReplacementNamed(Routes.vendorDetailsScreen);
+
+                                    },
                                       icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                   ),
                                 ]);
@@ -442,14 +451,13 @@ Widget getDesktopVendorScreen() {
 
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 5,
+                  height: MediaQuery.of(context).size.height,
                   child: const SideBarMenu(),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.4,
-                    height: MediaQuery.of(context).size.height,
+                Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -641,7 +649,11 @@ Widget getDesktopVendorScreen() {
                                                 /// action
 
                                                 Center(
-                                                  child: IconButton(onPressed: (){},
+                                                  child: IconButton(onPressed: (){
+                                                    vendorProvider.selectedVendor=vendorMates.value;
+                                                    Navigator.of(context).pushReplacementNamed(Routes.vendorDetailsScreen);
+
+                                                  },
                                                     icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
                                                 ),
                                               ]);

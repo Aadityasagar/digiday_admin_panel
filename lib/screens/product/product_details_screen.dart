@@ -31,7 +31,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   preferredSize: Size(screenSize.width, 1000),
                   child: HeaderWidget(opacity: _opacity),
                 ),
-                drawer: ExploreDrawer(),
+                drawer: const ExploreDrawer(),
                 body: ResponsiveWidget(
                   largeScreen: getDesktopProductsDetailsScreen(),
                   smallScreen: getMobileProductsDetailsScreen(context),
@@ -51,37 +51,26 @@ class ProductDetailsScreen extends StatelessWidget {
 
 Widget getMobileProductsDetailsScreen(BuildContext context) {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return SingleChildScrollView(
+    return productProvider.selectedProduct!=null? SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              child:
 
-              AspectRatio(
-                aspectRatio: 1,
-                child: Hero(
-                  tag: productProvider.selectedProduct!.id.toString(),
-                  child:  FutureBuilder(
-                    future: FirebaseService.getImageUrl("${ApiUrl.productPicFolder}/${productProvider.selectedProduct?.productImage!}"),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text(
-                          "Something went wrong",
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Image.network(
-                          snapshot.data.toString(),
-                          fit: BoxFit.cover,
-                        );
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                  ),
+            /// image
+
+            AspectRatio(
+              aspectRatio: 16/9,
+              child: Center(
+                child: productProvider.selectedProduct?.productImage==null ? Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Image.asset("images/ProfileImage.png"),
+                ):
+                Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Image.network(productProvider.selectedProduct?.productImage??"")
                 ),
               ),
             ),
@@ -116,16 +105,71 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
 
                 /// category
 
-                Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    productProvider.selectedProduct?.productCategory ?? "",
-                  ),
+                Row(
+                  children: [
+                    const Padding(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 20),
+                      child: Text("Category", style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        productProvider.selectedProduct?.productCategory ?? "",
+                      ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(
                   height: 20,
+                ),
+
+                /// price
+
+                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    /// sale
+
+                    Row(
+                      children: [
+                        const Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("Sale Price", style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// regular
+
+                    Row(
+                      children: [
+                        const Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("Regular Price", style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",)
+                        ),
+                      ],
+                    ),
+
+                  ],
                 ),
 
                 /// description
@@ -136,89 +180,52 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
                   ),
                   child: Text(
                     productProvider.selectedProduct?.productDescription ?? "",
-                    maxLines: 10,
+                    maxLines: 100,
                     textAlign: TextAlign.justify,
                   ),
                 ),
 
-                /// see more details
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Row(
-                      children: [
-                        Text(
-                          "See More Details",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: kPrimaryColor),
-                        ),
-                        SizedBox(width: 5),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 12,
-                          color: kPrimaryColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
                 /// flags
 
-                Row(
-                  children: [
-                    InkWell(onTap: (){},
-                        child: const Icon(Icons.flag, color: Colors.red,)),
-                    InkWell(onTap: (){},
-                        child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
-                  ],
+                Center(
+                  child: Row(
+                    children: [
+                      InkWell(onTap: (){},
+                          child: const Icon(Icons.flag, color: Colors.red,)),
+                      InkWell(onTap: (){},
+                          child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
+                    ],
+                  ),
                 )
               ],
             )
           ],
         ),
       ),
-    );
+    ):const Text("No Product selected!");
   });
 }
 
 Widget getTabProductsDetailsScreen(BuildContext context) {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return SingleChildScrollView(
+    return productProvider.selectedProduct!=null? SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              child:AspectRatio(
-                aspectRatio: 1,
-                child: Hero(
-                  tag: productProvider.selectedProduct!.id.toString(),
-                  child:  FutureBuilder(
-                    future: FirebaseService.getImageUrl("${ApiUrl.productPicFolder}/${productProvider.selectedProduct?.productImage!}"),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasError) {
-                        return const Text(
-                          "Something went wrong",
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return Image.network(
-                          snapshot.data.toString(),
-                          fit: BoxFit.cover,
-                        );
-                      }
-                      return const Center(child: CircularProgressIndicator());
-                    },
-                  ),
-                ),
+            /// image
+
+            Center(
+              child: productProvider.selectedProduct?.productImage==null ? Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Image.asset("images/ProfileImage.png"),
+              ):
+              Padding(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Image.network(productProvider.selectedProduct?.productImage??"", height: 400,)
               ),
             ),
 
@@ -252,16 +259,71 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
 
                 /// category
 
-                Padding(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 20),
-                  child: Text(
-                    productProvider.selectedProduct?.productCategory ?? "",
-                  ),
+                Row(
+                  children: [
+                    const Padding(
+                      padding:
+                      EdgeInsets.symmetric(horizontal: 20),
+                      child: Text("Category", style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Padding(
+                      padding:
+                      const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        productProvider.selectedProduct?.productCategory ?? "",
+                      ),
+                    ),
+                  ],
                 ),
 
                 const SizedBox(
                   height: 20,
+                ),
+
+                /// price
+
+                Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+
+                    /// sale
+
+                    Row(
+                      children: [
+                        const Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("Sale Price", style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// regular
+
+                    Row(
+                      children: [
+                        const Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20),
+                          child: Text("Regular Price", style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        Padding(
+                            padding:
+                            const EdgeInsets.symmetric(horizontal: 20),
+                            child: Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",)
+                        ),
+                      ],
+                    ),
+
+                  ],
                 ),
 
                 /// description
@@ -272,64 +334,39 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
                   ),
                   child: Text(
                     productProvider.selectedProduct?.productDescription ?? "",
-                    maxLines: 10,
+                    maxLines: 100,
                     textAlign: TextAlign.justify,
                   ),
                 ),
 
-                /// see more details
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
-                  ),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: const Row(
-                      children: [
-                        Text(
-                          "See More Details",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, color: kPrimaryColor),
-                        ),
-                        SizedBox(width: 5),
-                        Icon(
-                          Icons.arrow_forward_ios,
-                          size: 12,
-                          color: kPrimaryColor,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
 
                 /// flags
 
-                Row(
-                  children: [
-                    InkWell(onTap: (){},
-                        child: const Icon(Icons.flag, color: Colors.red,)),
-                    InkWell(onTap: (){},
-                        child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
-                  ],
+                Center(
+                  child: Row(
+                    children: [
+                      InkWell(onTap: (){},
+                          child: const Icon(Icons.flag, color: Colors.red,)),
+                      InkWell(onTap: (){},
+                          child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
+                    ],
+                  ),
                 )
               ],
             )
           ],
         ),
       ),
-    );
+    ):const Text("No Product selected!");
   });
 }
 
 Widget getDesktopProductsDetailsScreen() {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return productProvider.selectedProduct!=null?SingleChildScrollView(
+    return productProvider.selectedProduct!=null? SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
@@ -337,41 +374,27 @@ Widget getDesktopProductsDetailsScreen() {
 
                 SizedBox(
                   width: MediaQuery.of(context).size.width / 5,
+                  height: MediaQuery.of(context).size.height,
                   child: const SideBarMenu(),
                 ),
                 const SizedBox(
                   width: 20,
                 ),
-                SizedBox(
-                    width: MediaQuery.of(context).size.width / 1.4,
-                    height: MediaQuery.of(context).size.height,
+                Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          child:AspectRatio(
-                            aspectRatio: 1,
-                            child: Hero(
-                              tag: productProvider.selectedProduct!.id.toString(),
-                              child:  FutureBuilder(
-                                future: FirebaseService.getImageUrl("${ApiUrl.productPicFolder}/${productProvider.selectedProduct?.productImage!}"),
-                                builder: (context, snapshot) {
-                                  if (snapshot.hasError) {
-                                    return const Text(
-                                      "Something went wrong",
-                                    );
-                                  }
-                                  if (snapshot.connectionState == ConnectionState.done) {
-                                    return Image.network(
-                                      snapshot.data.toString(),
-                                      fit: BoxFit.cover,
-                                    );
-                                  }
-                                  return const Center(child: CircularProgressIndicator());
-                                },
-                              ),
-                            ),
+                        /// image
+
+                        Center(
+                          child: productProvider.selectedProduct?.productImage==null ? Padding(
+                            padding: const EdgeInsets.all(2.0),
+                            child: Image.asset("images/ProfileImage.png"),
+                          ):
+                          Padding(
+                              padding: const EdgeInsets.all(2.0),
+                              child: Image.network(productProvider.selectedProduct?.productImage??"", height: 400,)
                           ),
                         ),
 
@@ -405,16 +428,71 @@ Widget getDesktopProductsDetailsScreen() {
 
                             /// category
 
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 20),
-                              child: Text(
-                                productProvider.selectedProduct?.productCategory ?? "",
-                              ),
+                            Row(
+                              children: [
+                                const Padding(
+                                  padding:
+                                  EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text("Category", style: TextStyle(fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Padding(
+                                  padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Text(
+                                    productProvider.selectedProduct?.productCategory ?? "",
+                                  ),
+                                ),
+                              ],
                             ),
 
                             const SizedBox(
                               height: 20,
+                            ),
+
+                            /// price
+
+                            Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+
+                                /// sale
+
+                                Row(
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: 20),
+                                      child: Text("Sale Price", style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
+                                      ),
+                                    ),
+                                  ],
+                                ),
+
+                                /// regular
+
+                                Row(
+                                  children: [
+                                    const Padding(
+                                      padding:
+                                      EdgeInsets.symmetric(horizontal: 20),
+                                      child: Text("Regular Price", style: TextStyle(fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding:
+                                      const EdgeInsets.symmetric(horizontal: 20),
+                                      child: Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",)
+                                    ),
+                                  ],
+                                ),
+
+                              ],
                             ),
 
                             /// description
@@ -425,47 +503,23 @@ Widget getDesktopProductsDetailsScreen() {
                               ),
                               child: Text(
                                 productProvider.selectedProduct?.productDescription ?? "",
-                                maxLines: 10,
+                                maxLines: 100,
                                 textAlign: TextAlign.justify,
                               ),
                             ),
 
-                            /// see more details
-
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 10,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: const Row(
-                                  children: [
-                                    Text(
-                                      "See More Details",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600, color: kPrimaryColor),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 12,
-                                      color: kPrimaryColor,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
 
                             /// flags
 
-                            Row(
-                              children: [
-                                InkWell(onTap: (){},
-                                    child: const Icon(Icons.flag, color: Colors.red,)),
-                                InkWell(onTap: (){},
-                                    child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
-                              ],
+                            Center(
+                              child: Row(
+                                children: [
+                                  InkWell(onTap: (){},
+                                      child: const Icon(Icons.flag, color: Colors.red,)),
+                                  InkWell(onTap: (){},
+                                      child: const Icon(CupertinoIcons.check_mark_circled_solid, color: Colors.green,))
+                                ],
+                              ),
                             )
                           ],
                         )
@@ -476,7 +530,7 @@ Widget getDesktopProductsDetailsScreen() {
           ),
         ],
       ),
-    ):Text("No Product selected!");
+    ):const Text("No Product selected!");
   });
 }
 

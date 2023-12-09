@@ -4,15 +4,16 @@ import 'package:digiday_admin_panel/common_widgets/no_data_view.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/provider/products_provider.dart';
+import 'package:digiday_admin_panel/provider/categories_provider.dart';
+import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../routes.dart';
-class ProductsScreen extends StatelessWidget {
-  ProductsScreen({super.key});
+import '../../components/default_button.dart';
+class AddCategoryScreen extends StatelessWidget {
+  AddCategoryScreen({super.key});
 
   double _opacity = 0;
   final double _scrollPosition = 0;
@@ -23,8 +24,8 @@ class ProductsScreen extends StatelessWidget {
     _opacity = _scrollPosition < screenSize.height * 0.40
         ? _scrollPosition / (screenSize.height * 0.40)
         : 1;
-    return Consumer<ProductsProvider>(
-        builder: (context,productProvider,child) {
+    return Consumer<CategoriesProvider>(
+        builder: (context,categoriesProvider,child) {
           return Stack(
             children: [
               Scaffold(
@@ -32,15 +33,15 @@ class ProductsScreen extends StatelessWidget {
                   preferredSize: Size(screenSize.width, 1000),
                   child: HeaderWidget(opacity: _opacity),
                 ),
-                drawer: ExploreDrawer(),
+                drawer: const ExploreDrawer(),
                 body: ResponsiveWidget(
-                  largeScreen: getDesktopProductsScreen(),
-                  smallScreen: getMobileProductsScreen(context),
-                  mediumScreen: getTabProductsScreen(context),
+                  largeScreen: getDesktopAddCategoriesScreen(),
+                  smallScreen: getMobileAddCategoriesScreen(context),
+                  mediumScreen: getTabAddCategoriesScreen(context),
                 ),
               ),
               Offstage(
-                  offstage: !productProvider.isLoading,
+                  offstage: !categoriesProvider.isLoading,
                   child: const AppThemedLoader())
             ],
           );
@@ -49,15 +50,30 @@ class ProductsScreen extends StatelessWidget {
   }
 }
 
-Widget getMobileProductsScreen(BuildContext context) {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+
+Widget getMobileAddCategoriesScreen(BuildContext context) {
+
+
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
+    TextFormField buildCategoryNameFormField() {
+      return TextFormField(
+        controller: categoriesProvider.categoryTitle,
+        decoration: const InputDecoration(
+          labelText: "Category Name",
+          hintText: "Enter Category Name",
+          // If  you are using latest version of flutter then lable text and hint text shown like this
+          // if you r using flutter less then 1.20.* then maybe this is not working properly
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+        ),
+      );
+    }
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             const Text(
-              "Products",
+              "Enter Complete Category details",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 30,
@@ -66,168 +82,59 @@ Widget getMobileProductsScreen(BuildContext context) {
             const SizedBox(
               height: 10,
             ),
-            productProvider.productsList.isNotEmpty
-                ? SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child:
-              Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(2),
-                  3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
-                },
+
+            Form(
+              key: categoriesProvider.addCategoryFormKey,
+              child: Column(
                 children: [
-                  const TableRow(
-                      decoration: BoxDecoration(color: kPrimaryColor),
-                      children: [
+                  /// category name
 
-                        /// s.no
+                  buildCategoryNameFormField(),
 
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "S.No",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
 
-                        /// image
 
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Image",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                  /// category icon
 
-                        /// title
+                  const SizedBox(height: 15),
 
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Title",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                  categoriesProvider.selectedImage!=null ?
 
-                        /// price
+                  Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                      color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                      height: 200, width: 350,
+                      child: Padding(
+                        padding:  const EdgeInsets.all(8.0),
+                        child: Image.network(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
+                      )
+                  ):const SizedBox(),
 
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Price",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
+                    child: DefaultButton(
+                      text:  categoriesProvider.selectedImage==null && categoriesProvider.selectedImage!=null ? "Change Image": "Add Image",
+                      press: (){
+                        categoriesProvider.selectImages();
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 35),
+                  DefaultButton(
+                    text: "Add Category",
+                    press: () async{
+                 try {
+                   bool result=  await  categoriesProvider.validateAndSubmit();
 
-                        /// action
+                   if (result){Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
+                                    else{print("something went wrong");}
+                 } catch (e) {
+                   print(e);
+                 }
 
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Action",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ]),
-                  ...productProvider.productsList.asMap().entries.map(
-                        (products) {
-                      return TableRow(
-                          decoration:
-                          const BoxDecoration(color: Colors.white),
-                          children: [
 
-                            /// s.no
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${products.key + 1}",
-                                ),
-                              ),
-                            ),
-
-                            /// image
-
-                            Center(
-                              child: products.value?.productImage==null ? Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
-                              ):
-                              Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Image.network(products.value?.productImage??"")
-                              ),
-                            ),
-
-                            /// title
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(products.value.productTitle??"",
-                                maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                ),
-                              ),
-                            ),
-
-                            /// price
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${"₹"}${products.value.productSalePrice ?? ""}",
-                                ),
-                              ),
-                            ),
-
-                            /// action
-
-                            Center(
-                              child: IconButton(onPressed: (){
-                                productProvider.selectedProduct=products.value;
-                                Navigator.of(context).pushReplacementNamed(Routes.productDetailsScreen);
-                              },
-                                icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
-                            ),
-                          ]);
                     },
-                  )
+                  ),
                 ],
               ),
-            )
-                : const Center(
-              child: Text('No Products Added'),
             ),
           ],
         ),
@@ -236,15 +143,15 @@ Widget getMobileProductsScreen(BuildContext context) {
   });
 }
 
-Widget getTabProductsScreen(BuildContext context) {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+Widget getTabAddCategoriesScreen(BuildContext context) {
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             const Text(
-              "Products",
+              "Categories",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -255,14 +162,13 @@ Widget getTabProductsScreen(BuildContext context) {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: productProvider.productsList.isNotEmpty
+              child: categoriesProvider.categoriesList.isNotEmpty
                   ? Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
-                  2: FlexColumnWidth(2),
+                  0: FlexColumnWidth(),
+                  1: FlexColumnWidth(),
+                  2: FlexColumnWidth(),
                   3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -310,20 +216,6 @@ Widget getTabProductsScreen(BuildContext context) {
                           ),
                         ),
 
-                        /// price
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Price",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-
                         /// action
 
                         Center(
@@ -338,8 +230,8 @@ Widget getTabProductsScreen(BuildContext context) {
                           ),
                         ),
                       ]),
-                  ...productProvider.productsList.asMap().entries.map(
-                        (products) {
+                  ...categoriesProvider.categoriesList.asMap().entries.map(
+                        (categories) {
                       return TableRow(
                           decoration:
                           const BoxDecoration(color: Colors.white),
@@ -352,7 +244,7 @@ Widget getTabProductsScreen(BuildContext context) {
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
                                 child: Text(
-                                  "${products.key + 1}",
+                                  "${categories.key + 1}",
                                 ),
                               ),
                             ),
@@ -360,13 +252,13 @@ Widget getTabProductsScreen(BuildContext context) {
                             /// image
 
                             Center(
-                              child: products.value?.productImage==null ? Padding(
+                              child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
                                 child: Image.asset("images/ProfileImage.png"),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(products.value?.productImage??"")
+                                  child: Image.network(categories.value?.categoryIcon??"")
                               ),
                             ),
 
@@ -376,7 +268,7 @@ Widget getTabProductsScreen(BuildContext context) {
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     vertical: 20),
-                                child: Text(products.value.productTitle??"",
+                                child: Text(categories.value.categoryName??"",
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: true,
@@ -384,26 +276,25 @@ Widget getTabProductsScreen(BuildContext context) {
                               ),
                             ),
 
-                            /// price
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${"₹"}${products.value.productSalePrice ?? ""}",
-                                ),
-                              ),
-                            ),
-
                             /// action
 
                             Center(
-                              child: IconButton(onPressed: (){
-                                productProvider.selectedProduct=products.value;
-                                Navigator.of(context).pushReplacementNamed(Routes.productDetailsScreen);
-                              },
-                                icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
+                              child: DropdownButton<String>(
+                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
+                                style: const TextStyle(color: kPrimaryColor),
+                                underline: Container(
+                                  height: 0,
+                                ),
+                                onChanged: (String? newValue) {
+                                },
+                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
+                                    .map<DropdownMenuItem<String>>((String value) {
+                                  return DropdownMenuItem<String>(
+                                    value: value,
+                                    child: Text(value),
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ]);
                     },
@@ -411,7 +302,7 @@ Widget getTabProductsScreen(BuildContext context) {
                 ],
               )
                   : const Center(
-                child: Text('No products Added'),
+                child: Text('No category Added'),
               ),
             ),
           ],
@@ -421,9 +312,10 @@ Widget getTabProductsScreen(BuildContext context) {
   });
 }
 
-Widget getDesktopProductsScreen() {
-  return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
+Widget getDesktopAddCategoriesScreen() {
+  return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           SizedBox(
@@ -441,13 +333,15 @@ Widget getDesktopProductsScreen() {
                 const SizedBox(
                   width: 20,
                 ),
-                Expanded(
+                SizedBox(
+                    width: MediaQuery.of(context).size.width / 1.4,
+                    height: MediaQuery.of(context).size.height,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Products",
+                          "Categories",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 23,
@@ -460,13 +354,13 @@ Widget getDesktopProductsScreen() {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            if (productProvider.productsList.isNotEmpty) Table(
+                            categoriesProvider.categoriesList.isNotEmpty
+                                ? Table(
                               columnWidths: const {
-                                0: FlexColumnWidth(1),
-                                1: FlexColumnWidth(1),
-                                2: FlexColumnWidth(2),
+                                0: FlexColumnWidth(),
+                                1: FlexColumnWidth(),
+                                2: FlexColumnWidth(),
                                 3: FlexColumnWidth(),
-                                4: FlexColumnWidth(),
                               },
                               children: [
                                 const TableRow(
@@ -514,19 +408,6 @@ Widget getDesktopProductsScreen() {
                                         ),
                                       ),
 
-                                      /// price
-
-                                      Center(
-                                        child: Padding(
-                                          padding: EdgeInsets.symmetric(vertical: 10),
-                                          child: Text(
-                                            "Price",
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.white),
-                                          ),
-                                        ),
-                                      ),
 
                                       /// action
 
@@ -542,8 +423,8 @@ Widget getDesktopProductsScreen() {
                                         ),
                                       ),
                                     ]),
-                                ...productProvider.productsList.asMap().entries.map(
-                                      (products) {
+                                ...categoriesProvider.categoriesList.asMap().entries.map(
+                                      (categories) {
                                     return TableRow(
                                         decoration:
                                         const BoxDecoration(color: Colors.white),
@@ -556,7 +437,7 @@ Widget getDesktopProductsScreen() {
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 20),
                                               child: Text(
-                                                "${products.key + 1}",
+                                                "${categories.key + 1}",
                                               ),
                                             ),
                                           ),
@@ -564,13 +445,13 @@ Widget getDesktopProductsScreen() {
                                           /// image
 
                                           Center(
-                                            child: products.value?.productImage==null ? Padding(
+                                            child: categories.value?.categoryIcon==null ? Padding(
                                               padding: const EdgeInsets.all(2.0),
                                               child: Image.asset("images/ProfileImage.png"),
                                             ):
                                             Padding(
                                                 padding: const EdgeInsets.all(2.0),
-                                                child: Image.network(products.value?.productImage??"", height: 80,)
+                                                child: Image.network(categories.value?.categoryIcon??"", height: 80,)
                                             ),
                                           ),
 
@@ -580,7 +461,7 @@ Widget getDesktopProductsScreen() {
                                             child: Padding(
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 20),
-                                              child: Text(products.value.productTitle??"",
+                                              child: Text(categories.value.categoryName??"",
                                                 maxLines: 1,
                                                 overflow: TextOverflow.ellipsis,
                                                 softWrap: true,
@@ -588,33 +469,33 @@ Widget getDesktopProductsScreen() {
                                             ),
                                           ),
 
-                                          /// price
-
-                                          Center(
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(
-                                                  vertical: 20),
-                                              child: Text(
-                                                "${"₹"}${products.value.productSalePrice ?? ""}",
-                                              ),
-                                            ),
-                                          ),
 
                                           /// action
 
                                           Center(
-                                            child: IconButton(onPressed: (){
-                                             productProvider.selectedProduct=products.value;
-                                             Navigator.of(context).pushReplacementNamed(Routes.productDetailsScreen);
-
-                                            },
-                                            icon: const Icon(Icons.remove_red_eye_rounded, color: kPrimaryColor,),),
+                                            child: DropdownButton<String>(
+                                              icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
+                                              style: const TextStyle(color: kPrimaryColor),
+                                              underline: Container(
+                                                height: 0,
+                                              ),
+                                              onChanged: (String? newValue) {
+                                              },
+                                              items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
+                                                  .map<DropdownMenuItem<String>>((String value) {
+                                                return DropdownMenuItem<String>(
+                                                  value: value,
+                                                  child: Text(value),
+                                                );
+                                              }).toList(),
+                                            ),
                                           ),
                                         ]);
                                   },
                                 )
                               ],
-                            ) else const Center(
+                            )
+                                :  const Center(
                               child: NoDataView(),
                             ),
                           ],

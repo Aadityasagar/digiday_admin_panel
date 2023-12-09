@@ -17,6 +17,8 @@ class CmProvider extends ChangeNotifier{
   int itemsPerPageLimit=100;
   int totalItems=10;
 
+  UserData? selectedCm;
+
   CmProvider(){
     fetchCmTeamData();
   }
@@ -69,6 +71,12 @@ class CmProvider extends ChangeNotifier{
               lastName: userData['lastName'],
               email: userData['email'],
               phone: userData['phone'],
+              referredBy: userData['referredBy'],
+              referralCode: userData['referralCode'],
+              address: userData['address'],
+              city: userData['city'],
+              pinCode: userData['pinCode'],
+              state: userData['state'],
             );
 
             if(userData?['photo']!=null){
