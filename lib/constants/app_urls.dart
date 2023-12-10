@@ -17,12 +17,13 @@ class ApiUrl {
   static const updateProfilePic = '$route/upload_profile_pic';
   static const getVendorPlans = '$route/get-vendor-plans';
 
-  static const vendorProfilePicsDirectory = '/images/vendor/profile_pics/';
+  static const vendorProfilePicsDirectory = '/images/vendors/profile_pics/';
   static const googleStorageBase = 'gs://digiday-7570a.appspot.com';
   static const profilePicsFolder = '/images/admin/profile_pics';
   static const teamProfilePicsFolder = '/images/team/profile_pics';
   static const offerBannersFolder = '/images/vendors/business/offer_banners';
   static const productPicFolder = '/images/vendors/business/product_pics';
+  static const categoryPicFolder = '/images/categories';
   static const businessPicsFolder = '/images/vendors/business/profile_pics';
 
 

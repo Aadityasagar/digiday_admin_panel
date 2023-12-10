@@ -20,12 +20,12 @@ class ResponsiveWidget extends StatelessWidget {
   ///Breakpoint for tab screen
   static bool isMediumScreen(BuildContext context) {
     return MediaQuery.of(context).size.width >= 520 &&
-        MediaQuery.of(context).size.width <= 700;
+        MediaQuery.of(context).size.width <= 1100;
   }
 
   ///Breakpoint for desktop screen
   static bool isLargeScreen(BuildContext context) {
-    return MediaQuery.of(context).size.width > 700;
+    return MediaQuery.of(context).size.width > 1100;
   }
 
 
@@ -34,9 +34,9 @@ class ResponsiveWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        if (constraints.maxWidth > 700) {
+        if (constraints.maxWidth > 1100) {
           return largeScreen;
-        } else if (constraints.maxWidth <= 700 &&
+        } else if (constraints.maxWidth <= 1100 &&
             constraints.maxWidth >= 520) {
           return mediumScreen ?? largeScreen;
         } else {

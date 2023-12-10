@@ -9,6 +9,7 @@ class FirebaseKeys{
   static const productsCollection = "products";
   static const payoutsCollection = "withdrawalRequests";
   static const usersBankAccountsCollection = "usersBankAccounts";
+  static const categoriesCollection = "categories";
 
 
   // document
