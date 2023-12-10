@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/utils/services/network/api_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 
 class FirebaseService{
   static FirebaseFirestore fireStore=FirebaseFirestore.instance;
@@ -94,19 +95,20 @@ class FirebaseService{
     }
   }
 
-  static Future<String?> uploadImageMethod({required String folder,required String fileToUpload,required  String uniqueFileName}) async{
+  static Future<String?> uploadImageMethod({required String folder,required Uint8List fileToUpload,required  String uniqueFileName}) async{
     try {
       Reference referenceRoot = fireStorage.ref();
       Reference referenceDirImages = referenceRoot.child(folder);
-      Reference referenceImageToUpload = referenceDirImages.child(
-          uniqueFileName);
-      await referenceImageToUpload.putFile(File(fileToUpload));
+      Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
+      await referenceImageToUpload.putData(fileToUpload,SettableMetadata(contentType: "image/jpeg"));
       // String imageUrl = await referenceImageToUpload.getDownloadURL();
       return uniqueFileName;
     } on FirebaseException catch(e){
       rethrow;
     }
   }
+
+
 
   static Future<String?> getLoggedInUserUuId()async {
     try {

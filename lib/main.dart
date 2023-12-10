@@ -5,6 +5,7 @@ import 'package:digiday_admin_panel/provider/cms_provider.dart';
 import 'package:digiday_admin_panel/provider/network_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/home/home_page.dart';
+import 'package:digiday_admin_panel/theme.dart';
 import 'package:digiday_admin_panel/utils/services/network/api_base_helper.dart';
 import 'package:digiday_admin_panel/utils/services/network/connection_controller.dart';
 import 'package:flutter/material.dart';
@@ -55,6 +56,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: "MyApp",
       routes: Routes.routes,
+      theme: theme(),
       home: Consumer<AccountProvider>(
         builder: (_, authProviderRef, __) {
             debugPrint("${authProviderRef.currentUserId}");
