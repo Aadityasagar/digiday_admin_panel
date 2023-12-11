@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/models/Product.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 
 class ProductsProvider extends ChangeNotifier{
   final ProductsRepository _productsRepository= ProductsRepository();
+  final CarouselController carouselController = CarouselController();
 
   bool isLoading=false;
   List<Product> productsList=<Product>[];
@@ -71,16 +73,12 @@ class ProductsProvider extends ChangeNotifier{
               productCategory: data['productCategory'],
               productDescription: data['productDescription'],
               productImage: data['productImage'],
-              productImageGallery: data['productImageGallery'],
               productRegularPrice: data['productSalePrice'],
               productSalePrice: data['productRegularPrice']
 
             );
 
-
-
-
-            if(data?['productImage']!=null){
+            if(data['productImage']!=null){
               productData.productImage = await fetchImageUrl("${ApiUrl.productPicFolder}/${data?['productImage']}");
             }
 
@@ -99,13 +97,6 @@ class ProductsProvider extends ChangeNotifier{
 
   }
 
-  Future<void> fetchCurrentProductDetail(String) async {
-    isLoading = true;
-
-
-
-
-  }
 
 
 

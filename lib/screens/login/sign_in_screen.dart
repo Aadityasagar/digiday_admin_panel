@@ -1,6 +1,7 @@
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/components/default_button.dart';
 import 'package:digiday_admin_panel/constants.dart';
+import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/provider/account_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
@@ -40,6 +41,7 @@ class _LogInScreenState extends State<LogInScreen> {
     return Stack(
       children: [
         Scaffold(
+          backgroundColor:  ColourScheme.backgroundColor,
           extendBody: true,
           body: SingleChildScrollView(
             child: ResponsiveWidget(

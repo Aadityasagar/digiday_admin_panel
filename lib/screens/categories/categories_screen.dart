@@ -68,6 +68,29 @@ Widget getMobileCategoriesScreen(BuildContext context) {
             const SizedBox(
               height: 10,
             ),
+
+            /// add category button
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SizedBox(
+                    width: 200,
+                    child: DefaultButton(
+                      text: 'Add Category +',
+                      press: (){
+                        Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
             categoriesProvider.categoriesList.isNotEmpty
                 ? SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -77,7 +100,6 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                   0: FlexColumnWidth(),
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
-                  3: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -126,19 +148,6 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                           ),
                         ),
 
-                        /// action
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Action",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -164,11 +173,11 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("images/ProfileImage.png", height: 65,),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"")
+                                  child: Image.network(categories.value?.categoryIcon??"", height: 65,)
                               ),
                             ),
 
@@ -186,26 +195,6 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                               ),
                             ),
 
-                            /// action
-
-                            Center(
-                              child: DropdownButton<String>(
-                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                style: const TextStyle(color: kPrimaryColor),
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                onChanged: (String? newValue) {
-                                },
-                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
                           ]);
                     },
                   )
@@ -229,6 +218,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+
             const Text(
               "Categories",
               style: TextStyle(
@@ -236,6 +226,31 @@ Widget getTabCategoriesScreen(BuildContext context) {
                   fontSize: 40,
                   color: Colors.black),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+
+            /// add category button
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SizedBox(
+                    width: 200,
+                    child: DefaultButton(
+                      text: 'Add Category +',
+                      press: (){
+                        Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+
             const SizedBox(
               height: 10,
             ),
@@ -247,7 +262,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
                   0: FlexColumnWidth(),
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
-                  3: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -295,19 +309,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
                           ),
                         ),
 
-                        /// action
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Action",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -333,11 +334,11 @@ Widget getTabCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("images/ProfileImage.png", height: 65,),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"")
+                                  child: Image.network(categories.value?.categoryIcon??"", height: 65,)
                               ),
                             ),
 
@@ -352,27 +353,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
                                   overflow: TextOverflow.ellipsis,
                                   softWrap: true,
                                 ),
-                              ),
-                            ),
-
-                            /// action
-
-                            Center(
-                              child: DropdownButton<String>(
-                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                style: const TextStyle(color: kPrimaryColor),
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                onChanged: (String? newValue) {
-                                },
-                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
                               ),
                             ),
                           ]);
@@ -394,7 +374,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
 Widget getDesktopCategoriesScreen() {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           SizedBox(
@@ -462,7 +441,6 @@ Widget getDesktopCategoriesScreen() {
                                     0: FlexColumnWidth(),
                                     1: FlexColumnWidth(),
                                     2: FlexColumnWidth(),
-                                    3: FlexColumnWidth(),
                                   },
                                   children: [
                                     const TableRow(
@@ -511,19 +489,6 @@ Widget getDesktopCategoriesScreen() {
                                             ),
                                           ),
 
-                                          /// action
-
-                                          Center(
-                                            child: Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 10),
-                                              child: Text(
-                                                "Action",
-                                                style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    color: Colors.white),
-                                              ),
-                                            ),
-                                          ),
                                         ]),
                                     ...categoriesProvider.categoriesList.asMap().entries.map(
                                           (categories) {
@@ -547,21 +512,14 @@ Widget getDesktopCategoriesScreen() {
                                               /// image
 
                                               Center(
-                                                child: categories.value?.categoryIcon==null ||  categories.value?.categoryIcon=="not-found"? Padding(
+                                                child: categories.value?.categoryIcon==null ? Padding(
                                                   padding: const EdgeInsets.all(2.0),
-                                                  child:  CircleAvatar(
-                                                    backgroundColor: ColourScheme.backgroundColor,
-                                                    backgroundImage: AssetImage("images/placeholder-image.png"),
-                                                    radius: 30,
-                                                  ),
+                                                  child: Image.asset("images/ProfileImage.png", height: 65,),
                                                 ):
                                                 Padding(
                                                     padding: const EdgeInsets.all(2.0),
-                                                    child: CircleAvatar(
-                                                      backgroundColor: ColourScheme.backgroundColor,
-                                                      backgroundImage: NetworkImage(categories.value?.categoryIcon ?? ""),
-                                                      radius: 30,
-                                                    )),
+                                                    child: Image.network(categories.value?.categoryIcon??"", height: 65,)
+                                                ),
                                               ),
 
                                               /// title
@@ -578,26 +536,6 @@ Widget getDesktopCategoriesScreen() {
                                                 ),
                                               ),
 
-                                              /// action
-
-                                              Center(
-                                                child: DropdownButton<String>(
-                                                  icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                                  style: const TextStyle(color: kPrimaryColor),
-                                                  underline: Container(
-                                                    height: 0,
-                                                  ),
-                                                  onChanged: (String? newValue) {
-                                                  },
-                                                  items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                                      .map<DropdownMenuItem<String>>((String value) {
-                                                    return DropdownMenuItem<String>(
-                                                      value: value,
-                                                      child: Text(value),
-                                                    );
-                                                  }).toList(),
-                                                ),
-                                              ),
                                             ]);
                                       },
                                     )

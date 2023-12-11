@@ -4,6 +4,7 @@ import 'package:digiday_admin_panel/common_widgets/no_data_view.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
+import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/provider/vendors_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
@@ -27,6 +28,7 @@ class VendorScreen extends StatelessWidget {
       return Stack(
         children: [
           Scaffold(
+            backgroundColor:  ColourScheme.backgroundColor,
             appBar: PreferredSize(
               preferredSize: Size(screenSize.width, 1000),
               child: HeaderWidget(opacity: _opacity),
