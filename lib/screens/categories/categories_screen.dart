@@ -215,6 +215,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
+
             const Text(
               "Categories",
               style: TextStyle(
@@ -369,7 +370,6 @@ Widget getDesktopCategoriesScreen() {
       child: Column(
         children: [
           SizedBox(
-            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
@@ -389,6 +389,9 @@ Widget getDesktopCategoriesScreen() {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(
+                          height: 10,
+                        ),
                         const Text(
                           "Categories",
                           style: TextStyle(
@@ -563,25 +566,31 @@ Widget getDesktopCategoriesScreen() {
                                               /// action
 
                                                Center(
-                                                child: InkWell(child: (categories.value.isFeatured??false) ? const Icon(Icons.star): const Icon(Icons.star_border),
-                                                 onTap: (){
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                  child: InkWell(child: (categories.value.isFeatured??false) ? const Icon(Icons.star): const Icon(Icons.star_border),
+                                                   onTap: (){
 
-                                                  bool isFeatured= categories!.value!.isFeatured??false;
-                                                  if(categories.value!=null) {
-                                                      categoriesProvider.makeCategoryFeatured(categories.value.id!,(isFeatured?false:true));
-                                                  }
+                                                    bool isFeatured= categories!.value!.isFeatured??false;
+                                                    if(categories.value!=null) {
+                                                        categoriesProvider.makeCategoryFeatured(categories.value.id!,(isFeatured?false:true));
+                                                    }
 
-                                                 },
+                                                   },
+                                                  ),
                                                 ),
                                               ),
                                                Center(
-                                                child: MaterialButton(
-                                                  color: ColourScheme.buttonColor,
-                                                  onPressed:(){
-                                                    categoriesProvider.selectCategoryToEdit(categories.value);
-                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
-                                                  },
-                                                  child: Text("Edit"),
+                                                child: Padding(
+                                                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                  child: MaterialButton(
+                                                    color: ColourScheme.buttonColor,
+                                                    onPressed:(){
+                                                      categoriesProvider.selectCategoryToEdit(categories.value);
+                                                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
+                                                    },
+                                                    child: Text("Edit"),
+                                                  ),
                                                 ),
                                               ),
                                             ]);

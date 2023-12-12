@@ -128,7 +128,7 @@ class FirebaseService{
       Reference referenceRoot = fireStorage.ref();
       Reference referenceDirImages = referenceRoot.child(folder);
       Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-      await referenceImageToUpload.putData(fileToUpload,SettableMetadata(contentType: "image/jpeg"));
+      await referenceImageToUpload.putData(fileToUpload,SettableMetadata(contentType: "image/png"));
       // String imageUrl = await referenceImageToUpload.getDownloadURL();
       return uniqueFileName;
     } on FirebaseException catch(e){

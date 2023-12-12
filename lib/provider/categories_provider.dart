@@ -104,6 +104,8 @@ class CategoriesProvider extends ChangeNotifier{
       debugPrint(e.message);
       rethrow;
     }finally {
+      selectedImage!.clear();
+      selectedCategory=null;
       resetTextFields();
       fetchCategoriesData();
     }
