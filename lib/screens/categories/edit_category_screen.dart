@@ -375,7 +375,7 @@ Widget getDesktopAddCategoriesScreen() {
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2.5,
                           child: Form(
-                            key: categoriesProvider.addCategoryFormKey,
+                            key: categoriesProvider.editCategoryFormKey,
                             child: Column(
                               children: [
                                 const SizedBox(height: 15),
