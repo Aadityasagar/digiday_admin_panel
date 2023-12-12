@@ -79,6 +79,7 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
                   3: FlexColumnWidth(),
+                  4: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -126,20 +127,34 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                             ),
                           ),
                         ),
-
-                        /// action
+                        /// Featured
 
                         Center(
                           child: Padding(
                             padding: EdgeInsets.symmetric(vertical: 10),
                             child: Text(
-                              "Is Featured",
+                              "Featured",
                               style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white),
                             ),
                           ),
                         ),
+
+                        /// actions
+
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Action",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -165,11 +180,11 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("images/ProfileImage.png", height: 65,),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"")
+                                  child: Image.network(categories.value?.categoryIcon??"", height: 65, )
                               ),
                             ),
 
@@ -187,10 +202,38 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                               ),
                             ),
 
-                            /// action
+                            /// featured
 
-                            const Center(
-                              child: Icon(Icons.star_border),
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                child: InkWell(child: (categories.value.isFeatured??false) ? const Icon(Icons.star): const Icon(Icons.star_border),
+                                  onTap: (){
+
+                                    bool isFeatured= categories!.value!.isFeatured??false;
+                                    if(categories.value!=null) {
+                                      categoriesProvider.makeCategoryFeatured(categories.value.id!,(isFeatured?false:true));
+                                    }
+
+                                  },
+                                ),
+                              ),
+                            ),
+
+                            /// actions
+
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                child: MaterialButton(
+                                  color: ColourScheme.buttonColor,
+                                  onPressed:(){
+                                    categoriesProvider.selectCategoryToEdit(categories.value);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
+                                  },
+                                  child: const Text("Edit"),
+                                ),
+                              ),
                             ),
                           ]);
                     },
@@ -235,6 +278,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
                   3: FlexColumnWidth(),
+                  4: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -281,8 +325,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
                             ),
                           ),
                         ),
-
-                        /// action
+                        /// Featured
 
                         Center(
                           child: Padding(
@@ -295,6 +338,21 @@ Widget getTabCategoriesScreen(BuildContext context) {
                             ),
                           ),
                         ),
+
+                        /// actions
+
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Action",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -320,11 +378,11 @@ Widget getTabCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("images/ProfileImage.png", height: 65,),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"")
+                                  child: Image.network(categories.value?.categoryIcon??"", height: 65, )
                               ),
                             ),
 
@@ -341,11 +399,38 @@ Widget getTabCategoriesScreen(BuildContext context) {
                                 ),
                               ),
                             ),
+                            /// featured
 
-                            /// action
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                child: InkWell(child: (categories.value.isFeatured??false) ? const Icon(Icons.star): const Icon(Icons.star_border),
+                                  onTap: (){
 
-                            const Center(
-                              child: Icon(Icons.star_border),
+                                    bool isFeatured= categories!.value!.isFeatured??false;
+                                    if(categories.value!=null) {
+                                      categoriesProvider.makeCategoryFeatured(categories.value.id!,(isFeatured?false:true));
+                                    }
+
+                                  },
+                                ),
+                              ),
+                            ),
+
+                            /// actions
+
+                            Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                child: MaterialButton(
+                                  color: ColourScheme.buttonColor,
+                                  onPressed:(){
+                                    categoriesProvider.selectCategoryToEdit(categories.value);
+                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
+                                  },
+                                  child: const Text("Edit"),
+                                ),
+                              ),
                             ),
                           ]);
                     },
@@ -485,7 +570,7 @@ Widget getDesktopCategoriesScreen() {
                                             ),
                                           ),
 
-                                          /// action
+                                          /// Featured
 
                                           Center(
                                             child: Padding(
@@ -498,6 +583,9 @@ Widget getDesktopCategoriesScreen() {
                                               ),
                                             ),
                                           ),
+
+                                          /// actions
+
                                           Center(
                                             child: Padding(
                                               padding: EdgeInsets.symmetric(vertical: 10),
@@ -532,21 +620,14 @@ Widget getDesktopCategoriesScreen() {
                                               /// image
 
                                               Center(
-                                                child: categories.value?.categoryIcon==null ||  categories.value?.categoryIcon=="not-found"? Padding(
+                                                child: categories.value?.categoryIcon==null ? Padding(
                                                   padding: const EdgeInsets.all(2.0),
-                                                  child:  CircleAvatar(
-                                                    backgroundColor: ColourScheme.backgroundColor,
-                                                    backgroundImage: AssetImage("images/placeholder-image.png"),
-                                                    radius: 30,
-                                                  ),
+                                                  child: Image.asset("images/ProfileImage.png", height: 65,),
                                                 ):
                                                 Padding(
                                                     padding: const EdgeInsets.all(2.0),
-                                                    child: CircleAvatar(
-                                                      backgroundColor: ColourScheme.backgroundColor,
-                                                      backgroundImage: NetworkImage(categories.value?.categoryIcon ?? ""),
-                                                      radius: 30,
-                                                    )),
+                                                    child: Image.network(categories.value?.categoryIcon??"", height: 65, )
+                                                ),
                                               ),
 
                                               /// title
@@ -563,7 +644,7 @@ Widget getDesktopCategoriesScreen() {
                                                 ),
                                               ),
 
-                                              /// action
+                                              /// featured
 
                                                Center(
                                                 child: Padding(
@@ -580,6 +661,9 @@ Widget getDesktopCategoriesScreen() {
                                                   ),
                                                 ),
                                               ),
+
+                                               /// actions
+
                                                Center(
                                                 child: Padding(
                                                   padding: const EdgeInsets.symmetric(vertical: 15.0),
@@ -589,7 +673,7 @@ Widget getDesktopCategoriesScreen() {
                                                       categoriesProvider.selectCategoryToEdit(categories.value);
                                                       Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
                                                     },
-                                                    child: Text("Edit"),
+                                                    child: const Text("Edit"),
                                                   ),
                                                 ),
                                               ),
