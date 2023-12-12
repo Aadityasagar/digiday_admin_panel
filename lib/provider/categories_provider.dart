@@ -12,6 +12,7 @@ class CategoriesProvider extends ChangeNotifier{
   final CategoriesRepository _categoriesRepository= CategoriesRepository();
   TextEditingController categoryTitle=TextEditingController();
   final addCategoryFormKey = GlobalKey<FormState>();
+  final editCategoryFormKey = GlobalKey<FormState>();
   Uint8List? selectedImage;
 
   void resetTextFields(){
@@ -29,6 +30,14 @@ class CategoriesProvider extends ChangeNotifier{
   int totalItems=10;
 
   final ImagePicker imagePicker = ImagePicker();
+
+  CategoryModel? selectedCategory;
+
+
+  void selectCategoryToEdit(CategoryModel categoryToEdit){
+    selectedCategory=categoryToEdit;
+    categoryTitle.text=categoryToEdit.categoryName??"";
+  }
 
   void selectImages() async{
     //final XFile? image = await imagePicker.pickImage(source: ImageSource.gallery);
@@ -68,11 +77,76 @@ class CategoriesProvider extends ChangeNotifier{
     }
   }
 
+  Future<bool> editCategory() async{
+    bool response=false;
+    isLoading=true;
+    notifyListeners();
+    try{
+      String? imageResp;
+
+      if(selectedImage!=null){
+        imageResp=await _categoriesRepository.categoryPicUpload(selectedImage!);
+      }
+
+
+
+      Map<String,dynamic> _categories = imageResp!=null ? {
+        'categoryName': categoryTitle.text,
+        'categoryIcon': imageResp
+      }: {
+        'categoryName': categoryTitle.text
+      };
+
+      response=await _categoriesRepository.editCategory(_categories,selectedCategory!.id!)??false;
+      return response;
+
+    }on FirebaseException catch(e){
+      debugPrint(e.message);
+      rethrow;
+    }finally {
+      resetTextFields();
+      fetchCategoriesData();
+    }
+  }
+
+  Future<bool> makeCategoryFeatured(String categoryId,bool value) async{
+    bool response=false;
+    isLoading=true;
+    notifyListeners();
+    try{
+
+      Map<String,dynamic> _categorieData = {
+        'isFeatured': value
+      };
+
+      response=await _categoriesRepository.makeCategoryFeatured(_categorieData,categoryId)??false;
+      return response;
+
+    }on FirebaseException catch(e){
+      debugPrint(e.message);
+      rethrow;
+    }finally {
+      fetchCategoriesData();
+    }
+  }
+
  Future<bool> validateAndSubmit()async{
     bool result=false;
     if (addCategoryFormKey.currentState!.validate()) {
     try {
       result= await addCategory();
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
+    }
+    return result;
+  }
+ Future<bool> validateAndEdit()async{
+    bool result=false;
+    if (editCategoryFormKey.currentState!.validate()) {
+    try {
+      result= await editCategory();
     } catch (e) {
       print(e);
       rethrow;
@@ -88,21 +162,27 @@ class CategoriesProvider extends ChangeNotifier{
   }
 
   Future<void> fetchCategoriesData() async {
+    categoriesList.clear();
     isLoading = true;
+
+    notifyListeners();
+
     try {
       QuerySnapshot? response = await _categoriesRepository.fetchCategoriesData(
           limitPerPage: itemsPerPageLimit,
           lastDocument: lastDocument
       );
+
       if (response!= null) {
         processCategoriesData(response);
-      }
-      else {
+      } else {
+
       }
     } on FirebaseException catch (e) {
       debugPrint(e.message);
     } finally {
       isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -128,7 +208,6 @@ class CategoriesProvider extends ChangeNotifier{
   }
 
   void processCategoriesData(QuerySnapshot snapshot)async{
-
     try{
       if (snapshot != null) {
         for (var element in snapshot.docs) {
@@ -143,6 +222,7 @@ class CategoriesProvider extends ChangeNotifier{
             );
 
             if(data?['categoryIcon']!=null){
+              categoryData.id=element.id;
               categoryData.categoryIcon = await fetchImageUrl("${ApiUrl.categoryPicFolder}/${data?['categoryIcon']}");
             }
 
@@ -150,7 +230,7 @@ class CategoriesProvider extends ChangeNotifier{
           }
         }
 
-        lastDocument=snapshot.docs.last;
+        //lastDocument=snapshot.docs.last;
       }
     }on Exception catch(e){
       debugPrint(e.toString());

@@ -111,7 +111,9 @@ class _LogInScreenState extends State<LogInScreen> {
                         const SizedBox(height: 20),
                         DefaultButton(
                           text: "Login",
-                          press: ()=>onSubmit(),
+                          press: () async{
+                            await onSubmit(context);
+                          },
                         ),
                       ],
                     ),
@@ -181,7 +183,9 @@ class _LogInScreenState extends State<LogInScreen> {
                         const SizedBox(height: 20),
                         DefaultButton(
                           text: "Login",
-                          press: ()=>onSubmit(),
+                          press: () async{
+                            await onSubmit(context);
+                          },
                         ),
                       ],
                     ),
@@ -241,14 +245,12 @@ class _LogInScreenState extends State<LogInScreen> {
                                 onTap: () {
 
                                 },
-                                child: const Expanded(
-                                  child:  Text(
-                                    "Forgot Password",
-                                    style: TextStyle(
-                                        decoration: TextDecoration.underline),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
+                                child: Text(
+                                  "Forgot Password",
+                                  style: TextStyle(
+                                      decoration: TextDecoration.underline),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
                                 ),
                               )
                             ],
@@ -258,7 +260,9 @@ class _LogInScreenState extends State<LogInScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 50.0),
                             child: DefaultButton(
                               text: "Login",
-                              press: ()=>onSubmit(),
+                              press: () async{
+                                await onSubmit(context);
+                              },
                             ),
                           ),
                         ],
@@ -322,31 +326,15 @@ class _LogInScreenState extends State<LogInScreen> {
   }
 
 
-  Future<void> onSubmit()async{
+  Future<void> onSubmit(BuildContext widgetContext) async{
     final authProvider = Provider.of<AccountProvider>(context,listen: false);
     if (emailLoginForm.currentState!.validate()) {
-      FocusScope.of(context).unfocus(); //to hide the keyboard - if any
-
+      FocusScope.of(widgetContext).unfocus(); //to hide the keyboard - if any
       bool status = await authProvider.signInWithEmailAndPassword(
           email.text,
           passwordController.text);
-
-      if (!status) {
-        final snackBar = SnackBar(
-          content: Text('Error while login!'),
-          duration: Duration(seconds: 3), // Optional duration
-          action: SnackBarAction(
-            label: 'Close',
-            onPressed: () {
-              // Perform some action when the action button is pressed
-            },
-          ),
-        );
-
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-      } else {
-        Navigator.of(context).pushReplacementNamed(Routes.home);
-      }
+      if (!mounted) return;
+      Navigator.of(widgetContext).pushReplacementNamed(Routes.home);
     }
   }
 }
