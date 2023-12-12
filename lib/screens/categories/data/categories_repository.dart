@@ -31,6 +31,27 @@ class CategoriesRepository{
     }
   }
 
+  Future<bool?> editCategory(Map<String,dynamic> data,String categoryId)async{
+    try{
+      bool? result = await FirebaseService.updateDocById(data,categoryId,FirebaseKeys.categoriesCollection);
+      return result;
+    }
+    on FirebaseAuthException catch (e) {
+      rethrow;
+    }
+  }
+
+
+  Future<bool?> makeCategoryFeatured(Map<String,dynamic> data,String categoryId)async{
+    try{
+      bool? result = await FirebaseService.updateDocById(data,categoryId,FirebaseKeys.categoriesCollection);
+      return result;
+    }
+    on FirebaseAuthException catch (e) {
+      rethrow;
+    }
+  }
+
   Future<QuerySnapshot?> fetchCategoriesData({int? page,int? limitPerPage,DocumentSnapshot? lastDocument}) async {
     try {
       late QuerySnapshot? snapshot;

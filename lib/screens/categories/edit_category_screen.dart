@@ -3,6 +3,7 @@ import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
+import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/provider/categories_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
@@ -12,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../components/default_button.dart';
 
-class AddCategoryScreen extends StatelessWidget {
-  AddCategoryScreen({super.key});
+class EditCategoryScreen extends StatelessWidget {
+  EditCategoryScreen({super.key});
 
   double _opacity = 0;
   final double _scrollPosition = 0;
@@ -103,7 +104,8 @@ Widget getMobileAddCategoriesScreen(BuildContext context) {
                       child: Padding(
                         padding:  const EdgeInsets.all(8.0),
                         child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
-                      )):const SizedBox(),
+                      )
+                  ):const SizedBox(),
 
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
@@ -118,15 +120,15 @@ Widget getMobileAddCategoriesScreen(BuildContext context) {
                   DefaultButton(
                     text: "Add Category",
                     press: () async{
-                 try {
-                   bool result =  await  categoriesProvider.validateAndSubmit();
+                      try {
+                        bool result =  await  categoriesProvider.validateAndSubmit();
 
-                   if (result){
-                     Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
-                                    else{print("something went wrong");}
-                 } catch (e) {
-                   print(e);
-                 }
+                        if (result){
+                          Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
+                        else{print("something went wrong");}
+                      } catch (e) {
+                        print(e);
+                      }
 
 
                     },
@@ -149,7 +151,7 @@ Widget getTabAddCategoriesScreen(BuildContext context) {
         child: Column(
           children: [
             const Text(
-              "Categories",
+              "Edit Category",
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 40,
@@ -316,7 +318,7 @@ Widget getTabAddCategoriesScreen(BuildContext context) {
 Widget getDesktopAddCategoriesScreen() {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
 
-   // categoriesProvider.categoryTitle
+    // categoriesProvider.categoryTitle
     TextFormField buildCategoryNameFormField() {
       return TextFormField(
         controller: categoriesProvider.categoryTitle,
@@ -363,7 +365,7 @@ Widget getDesktopAddCategoriesScreen() {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          "Add Category",
+                          "Edit Category",
                           style: TextStyle(
                               fontWeight: FontWeight.normal,
                               fontSize: 23,
@@ -380,39 +382,42 @@ Widget getDesktopAddCategoriesScreen() {
                                 buildCategoryNameFormField(),
                                 const SizedBox(height: 15),
 
-                                categoriesProvider.selectedImage!=null ?
 
-                                Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
-                                    color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
-                                    height: 200, width: 350,
-                                    child: Padding(
-                                      padding:  const EdgeInsets.all(8.0),
-                                      child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
-                                    )
-                                ):InkWell(
-                                  onTap: (){
-                                    categoriesProvider.selectImages();
-                                  },
-                                  child: DottedBorder(
-                                    borderType: BorderType.RRect,
-                                    radius: Radius.circular(12),
-                                    padding: EdgeInsets.all(6),
-                                    child: SizedBox(
-                                      width: 350,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                                        child: Stack(
-                                          children: [
-                                            Image.asset("assets/images/placeholder-image.png"),
-                                            const Positioned(
-                                                bottom: 5,
-                                                left: 75,
-                                                child: Text("Tap to select an image!"))
-                                          ],
-                                        ),
-                                      ),
+
+                                Stack(
+                                  children: [
+                                    (categoriesProvider.selectedImage==null) ?
+                                    Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                                        height: 200, width: 350,
+                                        child: Padding(
+                                          padding:  const EdgeInsets.all(8.0),
+                                          child: Image.network(categoriesProvider.selectedCategory!.categoryIcon!, fit: BoxFit.contain,),
+                                        )
+                                    ):
+                                    Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                                        color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                                        height: 200, width: 350,
+                                        child: Padding(
+                                          padding:  const EdgeInsets.all(8.0),
+                                          child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
+                                        )),
+
+
+                                    Positioned(
+                                      top: 5,
+                                        right: 5,
+                                        child: InkWell(
+                                          onTap: (){
+                                            categoriesProvider.selectImages();
+                                          },
+                                          child: const CircleAvatar(
+                                      radius: 20,
+                                      backgroundColor: kPrimaryColor,
+                                      child: Icon(Icons.edit,color: Colors.white,),
                                     ),
-                                  ),
+                                        ))
+                                  ],
                                 ),
                                 const SizedBox(height: 35),
                                 SizedBox(
@@ -421,10 +426,12 @@ Widget getDesktopAddCategoriesScreen() {
                                     text: "Save",
                                     press: () async{
                                       try {
-                                        bool result =  await  categoriesProvider.validateAndSubmit();
+                                        bool result =  await categoriesProvider.validateAndEdit();
                                         if (result){
                                           Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
-                                        else{print("something went wrong");}
+                                        else{
+                                          print("something went wrong");
+                                        }
                                       } catch (e) {
                                         print(e);
                                       }

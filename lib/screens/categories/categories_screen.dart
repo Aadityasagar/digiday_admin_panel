@@ -8,6 +8,7 @@ import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/provider/categories_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
+import 'package:digiday_admin_panel/screens/categories/edit_category_screen.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -68,29 +69,6 @@ Widget getMobileCategoriesScreen(BuildContext context) {
             const SizedBox(
               height: 10,
             ),
-
-            /// add category button
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SizedBox(
-                    width: 200,
-                    child: DefaultButton(
-                      text: 'Add Category +',
-                      press: (){
-                        Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
             categoriesProvider.categoriesList.isNotEmpty
                 ? SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -100,6 +78,7 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                   0: FlexColumnWidth(),
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
+                  3: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -148,6 +127,19 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                           ),
                         ),
 
+                        /// action
+
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Is Featured",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -173,11 +165,11 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png", height: 65,),
+                                child: Image.asset("images/ProfileImage.png"),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"", height: 65,)
+                                  child: Image.network(categories.value?.categoryIcon??"")
                               ),
                             ),
 
@@ -195,6 +187,11 @@ Widget getMobileCategoriesScreen(BuildContext context) {
                               ),
                             ),
 
+                            /// action
+
+                            const Center(
+                              child: Icon(Icons.star_border),
+                            ),
                           ]);
                     },
                   )
@@ -218,7 +215,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-
             const Text(
               "Categories",
               style: TextStyle(
@@ -226,31 +222,6 @@ Widget getTabCategoriesScreen(BuildContext context) {
                   fontSize: 40,
                   color: Colors.black),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-
-            /// add category button
-
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: SizedBox(
-                    width: 200,
-                    child: DefaultButton(
-                      text: 'Add Category +',
-                      press: (){
-                        Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-
             const SizedBox(
               height: 10,
             ),
@@ -262,6 +233,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
                   0: FlexColumnWidth(),
                   1: FlexColumnWidth(),
                   2: FlexColumnWidth(),
+                  3: FlexColumnWidth(),
                 },
                 children: [
                   const TableRow(
@@ -309,6 +281,19 @@ Widget getTabCategoriesScreen(BuildContext context) {
                           ),
                         ),
 
+                        /// action
+
+                        Center(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            child: Text(
+                              "Featured",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
                       ]),
                   ...categoriesProvider.categoriesList.asMap().entries.map(
                         (categories) {
@@ -334,11 +319,11 @@ Widget getTabCategoriesScreen(BuildContext context) {
                             Center(
                               child: categories.value?.categoryIcon==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png", height: 65,),
+                                child: Image.asset("images/ProfileImage.png"),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"", height: 65,)
+                                  child: Image.network(categories.value?.categoryIcon??"")
                               ),
                             ),
 
@@ -354,6 +339,12 @@ Widget getTabCategoriesScreen(BuildContext context) {
                                   softWrap: true,
                                 ),
                               ),
+                            ),
+
+                            /// action
+
+                            const Center(
+                              child: Icon(Icons.star_border),
                             ),
                           ]);
                     },
@@ -374,6 +365,7 @@ Widget getTabCategoriesScreen(BuildContext context) {
 Widget getDesktopCategoriesScreen() {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
     return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
       child: Column(
         children: [
           SizedBox(
@@ -393,7 +385,6 @@ Widget getDesktopCategoriesScreen() {
                 ),
                 SizedBox(
                     width: MediaQuery.of(context).size.width / 1.4,
-                    height: MediaQuery.of(context).size.height-100,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,7 +412,7 @@ Widget getDesktopCategoriesScreen() {
                                     child: SizedBox(
                                       width: 200,
                                       child: DefaultButton(
-                                        text: 'Add Category +',
+                                        text: 'Add Category',
                                         press: (){
                                           Navigator.of(context).pushReplacementNamed(Routes.addCategoryScreen);
                                         },
@@ -441,6 +432,8 @@ Widget getDesktopCategoriesScreen() {
                                     0: FlexColumnWidth(),
                                     1: FlexColumnWidth(),
                                     2: FlexColumnWidth(),
+                                    3: FlexColumnWidth(),
+                                    4: FlexColumnWidth(),
                                   },
                                   children: [
                                     const TableRow(
@@ -489,6 +482,30 @@ Widget getDesktopCategoriesScreen() {
                                             ),
                                           ),
 
+                                          /// action
+
+                                          Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                              child: Text(
+                                                "Featured",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
+                                          Center(
+                                            child: Padding(
+                                              padding: EdgeInsets.symmetric(vertical: 10),
+                                              child: Text(
+                                                "Action",
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white),
+                                              ),
+                                            ),
+                                          ),
                                         ]),
                                     ...categoriesProvider.categoriesList.asMap().entries.map(
                                           (categories) {
@@ -512,14 +529,21 @@ Widget getDesktopCategoriesScreen() {
                                               /// image
 
                                               Center(
-                                                child: categories.value?.categoryIcon==null ? Padding(
+                                                child: categories.value?.categoryIcon==null ||  categories.value?.categoryIcon=="not-found"? Padding(
                                                   padding: const EdgeInsets.all(2.0),
-                                                  child: Image.asset("images/ProfileImage.png", height: 65,),
+                                                  child:  CircleAvatar(
+                                                    backgroundColor: ColourScheme.backgroundColor,
+                                                    backgroundImage: AssetImage("images/placeholder-image.png"),
+                                                    radius: 30,
+                                                  ),
                                                 ):
                                                 Padding(
                                                     padding: const EdgeInsets.all(2.0),
-                                                    child: Image.network(categories.value?.categoryIcon??"", height: 65,)
-                                                ),
+                                                    child: CircleAvatar(
+                                                      backgroundColor: ColourScheme.backgroundColor,
+                                                      backgroundImage: NetworkImage(categories.value?.categoryIcon ?? ""),
+                                                      radius: 30,
+                                                    )),
                                               ),
 
                                               /// title
@@ -536,6 +560,30 @@ Widget getDesktopCategoriesScreen() {
                                                 ),
                                               ),
 
+                                              /// action
+
+                                               Center(
+                                                child: InkWell(child: (categories.value.isFeatured??false) ? const Icon(Icons.star): const Icon(Icons.star_border),
+                                                 onTap: (){
+
+                                                  bool isFeatured= categories!.value!.isFeatured??false;
+                                                  if(categories.value!=null) {
+                                                      categoriesProvider.makeCategoryFeatured(categories.value.id!,(isFeatured?false:true));
+                                                  }
+
+                                                 },
+                                                ),
+                                              ),
+                                               Center(
+                                                child: MaterialButton(
+                                                  color: ColourScheme.buttonColor,
+                                                  onPressed:(){
+                                                    categoriesProvider.selectCategoryToEdit(categories.value);
+                                                    Navigator.of(context).push(MaterialPageRoute(builder: (context)=> EditCategoryScreen()));
+                                                  },
+                                                  child: Text("Edit"),
+                                                ),
+                                              ),
                                             ]);
                                       },
                                     )
