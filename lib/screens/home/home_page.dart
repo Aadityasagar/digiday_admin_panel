@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
           icon: CupertinoIcons.person_alt,
           count: 0.toString(),
           press: () {
-            Navigator.of(context).pushReplacementNamed(Routes.vendorScreen);
+            Navigator.of(context).pushNamed(Routes.vendorScreen);
           },
           color: const Color(0xfffbbd05)),
       HomeActions(
@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
           icon: CupertinoIcons.person_3_fill,
           count: 0.toString(),
           press: () {
-            Navigator.of(context).pushReplacementNamed(Routes.cmScreen);
+            Navigator.of(context).pushNamed(Routes.cmScreen);
           },
           color: const Color(0xff4387f5)),
       HomeActions(
@@ -50,7 +50,7 @@ class HomePage extends StatelessWidget {
           icon: Icons.local_mall,
           count: 0.toString(),
           press: () {
-            Navigator.of(context).pushReplacementNamed(Routes.productsScreen);
+            Navigator.of(context).pushNamed(Routes.productsScreen);
           },
           color: const Color(0xff34a952))
     ];
