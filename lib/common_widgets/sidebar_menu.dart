@@ -52,6 +52,13 @@ class SideBarMenu extends StatelessWidget {
                 },
               ),
               ProfileMenu(
+                text: "Subscriptions",
+                icon: Icons.monetization_on_sharp,
+                press: () {
+                  Navigator.of(context).pushReplacementNamed(Routes.subscribersScreen);
+                },
+              ),
+              ProfileMenu(
                 text: "Settings",
                 icon: Icons.settings,
                 press: () {},

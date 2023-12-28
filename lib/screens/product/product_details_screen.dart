@@ -68,7 +68,7 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
                   child: productProvider.selectedProduct?.productImage==null ?
-                  Image.asset("images/ProfileImage.png", height: 300, width: 300,):
+                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                 ),
               ),
@@ -211,7 +211,7 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
                   child: productProvider.selectedProduct?.productImage==null ?
-                  Image.asset("images/ProfileImage.png", height: 300, width: 300,):
+                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                 ),
               ),
@@ -367,7 +367,7 @@ Widget getDesktopProductsDetailsScreen() {
                             padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                             child: Center(
                               child: productProvider.selectedProduct?.productImage==null ?
-                              Image.asset("images/ProfileImage.png", height: 400, width: 400,):
+                              Image.asset("assets/images/ProfileImage.png", height: 400, width: 400,):
                               Image.network(productProvider.selectedProduct?.productImage??"", height: 400, width: 400,),
                             ),
                           ),

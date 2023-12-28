@@ -75,6 +75,35 @@ class FirebaseService{
     }
   }
 
+  static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsByWhereAndWhereClause({required String filterKey,required String filterValue,
+    required String filterKeySecond,
+    required bool filterValueSecond,required String collection, int? limitCount, DocumentSnapshot? lastDocument})async{
+
+
+    try {
+      late QuerySnapshot<Map<String, dynamic>> result;
+      if(limitCount!=null){
+
+        if(lastDocument!=null){
+          result = await fireStore.collection(
+              collection).where(filterKey, isEqualTo: filterValue).where(filterKeySecond, isEqualTo: filterValueSecond).limit(limitCount).startAfterDocument(lastDocument).get();
+        }
+        else{
+          result = await fireStore.collection(
+              collection).where(filterKey, isEqualTo: filterValue).where(filterKeySecond, isEqualTo: filterValueSecond).limit(limitCount).get();
+        }
+      }
+      else{
+        result = await fireStore.collection(
+            collection).where(filterKey, isEqualTo: filterValue).where(filterKeySecond, isEqualTo: filterValueSecond).get();
+      }
+
+      return result;
+    } on FirebaseException catch(e){
+      rethrow;
+    }
+  }
+
 
   static Future<QuerySnapshot<Map<String, dynamic>>?> fetchDocsWithPagination({required String collection, required int? limitCount, required DocumentSnapshot? lastDocument})async{
     try {

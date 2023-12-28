@@ -2,7 +2,6 @@ import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/provider/account_provider.dart';
 import 'package:digiday_admin_panel/routes.dart';
-import 'package:digiday_admin_panel/screens/common/common_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,7 +9,7 @@ import 'package:provider/provider.dart';
 class HeaderWidget extends StatefulWidget {
   final double opacity;
 
-  HeaderWidget({Key? key, required this.opacity}) : super(key: key);
+  const HeaderWidget({Key? key, required this.opacity}) : super(key: key);
 
   @override
   State<HeaderWidget> createState() => _HeaderWidgetState();
@@ -42,7 +41,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                   Scaffold.of(context).openDrawer();
                 },
                 child: Image.asset(
-                  "images/logo-rec.png",
+                  "assets/images/logo-rec.png",
                   height: 60,
                 )),
             Row(
@@ -50,17 +49,17 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 accountProvider.getCurrentUser?.photo == null
                     ? InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, Routes.account);
+                          Navigator.pushNamed(context, Routes.profileScreen);
                         },
                         child: const CircleAvatar(
                           backgroundImage:
-                              AssetImage("images/ProfileImage.png"),
+                              AssetImage("assets/images/ProfileImage.png"),
                         ),
                       )
                     : accountProvider.profilePicUrl != ""
                         ? InkWell(
                             onTap: () {
-                              Navigator.pushNamed(context, Routes.account);
+                              Navigator.pushNamed(context, Routes.profileScreen);
                             },
                             child: CircleAvatar(
                               backgroundImage:
@@ -109,7 +108,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                   Scaffold.of(context).openDrawer();
                 },
                   child: Image.asset(
-                    "images/logo-rec.png",
+                    "assets/images/logo-rec.png",
                     height: 60,
                   ),
                 ),
@@ -120,17 +119,17 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 accountProvider.getCurrentUser?.photo == null
                     ? InkWell(
                         onTap: () {
-                          Scaffold.of(context).openDrawer();
+                          Navigator.pushNamed(context, Routes.profileScreen);
                         },
                         child: const CircleAvatar(
                           backgroundImage:
-                              AssetImage("images/ProfileImage.png"),
+                              AssetImage("assets/images/ProfileImage.png"),
                         ),
                       )
                     : accountProvider.profilePicUrl != ""
                         ? InkWell(
                             onTap: () {
-                              Scaffold.of(context).openDrawer();
+                              Navigator.pushNamed(context, Routes.profileScreen);
                             },
                             child: CircleAvatar(
                               backgroundImage:
@@ -183,7 +182,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
             Row(
               children: [
                 Image.asset(
-                  "images/logo-rec.png",
+                  "assets/images/logo-rec.png",
                   height: 60,
                 ),
               ],
@@ -193,17 +192,17 @@ class _HeaderWidgetState extends State<HeaderWidget> {
                 accountProvider.getCurrentUser?.photo == null
                     ? InkWell(
                         onTap: () {
-                          Scaffold.of(context).openDrawer();
+                          Navigator.pushNamed(context, Routes.profileScreen);
                         },
                         child: const CircleAvatar(
                           backgroundImage:
-                              AssetImage("images/ProfileImage.png"),
+                              AssetImage("assets/images/ProfileImage.png"),
                         ),
                       )
                     : accountProvider.profilePicUrl != ""
                         ? InkWell(
                             onTap: () {
-                              Scaffold.of(context).openDrawer();
+                              Navigator.pushNamed(context, Routes.profileScreen);
                             },
                             child: CircleAvatar(
                               backgroundImage:

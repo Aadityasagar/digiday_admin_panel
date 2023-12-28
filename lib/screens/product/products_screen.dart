@@ -74,30 +74,15 @@ Widget getMobileProductsScreen(BuildContext context) {
               child:
               Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(1),
+                  0: FlexColumnWidth(),
+                  1: FlexColumnWidth(2),
                   2: FlexColumnWidth(2),
-                  3: FlexColumnWidth(),
-                  4: FlexColumnWidth(),
+                  3: FlexColumnWidth(1),
                 },
                 children: [
                   const TableRow(
                       decoration: BoxDecoration(color: kPrimaryColor),
                       children: [
-
-                        /// s.no
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "S.No",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
 
                         /// image
 
@@ -162,28 +147,16 @@ Widget getMobileProductsScreen(BuildContext context) {
                           const BoxDecoration(color: Colors.white),
                           children: [
 
-                            /// s.no
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${products.key + 1}",
-                                ),
-                              ),
-                            ),
-
                             /// image
 
                             Center(
                               child: products.value?.productImage==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("assets/images/ProfileImage.png", height: 60,),
                               ):
                               Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.network(products.value?.productImage??"")
+                                child: Image.network(products.value?.productImage??"", height: 60,)
                               ),
                             ),
 
@@ -364,7 +337,7 @@ Widget getTabProductsScreen(BuildContext context) {
                             Center(
                               child: products.value?.productImage==null ? Padding(
                                 padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
+                                child: Image.asset("assets/images/ProfileImage.png"),
                               ):
                               Padding(
                                   padding: const EdgeInsets.all(2.0),
@@ -568,7 +541,7 @@ Widget getDesktopProductsScreen() {
                                           Center(
                                             child: products.value?.productImage==null ? Padding(
                                               padding: const EdgeInsets.all(2.0),
-                                              child: Image.asset("images/ProfileImage.png"),
+                                              child: Image.asset("assets/images/ProfileImage.png"),
                                             ):
                                             Padding(
                                                 padding: const EdgeInsets.all(2.0),
