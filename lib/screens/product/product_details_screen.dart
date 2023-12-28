@@ -5,14 +5,11 @@ import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/models/Product.dart';
 import 'package:digiday_admin_panel/provider/products_provider.dart';
-import 'package:digiday_admin_panel/screens/common/common_functions.dart';
-import 'package:digiday_admin_panel/screens/common/widgets/alerts-and-popups/single_button_popup.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
 import 'package:digiday_admin_panel/screens/product/products_screen.dart';
 import 'package:digiday_admin_panel/screens/product/widgets/pupUp_rejection_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 
@@ -21,7 +18,7 @@ class ProductDetailsScreen extends StatelessWidget {
 
 
   ProductDetailsScreen({super.key,
-  required this.selectedProduct
+    required this.selectedProduct
   });
 
   double _opacity = 0;
@@ -76,9 +73,6 @@ Widget getMobileProductsDetailsScreen(BuildContext context, Product selectedProd
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
-                  child: productProvider.selectedProduct?.productImage==null ?
-                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
-                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                   child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
@@ -283,9 +277,6 @@ Widget getTabProductsDetailsScreen(BuildContext context, Product selectedProduct
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
-                  child: productProvider.selectedProduct?.productImage==null ?
-                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
-                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                   child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
@@ -494,99 +485,89 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                     children: [
                       /// image container
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Container(height: 350,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                            child: Center(
-                              child: productProvider.selectedProduct?.productImage==null ?
-                              Image.asset("assets/images/ProfileImage.png", height: 400, width: 400,):
-                              Image.network(productProvider.selectedProduct?.productImage??"", height: 400, width: 400,),
                       Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Container(
-                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                                child: Center(
-                                  child: selectedProduct?.productImage==null ?
-                                  Image.asset("images/ProfileImage.png", height: 300, width: 300,):
-                                  Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                                  child: Center(
+                                    child: selectedProduct?.productImage==null ?
+                                    Image.asset("images/ProfileImage.png", height: 300, width: 300,):
+                                    Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
 
-                           const SizedBox(
-                             height: 10,
-                           ),
+                            const SizedBox(
+                              height: 10,
+                            ),
 
-                          selectedProduct.status=="Not Verified" ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              MaterialButton(onPressed: (){
+                            selectedProduct.status=="Not Verified" ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MaterialButton(onPressed: (){
 
-                                String verified= "Verified";
-                                if(selectedProduct!=null) {
-                                  productProvider.verifyProduct(selectedProduct.id!, verified);
+                                  String verified= "Verified";
+                                  if(selectedProduct!=null) {
+                                    productProvider.verifyProduct(selectedProduct.id!, verified);
+                                    productProvider.allProductsList.remove(selectedProduct);
+                                    productProvider.approvedProductsList.add(selectedProduct);
+                                  }
+
+                                  _showApprovedSnackBar(context);
+
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+
+                                },
+                                    color: Colors.green,
+                                    child: const Text('Approve',
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),)),
+
+                                const SizedBox(
+                                  width: 20,
+                                ),
+
+                                MaterialButton(onPressed: (){
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => RejectionPopUpForm(productId: selectedProduct.id!,),
+                                  );
                                   productProvider.allProductsList.remove(selectedProduct);
-                                  productProvider.approvedProductsList.add(selectedProduct);
-                                }
+                                  productProvider.rejectedProductsList.add(selectedProduct);
 
-                                _showApprovedSnackBar(context);
+                                  _showRejectedSnackBar(context);
 
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
 
-
-                              },
-                                  color: Colors.green,
-                                  child: const Text('Approve',
+                                },
+                                  color: Colors.red,
+                                  child: const Text('Reject',
                                     style: TextStyle(
                                         color: Colors.white
-                                    ),)),
+                                    ),),),
+                              ],
+                            ) : Material(
+                              elevation: 3,
+                              child: Container(
+                                  color: selectedProduct.status=="Verified" ? Colors.green : Colors.red,
+                                  child:  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(selectedProduct.status=="Verified" ? 'Approved': 'Rejected',
+                                      style: const TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                  )),
+                            )
 
-                              const SizedBox(
-                                width: 20,
-                              ),
-
-                              MaterialButton(onPressed: (){
-
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => RejectionPopUpForm(productId: selectedProduct.id!,),
-                                );
-                                productProvider.allProductsList.remove(selectedProduct);
-                                productProvider.rejectedProductsList.add(selectedProduct);
-
-                                _showRejectedSnackBar(context);
-
-                                Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
-
-                              },
-                                color: Colors.red,
-                                child: const Text('Reject',
-                                  style: TextStyle(
-                                      color: Colors.white
-                                  ),),),
-                            ],
-                          ) : Material(
-                            elevation: 3,
-                            child: Container(
-                                color: selectedProduct.status=="Verified" ? Colors.green : Colors.red,
-                                child:  Padding(
-                                  padding: const EdgeInsets.all(5.0),
-                                  child: Text(selectedProduct.status=="Verified" ? 'Approved': 'Rejected',
-                                    style: const TextStyle(
-                                        color: Colors.white
-                                    ),),
-                                )),
-                          )
-
-                        ]
+                          ]
                       ),
 
                       const SizedBox(
@@ -619,7 +600,7 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                               Text(
                                 selectedProduct?.productTitle ?? "",
                                 style: TextStyle(fontSize: MediaQuery.of(context).size.width/60,
-                                  fontWeight: FontWeight.w600, color: Colors.black),
+                                    fontWeight: FontWeight.w600, color: Colors.black),
                               ),
 
                               /// brand
@@ -681,7 +662,7 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                               child: Row(crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text("Description",
-                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
                                         fontWeight: FontWeight.w600,)
                                   ),
                                   const SizedBox(width: 10,),
@@ -691,7 +672,7 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                                       selectedProduct?.productDescription ?? "",
                                       style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
                                           fontWeight: FontWeight.w400,
-                                      color: Colors.black
+                                          color: Colors.black
                                       ),
                                       maxLines: 100,
                                     ),
