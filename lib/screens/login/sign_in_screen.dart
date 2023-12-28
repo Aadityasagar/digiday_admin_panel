@@ -71,7 +71,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 children: [
                   const SizedBox(height: 10),
                   Image.asset(
-                    "images/logo-rec.png",
+                    "assets/images/logo-rec.png",
                     width: 250,
                   ),
                   const Text(
@@ -143,7 +143,7 @@ class _LogInScreenState extends State<LogInScreen> {
                 children: [
                   const SizedBox(height: 10),
                   Image.asset(
-                    "images/logo-rec.png",
+                    "assets/images/logo-rec.png",
                     width: 250,
                   ),
                   const Text(
@@ -216,7 +216,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   children: [
                     const SizedBox(height: 10),
                     Image.asset(
-                      "images/logo-rec.png",
+                      "assets/images/logo-rec.png",
                       width: 300,
                     ),
                     const Text(

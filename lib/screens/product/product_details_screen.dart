@@ -2,18 +2,24 @@ import 'package:digiday_admin_panel/common_widgets/drawer/explore_drawer.dart';
 import 'package:digiday_admin_panel/common_widgets/header_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/responsive_widget.dart';
 import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
-import 'package:digiday_admin_panel/constants.dart';
-import 'package:digiday_admin_panel/constants/app_urls.dart';
 import 'package:digiday_admin_panel/constants/colour_scheme.dart';
+import 'package:digiday_admin_panel/models/Product.dart';
 import 'package:digiday_admin_panel/provider/products_provider.dart';
 import 'package:digiday_admin_panel/screens/common/widgets/app_themed_loader.dart';
-import 'package:digiday_admin_panel/screens/product/widgets/product_carousel.dart';
+import 'package:digiday_admin_panel/screens/product/products_screen.dart';
+import 'package:digiday_admin_panel/screens/product/widgets/pupUp_rejection_form.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../utils/services/network/firebase_service.dart';
+
+
 class ProductDetailsScreen extends StatelessWidget {
-  ProductDetailsScreen({super.key});
+  Product selectedProduct;
+
+
+  ProductDetailsScreen({super.key,
+    required this.selectedProduct
+  });
 
   double _opacity = 0;
   final double _scrollPosition = 0;
@@ -36,9 +42,9 @@ class ProductDetailsScreen extends StatelessWidget {
                 ),
                 drawer: const ExploreDrawer(),
                 body: ResponsiveWidget(
-                  largeScreen: getDesktopProductsDetailsScreen(),
-                  smallScreen: getMobileProductsDetailsScreen(context),
-                  mediumScreen: getTabProductsDetailsScreen(context),
+                  largeScreen: getDesktopProductsDetailsScreen(selectedProduct),
+                  smallScreen: getMobileProductsDetailsScreen(context, selectedProduct),
+                  mediumScreen: getTabProductsDetailsScreen(context, selectedProduct),
                 ),
               ),
               Offstage(
@@ -52,9 +58,9 @@ class ProductDetailsScreen extends StatelessWidget {
 }
 
 
-Widget getMobileProductsDetailsScreen(BuildContext context) {
+Widget getMobileProductsDetailsScreen(BuildContext context, Product selectedProduct) {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return productProvider.selectedProduct!=null? SingleChildScrollView(
+    return selectedProduct!=null? SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -67,9 +73,9 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
-                  child: productProvider.selectedProduct?.productImage==null ?
+                  child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
-                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
+                  Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
                 ),
               ),
             ),
@@ -78,116 +84,177 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
               height: 10,
             ),
 
-            Container( decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Column(children: [
 
-                  /// category
+                /// category
 
-                  Text(
-                    productProvider.selectedProduct?.productCategory ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                        fontWeight: FontWeight.w600),
-                  ),
+                Text(
+                  selectedProduct?.productCategory ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                      fontWeight: FontWeight.w600),
+                ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-                  /// title
+                /// title
 
-                  Text(
-                    productProvider.selectedProduct?.productTitle ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/25,
-                        fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
+                Text(
+                  selectedProduct?.productTitle ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/25,
+                      fontWeight: FontWeight.w600, color: Colors.black),
+                ),
 
-                  /// brand
+                /// brand
 
-                  Text(
-                    productProvider.selectedProduct?.productBrand ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/40, fontWeight: FontWeight.w400,),
-                  ),
+                Text(
+                  selectedProduct?.productBrand ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/40, fontWeight: FontWeight.w400,),
+                ),
 
-                  /// price
+                /// price
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:20, vertical: 20),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
-                        /// sale price
+                      /// sale price
 
-                        Row(
-                          children: [
-                            Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                fontWeight: FontWeight.w600),
-                            ),
+                      Row(
+                        children: [
+                          Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                              fontWeight: FontWeight.w600),
+                          ),
 
-                            const SizedBox(width: 5),
+                          const SizedBox(width: 5),
 
-                            Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
-                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                  fontWeight: FontWeight.w400, color: Colors.black),
-                            ),
-                          ],
-                        ),
+                          Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                                fontWeight: FontWeight.w400, color: Colors.black),
+                          ),
+                        ],
+                      ),
 
-                        /// regular price
+                      /// regular price
 
-                        Row(
-                          children: [
-                            Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                fontWeight: FontWeight.w600),
-                            ),
+                      Row(
+                        children: [
+                          Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                              fontWeight: FontWeight.w600),
+                          ),
 
-                            const SizedBox(width: 5),
+                          const SizedBox(width: 5),
 
-                            Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",
-                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                  fontWeight: FontWeight.w400, color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ],),
-                  ),
-                ],),
-              ),
+                          Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                                fontWeight: FontWeight.w400, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ],),
+                ),
+              ],),
             ),
 
             const SizedBox(height: 10,),
             /// description
 
-            Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-              child:
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Description",
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                          fontWeight: FontWeight.w600,)
-                    ),
-                    const SizedBox(width: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Description",
+                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                        fontWeight: FontWeight.w600,)
+                  ),
+                  const SizedBox(width: 10,),
 
-                    Flexible(
-                      child: Text(
-                        productProvider.selectedProduct?.productDescription ?? "",
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black
-                        ),
-                        maxLines: 100,
-                        textAlign: TextAlign.justify,
+                  Flexible(
+                    child: Text(
+                      selectedProduct?.productDescription ?? "",
+                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black
                       ),
+                      maxLines: 100,
+                      textAlign: TextAlign.justify,
                     ),
-                  ],
-                ),
-              ),),
+                  ),
+
+
+
+                ],
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
+
+            selectedProduct.status=="Not Verified" ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                MaterialButton(onPressed: (){
+
+                  String verified= "Verified";
+                  if(selectedProduct!=null) {
+                    productProvider.verifyProduct(selectedProduct.id!, verified);
+                    productProvider.allProductsList.remove(selectedProduct);
+                    productProvider.approvedProductsList.add(selectedProduct);
+                  }
+
+                  _showApprovedSnackBar(context);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+
+                },
+                    color: Colors.green,
+                    child: const Text('Approve',
+                      style: TextStyle(
+                          color: Colors.white
+                      ),)),
+
+                const SizedBox(
+                  width: 20,
+                ),
+
+                MaterialButton(onPressed: (){
+
+                  showDialog(
+                    context: context,
+                    builder: (context) => RejectionPopUpForm(productId: selectedProduct.id!,),
+                  );
+                  productProvider.allProductsList.remove(selectedProduct);
+                  productProvider.rejectedProductsList.add(selectedProduct);
+
+                  _showRejectedSnackBar(context);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+                },
+                  color: Colors.red,
+                  child: const Text('Reject',
+                    style: TextStyle(
+                        color: Colors.white
+                    ),),),
+              ],
+            ) : Material(
+              elevation: 3,
+              child: Container(
+                  color: selectedProduct.status=="Verified" ? Colors.green : Colors.red,
+                  child:  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(selectedProduct.status=="Verified" ? 'Approved': 'Rejected',
+                      style: const TextStyle(
+                          color: Colors.white
+                      ),),
+                  )),
+            )
+
           ],
         ),
       ),
@@ -195,9 +262,9 @@ Widget getMobileProductsDetailsScreen(BuildContext context) {
   });
 }
 
-Widget getTabProductsDetailsScreen(BuildContext context) {
+Widget getTabProductsDetailsScreen(BuildContext context, Product selectedProduct) {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return productProvider.selectedProduct!=null? SingleChildScrollView(
+    return selectedProduct!=null? SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -210,9 +277,9 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
-                  child: productProvider.selectedProduct?.productImage==null ?
+                  child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
-                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
+                  Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
                 ),
               ),
             ),
@@ -221,116 +288,175 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
               height: 10,
             ),
 
-            Container( decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Column(children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Column(children: [
 
-                  /// category
+                /// category
 
-                  Text(
-                    productProvider.selectedProduct?.productCategory ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                        fontWeight: FontWeight.w600),
-                  ),
+                Text(
+                  selectedProduct?.productCategory ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                      fontWeight: FontWeight.w600),
+                ),
 
-                  const SizedBox(
-                    height: 20,
-                  ),
+                const SizedBox(
+                  height: 20,
+                ),
 
-                  /// title
+                /// title
 
-                  Text(
-                    productProvider.selectedProduct?.productTitle ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/30,
-                        fontWeight: FontWeight.w600, color: Colors.black),
-                  ),
+                Text(
+                  selectedProduct?.productTitle ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/30,
+                      fontWeight: FontWeight.w600, color: Colors.black),
+                ),
 
-                  /// brand
+                /// brand
 
-                  Text(
-                    productProvider.selectedProduct?.productBrand ?? "",
-                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/60, fontWeight: FontWeight.w400,),
-                  ),
+                Text(
+                  selectedProduct?.productBrand ?? "",
+                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/60, fontWeight: FontWeight.w400,),
+                ),
 
-                  /// price
+                /// price
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal:20, vertical: 20),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
+                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
 
-                        /// sale price
+                      /// sale price
 
-                        Row(
-                          children: [
-                            Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                fontWeight: FontWeight.w600),
-                            ),
+                      Row(
+                        children: [
+                          Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                              fontWeight: FontWeight.w600),
+                          ),
 
-                            const SizedBox(width: 5),
+                          const SizedBox(width: 5),
 
-                            Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
-                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                  fontWeight: FontWeight.w400, color: Colors.black),
-                            ),
-                          ],
-                        ),
+                          Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                fontWeight: FontWeight.w400, color: Colors.black),
+                          ),
+                        ],
+                      ),
 
-                        /// regular price
+                      /// regular price
 
-                        Row(
-                          children: [
-                            Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                fontWeight: FontWeight.w600),
-                            ),
+                      Row(
+                        children: [
+                          Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                              fontWeight: FontWeight.w600),
+                          ),
 
-                            const SizedBox(width: 5),
+                          const SizedBox(width: 5),
 
-                            Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",
-                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                  fontWeight: FontWeight.w400, color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      ],),
-                  ),
-                ],),
-              ),
+                          Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                fontWeight: FontWeight.w400, color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ],),
+                ),
+              ],),
             ),
 
             const SizedBox(height: 10,),
             /// description
 
-            Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-              child:
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Description",
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                          fontWeight: FontWeight.w600,)
-                    ),
-                    const SizedBox(width: 10,),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Description",
+                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                        fontWeight: FontWeight.w600,)
+                  ),
+                  const SizedBox(width: 10,),
 
-                    Flexible(
-                      child: Text(
-                        productProvider.selectedProduct?.productDescription ?? "",
-                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black
-                        ),
-                        maxLines: 100,
-                        textAlign: TextAlign.justify,
+                  Flexible(
+                    child: Text(
+                      selectedProduct?.productDescription ?? "",
+                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.black
                       ),
+                      maxLines: 100,
+                      textAlign: TextAlign.justify,
                     ),
-                  ],
-                ),
-              ),),
+                  ),
+
+                ],
+              ),
+            ),
             const SizedBox(
               height: 10,
             ),
+
+            selectedProduct.status=="Not Verified" ? Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                MaterialButton(onPressed: (){
+
+                  String verified= "Verified";
+                  if(selectedProduct!=null) {
+                    productProvider.verifyProduct(selectedProduct.id!, verified);
+                    productProvider.allProductsList.remove(selectedProduct);
+                    productProvider.approvedProductsList.add(selectedProduct);
+                  }
+
+                  _showApprovedSnackBar(context);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+
+                },
+                    color: Colors.green,
+                    child: const Text('Approve',
+                      style: TextStyle(
+                          color: Colors.white
+                      ),)),
+
+                const SizedBox(
+                  width: 20,
+                ),
+
+                MaterialButton(onPressed: (){
+
+                  showDialog(
+                    context: context,
+                    builder: (context) => RejectionPopUpForm(productId: selectedProduct.id!,),
+                  );
+                  productProvider.allProductsList.remove(selectedProduct);
+                  productProvider.rejectedProductsList.add(selectedProduct);
+
+                  _showRejectedSnackBar(context);
+
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+                },
+                  color: Colors.red,
+                  child: const Text('Reject',
+                    style: TextStyle(
+                        color: Colors.white
+                    ),),),
+              ],
+            ) : Material(
+              elevation: 3,
+              child: Container(
+                  color: selectedProduct.status=="Verified" ? Colors.green : Colors.red,
+                  child:  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Text(selectedProduct.status=="Verified" ? 'Approved': 'Rejected',
+                      style: const TextStyle(
+                          color: Colors.white
+                      ),),
+                  )),
+            )
+
           ],
         ),
       ),
@@ -338,9 +464,9 @@ Widget getTabProductsDetailsScreen(BuildContext context) {
   });
 }
 
-Widget getDesktopProductsDetailsScreen() {
+Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
   return Consumer<ProductsProvider>(builder: (context, productProvider, child) {
-    return productProvider.selectedProduct!=null? SingleChildScrollView(
+    return selectedProduct!=null? SingleChildScrollView(
       child: Row(crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// blank space
@@ -359,19 +485,89 @@ Widget getDesktopProductsDetailsScreen() {
                     children: [
                       /// image container
 
-                      Padding(
-                        padding: const EdgeInsets.only(top: 15.0),
-                        child: Container(height: 350,
-                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                            child: Center(
-                              child: productProvider.selectedProduct?.productImage==null ?
-                              Image.asset("images/ProfileImage.png", height: 400, width: 400,):
-                              Image.network(productProvider.selectedProduct?.productImage??"", height: 400, width: 400,),
+                      Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Container(
+                                decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                                  child: Center(
+                                    child: selectedProduct?.productImage==null ?
+                                    Image.asset("images/ProfileImage.png", height: 300, width: 300,):
+                                    Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
+                                  ),
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
+
+                            const SizedBox(
+                              height: 10,
+                            ),
+
+                            selectedProduct.status=="Not Verified" ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                MaterialButton(onPressed: (){
+
+                                  String verified= "Verified";
+                                  if(selectedProduct!=null) {
+                                    productProvider.verifyProduct(selectedProduct.id!, verified);
+                                    productProvider.allProductsList.remove(selectedProduct);
+                                    productProvider.approvedProductsList.add(selectedProduct);
+                                  }
+
+                                  _showApprovedSnackBar(context);
+
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+
+                                },
+                                    color: Colors.green,
+                                    child: const Text('Approve',
+                                      style: TextStyle(
+                                          color: Colors.white
+                                      ),)),
+
+                                const SizedBox(
+                                  width: 20,
+                                ),
+
+                                MaterialButton(onPressed: (){
+
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => RejectionPopUpForm(productId: selectedProduct.id!,),
+                                  );
+                                  productProvider.allProductsList.remove(selectedProduct);
+                                  productProvider.rejectedProductsList.add(selectedProduct);
+
+                                  _showRejectedSnackBar(context);
+
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+                                },
+                                  color: Colors.red,
+                                  child: const Text('Reject',
+                                    style: TextStyle(
+                                        color: Colors.white
+                                    ),),),
+                              ],
+                            ) : Material(
+                              elevation: 3,
+                              child: Container(
+                                  color: selectedProduct.status=="Verified" ? Colors.green : Colors.red,
+                                  child:  Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: Text(selectedProduct.status=="Verified" ? 'Approved': 'Rejected',
+                                      style: const TextStyle(
+                                          color: Colors.white
+                                      ),),
+                                  )),
+                            )
+
+                          ]
                       ),
 
                       const SizedBox(
@@ -381,113 +577,109 @@ Widget getDesktopProductsDetailsScreen() {
                       Flexible(
                         child: Column(
                           children: [
-                            Container( decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                                child: Column(children: [
+                            Column(children: [
 
-                                  /// category
-
-                                  Text(
-                                    productProvider.selectedProduct?.productCategory ?? "",
-                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                      fontWeight: FontWeight.w600),
-                                  ),
-
-                                  const SizedBox(
-                                    height: 20,
-                                  ),
-
-                                  /// title
-
-                                  Text(
-                                    productProvider.selectedProduct?.productTitle ?? "",
-                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/60,
-                                      fontWeight: FontWeight.w600, color: Colors.black),
-                                  ),
-
-                                  /// brand
-
-                                  Text(
-                                    productProvider.selectedProduct?.productBrand ?? "",
-                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/110, fontWeight: FontWeight.w400,),
-                                  ),
-
-                                  /// price
-
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal:20, vertical: 20),
-                                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-
-                                        /// sale price
-
-                                        Row(
-                                          children: [
-                                            Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                                fontWeight: FontWeight.w600),
-                                            ),
-
-                                            const SizedBox(width: 5),
-
-                                            Text("${"₹"}${productProvider.selectedProduct?.productSalePrice ?? ""}",
-                                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                                  fontWeight: FontWeight.w400, color: Colors.black),
-                                            ),
-                                          ],
-                                        ),
-
-                                        /// regular price
-
-                                        Row(
-                                          children: [
-                                            Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                                fontWeight: FontWeight.w600),
-                                            ),
-
-                                            const SizedBox(width: 5),
-
-                                            Text("${"₹"}${productProvider.selectedProduct?.productRegularPrice ?? ""}",
-                                              style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                                  fontWeight: FontWeight.w400, color: Colors.black),
-                                            ),
-                                          ],
-                                        ),
-                                      ],),
-                                  ),
-                                ],),
+                              const SizedBox(
+                                height: 10,
                               ),
-                            ),
+
+                              /// category
+
+                              // Text(
+                              //   productProvider.selectedProduct?.productCategory ?? "",
+                              //   style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                              //     fontWeight: FontWeight.w600),
+                              // ),
+                              //
+                              // const SizedBox(
+                              //   height: 20,
+                              // ),
+
+                              /// title
+
+                              Text(
+                                selectedProduct?.productTitle ?? "",
+                                style: TextStyle(fontSize: MediaQuery.of(context).size.width/60,
+                                    fontWeight: FontWeight.w600, color: Colors.black),
+                              ),
+
+                              /// brand
+
+                              Text(
+                                selectedProduct?.productBrand ?? "",
+                                style: TextStyle(fontSize: MediaQuery.of(context).size.width/110, fontWeight: FontWeight.w400,),
+                              ),
+
+                              /// price
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric( vertical: 20, horizontal: 10),
+                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+
+                                    /// sale price
+
+                                    Row(
+                                      children: [
+                                        Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                            fontWeight: FontWeight.w600),
+                                        ),
+
+                                        const SizedBox(width: 5),
+
+                                        Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                                          style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                              fontWeight: FontWeight.w400, color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+
+                                    /// regular price
+
+                                    Row(
+                                      children: [
+                                        Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                            fontWeight: FontWeight.w600),
+                                        ),
+
+                                        const SizedBox(width: 5),
+
+                                        Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                                          style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                              fontWeight: FontWeight.w400, color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  ],),
+                              ),
+                            ],),
 
                             const SizedBox(height: 20,),
                             /// description
 
-                            Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
-                              child:
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-                                child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Description",
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("Description",
                                       style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                          fontWeight: FontWeight.w600,)
-                                    ),
-                                    const SizedBox(width: 10,),
+                                        fontWeight: FontWeight.w600,)
+                                  ),
+                                  const SizedBox(width: 10,),
 
-                                    Flexible(
-                                      child: Text(
-                                        productProvider.selectedProduct?.productDescription ?? "",
-                                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                            fontWeight: FontWeight.w400,
-                                        color: Colors.black
-                                        ),
-                                        maxLines: 100,
-                                        textAlign: TextAlign.justify,
+                                  Flexible(
+                                    child: Text(
+                                      selectedProduct?.productDescription ?? "",
+                                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black
                                       ),
+                                      maxLines: 100,
                                     ),
-                                  ],
-                                ),
-                              ),),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ],
                         ),
                       )
@@ -502,6 +694,44 @@ Widget getDesktopProductsDetailsScreen() {
       ),
     ):const Text("No Product selected!");
   });
+
+
+
 }
+
+void _showApprovedSnackBar(BuildContext context) {
+  final snackBar = SnackBar(
+    content: const Text('Product Approved'),
+    duration: const Duration(seconds: 5), // Optional: Control how long the SnackBar is displayed
+    action: SnackBarAction(
+      label: 'Ok',
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+      },
+    ),
+  );
+
+  // Display the SnackBar
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
+void _showRejectedSnackBar(BuildContext context) {
+  final snackBar = SnackBar(
+    content: const Text('Product Rejected'),
+    duration: const Duration(seconds: 5), // Optional: Control how long the SnackBar is displayed
+    action: SnackBarAction(
+      label: 'Ok',
+      onPressed: () {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> ProductsScreen()));
+
+      },
+    ),
+  );
+
+  // Display the SnackBar
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+}
+
 
 

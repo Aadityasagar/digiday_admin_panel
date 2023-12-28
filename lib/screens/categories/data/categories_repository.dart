@@ -20,7 +20,6 @@ class CategoriesRepository{
       print(e);
     }
   }
-
   Future<bool?> addCategory(Map<String,dynamic> data)async{
     try{
       bool? result = await FirebaseService.addDocToCollection(collection: FirebaseKeys.categoriesCollection, docData: data);

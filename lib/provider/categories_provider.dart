@@ -104,9 +104,11 @@ class CategoriesProvider extends ChangeNotifier{
       debugPrint(e.message);
       rethrow;
     }finally {
+
       selectedImage!.clear();
       selectedCategory=null;
       resetTextFields();
+      isLoading=false;
       fetchCategoriesData();
     }
   }
@@ -144,6 +146,9 @@ class CategoriesProvider extends ChangeNotifier{
     }
     return result;
   }
+
+
+
  Future<bool> validateAndEdit()async{
     bool result=false;
     if (editCategoryFormKey.currentState!.validate()) {
