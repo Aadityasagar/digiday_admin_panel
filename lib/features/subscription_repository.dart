@@ -5,6 +5,7 @@ import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart
 
 class SubscriptionRepository{
   List<SubscriptionData> subscribersList = [];
+
   Future<QuerySnapshot?> fetchSubscriptionData() async {
     try {
       late QuerySnapshot? snapshot;

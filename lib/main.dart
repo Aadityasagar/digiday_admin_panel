@@ -1,4 +1,5 @@
 import 'package:digiday_admin_panel/provider/categories_provider.dart';
+import 'package:digiday_admin_panel/provider/payouts_provider.dart';
 import 'package:digiday_admin_panel/provider/products_provider.dart';
 import 'package:digiday_admin_panel/provider/vendors_provider.dart';
 import 'package:digiday_admin_panel/screens/login/sign_in_screen.dart';
@@ -36,6 +37,7 @@ Future main() async{
         ChangeNotifierProvider(create: (_) => VendorProvider()),
         ChangeNotifierProvider(create: (_) => ProductsProvider()),
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
+        ChangeNotifierProvider(create: (_) => PayoutProvider()),
       ],
       child: MyApp(
       )));

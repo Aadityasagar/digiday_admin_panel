@@ -5,6 +5,7 @@ import 'package:digiday_admin_panel/common_widgets/sidebar_menu.dart';
 import 'package:digiday_admin_panel/constants.dart';
 import 'package:digiday_admin_panel/constants/colour_scheme.dart';
 import 'package:digiday_admin_panel/routes.dart';
+import 'package:digiday_admin_panel/screens/payouts/payouts_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -65,7 +66,7 @@ class HomePage extends StatelessWidget {
           title: "Process Withdrawals",
           icon: Icons.monetization_on,
           press: () {
-            // Get.to(const PayoutScreen());
+            Navigator.push(context, MaterialPageRoute(builder: (context)=> PayoutScreen()));
           }),
       QuickAction(title: "Referer Someone", icon: Icons.share, press: () {})
     ];

@@ -34,7 +34,7 @@ class Routes {
     vendorScreen: (BuildContext context) => VendorScreen(),
     productsScreen: (BuildContext context) => ProductsScreen(),
     categoriesScreen: (BuildContext context) => CategoriesScreen(),
-    productDetailsScreen: (BuildContext context) => ProductDetailsScreen(),
+    // productDetailsScreen: (BuildContext context) => ProductDetailsScreen(),
     cmDetailsScreen: (BuildContext context) => CmDetailsScreen(),
     vendorDetailsScreen: (BuildContext context) => VendorDetailsScreen(),
     addCategoryScreen: (BuildContext context) => AddCategoryScreen(),

@@ -2,6 +2,7 @@ class FirebaseKeys{
   //collection
   static const usersCollection = "users";
   static const teamSubscriptionsCollection = "teamSubscriptions";
+  static const vendorSubscriptionsCollection = "vendorSubscriptions";
   static const teamPlansCollection = "teamPlans";
   static const teamSubscriptionOrdersCollection = "subscriptionOrders";
   static const businessesCollection = "businesses";
@@ -10,6 +11,7 @@ class FirebaseKeys{
   static const payoutsCollection = "withdrawalRequests";
   static const usersBankAccountsCollection = "usersBankAccounts";
   static const categoriesCollection = "categories";
+  static const rejectedProductsCollection = "rejectedProducts";
 
 
   // document
@@ -27,4 +29,5 @@ class FirebaseKeys{
   static const userWalletId = "walletId";
   static const isCm= "isCm";
   static const isVendor= "isVendor";
+  static const status= "status";
 }
