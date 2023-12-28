@@ -143,62 +143,20 @@ Widget getTabView(){
                 labelColor: Colors.black),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: TabBarView(
-                  children: [
-                    allProducts(),
-                    approvedProducts(),
-                    rejectedProducts()
-                  ]),
-            )
-          ],
-        ),
-      );
-    }
-  );
-}
+              child:
+              Table(
+                columnWidths: const {
+                  0: FlexColumnWidth(),
+                  1: FlexColumnWidth(2),
+                  2: FlexColumnWidth(2),
+                  3: FlexColumnWidth(1),
+                },
+                children: [
+                  const TableRow(
+                      decoration: BoxDecoration(color: kPrimaryColor),
+                      children: [
 
-Widget allProducts(){
-  return Consumer<ProductsProvider>(
-    builder: (context, productProvider, child) {
-      return SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(
-              height: 10,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                if (productProvider.allProductsList.isNotEmpty) Table(
-                  columnWidths: const {
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(1),
-                    2: FlexColumnWidth(2),
-                    3: FlexColumnWidth(),
-                    4: FlexColumnWidth(),
-                  },
-                  children: [
-                    const TableRow(
-                        decoration: BoxDecoration(color: kPrimaryColor),
-                        children: [
-                          /// s.no
-
-                          Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 10),
-                              child: Text(
-                                "S.No",
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-
-                          /// image
+                        /// image
 
                           Center(
                             child: Padding(
@@ -276,30 +234,18 @@ Widget allProducts(){
                             const BoxDecoration(color: Colors.white),
                             children: [
 
-                              /// s.no
+                            /// image
 
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20),
-                                  child: Text(
-                                    "${products.key + 1}",
-                                  ),
-                                ),
+                            Center(
+                              child: products.value?.productImage==null ? Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.asset("assets/images/ProfileImage.png", height: 60,),
+                              ):
+                              Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.network(products.value?.productImage??"", height: 60,)
                               ),
-
-                              /// image
-
-                              Center(
-                                child: products.value?.productImage==null ? Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Image.asset("images/ProfileImage.png"),
-                                ):
-                                Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Image.network(products.value?.productImage??"", height: 80,)
-                                ),
-                              ),
+                            ),
 
                               /// title
 
@@ -533,16 +479,16 @@ Widget approvedProducts(){
 
                                 /// image
 
-                                Center(
-                                  child: products.value?.productImage==null ? Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Image.asset("images/ProfileImage.png"),
-                                  ):
-                                  Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Image.network(products.value?.productImage??"", height: 80,)
-                                  ),
-                                ),
+                            Center(
+                              child: products.value?.productImage==null ? Padding(
+                                padding: const EdgeInsets.all(2.0),
+                                child: Image.asset("assets/images/ProfileImage.png"),
+                              ):
+                              Padding(
+                                  padding: const EdgeInsets.all(2.0),
+                                  child: Image.network(products.value?.productImage??"")
+                              ),
+                            ),
 
                                 /// title
 
@@ -751,16 +697,16 @@ Widget rejectedProducts(){
 
                                 /// image
 
-                                Center(
-                                  child: products.value?.productImage==null ? Padding(
-                                    padding: const EdgeInsets.all(2.0),
-                                    child: Image.asset("images/ProfileImage.png"),
-                                  ):
-                                  Padding(
-                                      padding: const EdgeInsets.all(2.0),
-                                      child: Image.network(products.value?.productImage??"", height: 80,)
-                                  ),
-                                ),
+                                          Center(
+                                            child: products.value?.productImage==null ? Padding(
+                                              padding: const EdgeInsets.all(2.0),
+                                              child: Image.asset("assets/images/ProfileImage.png"),
+                                            ):
+                                            Padding(
+                                                padding: const EdgeInsets.all(2.0),
+                                                child: Image.network(products.value?.productImage??"", height: 80,)
+                                            ),
+                                          ),
 
                                 /// title
 

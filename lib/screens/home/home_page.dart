@@ -88,199 +88,206 @@ class HomePage extends StatelessWidget {
   }
 
   Widget getMobileHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 2.5,
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        childAspectRatio: 4.0 / 2.2,
-                        mainAxisSpacing: 5.0,
-                        crossAxisSpacing: 5.0,
-                      ),
-                      itemCount: homeActions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return HomeActionsCard(
-                          icon: homeActions[index].icon,
-                          title: homeActions[index].title,
-                          press: homeActions[index].press,
-                          count: homeActions[index].count,
-                          color: homeActions[index].color,
-                        );
-                      }),
-                ),
-
-                /// quick actions
-                const Center(
-                  child: Text(
-                    'Quick Actions',
-                    style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 2.8,
+                    child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          childAspectRatio: 4.0 / 2.0,
+                          mainAxisSpacing: 2.0,
+                          crossAxisSpacing: 2.0,
+                        ),
+                        itemCount: homeActions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return HomeActionsCard(
+                            icon: homeActions[index].icon,
+                            title: homeActions[index].title,
+                            press: homeActions[index].press,
+                            count: homeActions[index].count,
+                            color: homeActions[index].color,
+                          );
+                        }),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: actions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return QuickActionsCard(
-                          icon: actions[index].icon,
-                          title: actions[index].title,
-                          press: actions[index].press,
-                        );
-                      }),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
 
-  Widget getTabHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height / 4.5,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: homeActions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return HomeActionsCard(
-                          icon: homeActions[index].icon,
-                          title: homeActions[index].title,
-                          press: homeActions[index].press,
-                          count: homeActions[index].count,
-                          color: homeActions[index].color,
-                        );
-                      }),
-                ),
-
-                /// quick actions
-                const Text(
-                  'Quick Actions',
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      itemCount: actions.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return QuickActionsCard(
-                          icon: actions[index].icon,
-                          title: actions[index].title,
-                          press: actions[index].press,
-                        );
-                      }),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget getDesktopHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Row(
-            children: [
-              /// blank space
-
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 5,
-                child: const SideBarMenu(),
-              ),
-              const SizedBox(width: 20,),
-
-              /// side space
-
-              SizedBox(
-                width: MediaQuery.of(context).size.width / 1.4,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 4.5,
-                      child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: homeActions.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return HomeActionsCard(
-                              icon: homeActions[index].icon,
-                              title: homeActions[index].title,
-                              press: homeActions[index].press,
-                              count: homeActions[index].count,
-                              color: homeActions[index].color,
-                            );
-                          }),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-
-                    /// quick actions
-                    const Text(
+                  /// quick actions
+                  const Center(
+                    child: Text(
                       'Quick Actions',
                       style: TextStyle(
                           fontSize: 25,
                           color: Colors.black,
                           fontWeight: FontWeight.bold),
                     ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: actions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return QuickActionsCard(
+                            icon: actions[index].icon,
+                            title: actions[index].title,
+                            press: actions[index].press,
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
 
-                    Expanded(
-                      child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.4,
-                        child: GridView.builder(
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 4 / 1,
-                              mainAxisSpacing: 5.0,
-                              crossAxisSpacing: 5.0,
-                            ),
-                            itemCount: actions.length,
+  Widget getTabHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
+    return SingleChildScrollView(scrollDirection: Axis.vertical,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+        child: Column(
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 4.5,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: homeActions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return HomeActionsCard(
+                            icon: homeActions[index].icon,
+                            title: homeActions[index].title,
+                            press: homeActions[index].press,
+                            count: homeActions[index].count,
+                            color: homeActions[index].color,
+                          );
+                        }),
+                  ),
+
+                  /// quick actions
+                  const Text(
+                    'Quick Actions',
+                    style: TextStyle(
+                        fontSize: 25,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        itemCount: actions.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return QuickActionsCard(
+                            icon: actions[index].icon,
+                            title: actions[index].title,
+                            press: actions[index].press,
+                          );
+                        }),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getDesktopHomePage(BuildContext context,List<HomeActions> homeActions,List<QuickAction> actions) {
+    return SingleChildScrollView(scrollDirection: Axis.vertical,
+      child: Column(
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                /// blank space
+
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 5,
+                  child: const SideBarMenu(),
+                ),
+                const SizedBox(width: 20,),
+
+                /// side space
+
+                SizedBox(
+                  width: MediaQuery.of(context).size.width / 1.4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 4.5,
+                        child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            itemCount: homeActions.length,
                             itemBuilder: (BuildContext context, int index) {
-                              return QuickActionsCard(
-                                icon: actions[index].icon,
-                                title: actions[index].title,
-                                press: actions[index].press,
+                              return HomeActionsCard(
+                                icon: homeActions[index].icon,
+                                title: homeActions[index].title,
+                                press: homeActions[index].press,
+                                count: homeActions[index].count,
+                                color: homeActions[index].color,
                               );
                             }),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 10,
+                      ),
+
+                      /// quick actions
+                      const Text(
+                        'Quick Actions',
+                        style: TextStyle(
+                            fontSize: 25,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold),
+                      ),
+
+                      Expanded(
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.4,
+                          child: GridView.builder(
+                              gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 4 / 1,
+                                mainAxisSpacing: 5.0,
+                                crossAxisSpacing: 5.0,
+                              ),
+                              itemCount: actions.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return QuickActionsCard(
+                                  icon: actions[index].icon,
+                                  title: actions[index].title,
+                                  press: actions[index].press,
+                                );
+                              }),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          ),
-        )
-      ],
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

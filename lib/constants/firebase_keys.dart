@@ -2,8 +2,8 @@ class FirebaseKeys{
   //collection
   static const usersCollection = "users";
   static const teamSubscriptionsCollection = "teamSubscriptions";
-  static const vendorSubscriptionsCollection = "vendorSubscriptions";
   static const teamPlansCollection = "teamPlans";
+  static const vendorPlansCollection = "vendorPlans";
   static const teamSubscriptionOrdersCollection = "subscriptionOrders";
   static const businessesCollection = "businesses";
   static const offersCollection = "businessOffers";
@@ -12,6 +12,7 @@ class FirebaseKeys{
   static const usersBankAccountsCollection = "usersBankAccounts";
   static const categoriesCollection = "categories";
   static const rejectedProductsCollection = "rejectedProducts";
+  static const vendorSubscription = "vendorSubscriptions";
 
 
   // document
@@ -30,4 +31,6 @@ class FirebaseKeys{
   static const isCm= "isCm";
   static const isVendor= "isVendor";
   static const status= "status";
+  static const subscriptionStatus= "status";
+  static const userSubscriptionStatus= "userSubscriptionStatus";
 }

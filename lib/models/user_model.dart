@@ -1,4 +1,7 @@
+import 'package:digiday_admin_panel/models/subscription.dart';
+
 class UserData {
+  String? userId;
   String? firstName;
   String? lastName;
   String? email;
@@ -14,8 +17,11 @@ class UserData {
   String? pinCode;
   bool? phoneVerified;
   bool? emailVerified;
+  Subscription? subscription;
+  String? userSubscriptionStatus;
 
   UserData({
+    this.userId,
     this.firstName,
     this.lastName,
     this.email,
@@ -31,6 +37,8 @@ class UserData {
     this.pinCode,
     this.phoneVerified,
     this.emailVerified,
+    this.subscription,
+    this.userSubscriptionStatus
   });
 
 }

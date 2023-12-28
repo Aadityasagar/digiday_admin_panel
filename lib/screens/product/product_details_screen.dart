@@ -76,6 +76,9 @@ Widget getMobileProductsDetailsScreen(BuildContext context, Product selectedProd
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
+                  child: productProvider.selectedProduct?.productImage==null ?
+                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
+                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                   child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
@@ -280,6 +283,9 @@ Widget getTabProductsDetailsScreen(BuildContext context, Product selectedProduct
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
                 child: Center(
+                  child: productProvider.selectedProduct?.productImage==null ?
+                  Image.asset("assets/images/ProfileImage.png", height: 300, width: 300,):
+                  Image.network(productProvider.selectedProduct?.productImage??"", height: 300, width: 300,),
                   child: selectedProduct?.productImage==null ?
                   Image.asset("images/ProfileImage.png", height: 300, width: 300,):
                   Image.network(selectedProduct?.productImage??"", height: 300, width: 300,),
@@ -488,6 +494,16 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                     children: [
                       /// image container
 
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: Container(height: 350,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+                            child: Center(
+                              child: productProvider.selectedProduct?.productImage==null ?
+                              Image.asset("assets/images/ProfileImage.png", height: 400, width: 400,):
+                              Image.network(productProvider.selectedProduct?.productImage??"", height: 400, width: 400,),
                       Column(
                         children: [
                           Padding(
