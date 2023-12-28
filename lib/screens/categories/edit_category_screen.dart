@@ -54,84 +54,103 @@ class EditCategoryScreen extends StatelessWidget {
 
 Widget getMobileAddCategoriesScreen(BuildContext context) {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
+
+    // categoriesProvider.categoryTitle
     TextFormField buildCategoryNameFormField() {
       return TextFormField(
         controller: categoriesProvider.categoryTitle,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return kPassNullError;
+          }
+          return null;
+        },
         decoration: const InputDecoration(
-          labelText: "Category Name",
-          hintText: "Enter Category Name",
-          // If  you are using latest version of flutter then lable text and hint text shown like this
-          // if you r using flutter less then 1.20.* then maybe this is not working properly
+          labelText: "Category Title",
+          hintText: "Enter category title",
           floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.title),
         ),
       );
     }
+
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 40.0),
         child: Column(
           children: [
+            const SizedBox(height: 20,),
             const Text(
-              "Enter Complete Category details",
+              "Edit Category",
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 30,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 23,
                   color: Colors.black),
-            ),
-            const SizedBox(
-              height: 10,
             ),
 
             Form(
-              key: categoriesProvider.addCategoryFormKey,
+              key: categoriesProvider.editCategoryFormKey,
               child: Column(
                 children: [
-                  /// category name
-
+                  const SizedBox(height: 15),
                   buildCategoryNameFormField(),
-
-
-
-                  /// category icon
-
                   const SizedBox(height: 15),
 
-                  categoriesProvider.selectedImage!=null ?
 
-                  Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
-                      color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
-                      height: 200, width: 350,
-                      child: Padding(
-                        padding:  const EdgeInsets.all(8.0),
-                        child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
-                      )
-                  ):const SizedBox(),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
-                    child: DefaultButton(
-                      text:  categoriesProvider.selectedImage==null && categoriesProvider.selectedImage!=null ? "Change Image": "Add Image",
-                      press: (){
-                        categoriesProvider.selectImages();
-                      },
-                    ),
+                  Stack(
+                    children: [
+                      (categoriesProvider.selectedImage==null) ?
+                      Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                          color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                          height: 200, width: 350,
+                          child: Padding(
+                            padding:  const EdgeInsets.all(8.0),
+                            child: Image.network(categoriesProvider.selectedCategory!.categoryIcon!, fit: BoxFit.contain,),
+                          )
+                      ):
+                      Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                          color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                          height: 200, width: 350,
+                          child: Padding(
+                            padding:  const EdgeInsets.all(8.0),
+                            child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
+                          )),
+
+
+                      Positioned(
+                          top: 5,
+                          right: 5,
+                          child: InkWell(
+                            onTap: (){
+                              categoriesProvider.selectImages();
+                            },
+                            child: const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: kPrimaryColor,
+                              child: Icon(Icons.edit,color: Colors.white,),
+                            ),
+                          ))
+                    ],
                   ),
                   const SizedBox(height: 35),
-                  DefaultButton(
-                    text: "Add Category",
-                    press: () async{
-                      try {
-                        bool result =  await  categoriesProvider.validateAndSubmit();
-
-                        if (result){
-                          Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
-                        else{print("something went wrong");}
-                      } catch (e) {
-                        print(e);
-                      }
-
-
-                    },
+                  SizedBox(
+                    width: 150,
+                    child: DefaultButton(
+                      text: "Save",
+                      press: () async{
+                        try {
+                          bool result =  await categoriesProvider.validateAndEdit();
+                          if (result){
+                            Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
+                          else{
+                            print("something went wrong");
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -145,164 +164,105 @@ Widget getMobileAddCategoriesScreen(BuildContext context) {
 
 Widget getTabAddCategoriesScreen(BuildContext context) {
   return Consumer<CategoriesProvider>(builder: (context, categoriesProvider, child) {
+
+    // categoriesProvider.categoryTitle
+    TextFormField buildCategoryNameFormField() {
+      return TextFormField(
+        controller: categoriesProvider.categoryTitle,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return kPassNullError;
+          }
+          return null;
+        },
+        decoration: const InputDecoration(
+          labelText: "Category Title",
+          hintText: "Enter category title",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.title),
+        ),
+      );
+    }
+
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 100.0),
         child: Column(
           children: [
+            const SizedBox(height: 20,),
             const Text(
               "Edit Category",
               style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 40,
+                  fontWeight: FontWeight.normal,
+                  fontSize: 23,
                   color: Colors.black),
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: categoriesProvider.categoriesList.isNotEmpty
-                  ? Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(),
-                  1: FlexColumnWidth(),
-                  2: FlexColumnWidth(),
-                  3: FlexColumnWidth(),
-                },
+
+            Form(
+              key: categoriesProvider.editCategoryFormKey,
+              child: Column(
                 children: [
-                  const TableRow(
-                      decoration: BoxDecoration(color: kPrimaryColor),
-                      children: [
-                        /// s.no
+                  const SizedBox(height: 15),
+                  buildCategoryNameFormField(),
+                  const SizedBox(height: 15),
 
-                        Center(
+
+
+                  Stack(
+                    children: [
+                      (categoriesProvider.selectedImage==null) ?
+                      Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                          color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                          height: 200, width: 350,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "S.No",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-
-                        /// image
-
-                        Center(
+                            padding:  const EdgeInsets.all(8.0),
+                            child: Image.network(categoriesProvider.selectedCategory!.categoryIcon!, fit: BoxFit.contain,),
+                          )
+                      ):
+                      Container(decoration: BoxDecoration(borderRadius: BorderRadius.circular(15),
+                          color: Colors.white, border: Border.all(width: 1, color: Colors.grey.shade700)),
+                          height: 200, width: 350,
                           child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Image",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                            padding:  const EdgeInsets.all(8.0),
+                            child: Image.memory(categoriesProvider.selectedImage!, fit: BoxFit.contain,),
+                          )),
+
+
+                      Positioned(
+                          top: 5,
+                          right: 5,
+                          child: InkWell(
+                            onTap: (){
+                              categoriesProvider.selectImages();
+                            },
+                            child: const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: kPrimaryColor,
+                              child: Icon(Icons.edit,color: Colors.white,),
                             ),
-                          ),
-                        ),
-
-                        /// title
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Title",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-
-                        /// action
-
-                        Center(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Text(
-                              "Action",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ]),
-                  ...categoriesProvider.categoriesList.asMap().entries.map(
-                        (categories) {
-                      return TableRow(
-                          decoration:
-                          const BoxDecoration(color: Colors.white),
-                          children: [
-
-                            /// s.no
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(
-                                  "${categories.key + 1}",
-                                ),
-                              ),
-                            ),
-
-                            /// image
-
-                            Center(
-                              child: categories.value?.categoryIcon==null ? Padding(
-                                padding: const EdgeInsets.all(2.0),
-                                child: Image.asset("images/ProfileImage.png"),
-                              ):
-                              Padding(
-                                  padding: const EdgeInsets.all(2.0),
-                                  child: Image.network(categories.value?.categoryIcon??"")
-                              ),
-                            ),
-
-                            /// title
-
-                            Center(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 20),
-                                child: Text(categories.value.categoryName??"",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  softWrap: true,
-                                ),
-                              ),
-                            ),
-
-                            /// action
-
-                            Center(
-                              child: DropdownButton<String>(
-                                icon: const Icon(CupertinoIcons.chevron_down_circle, color: kPrimaryColor,),
-                                style: const TextStyle(color: kPrimaryColor),
-                                underline: Container(
-                                  height: 0,
-                                ),
-                                onChanged: (String? newValue) {
-                                },
-                                items: <String>['Item 1', 'Item 2', 'Item 3', 'Item 4']
-                                    .map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: Text(value),
-                                  );
-                                }).toList(),
-                              ),
-                            ),
-                          ]);
-                    },
-                  )
+                          ))
+                    ],
+                  ),
+                  const SizedBox(height: 35),
+                  SizedBox(
+                    width: 150,
+                    child: DefaultButton(
+                      text: "Save",
+                      press: () async{
+                        try {
+                          bool result =  await categoriesProvider.validateAndEdit();
+                          if (result){
+                            Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);}
+                          else{
+                            print("something went wrong");
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+                      },
+                    ),
+                  ),
                 ],
-              )
-                  : const Center(
-                child: Text('No category Added'),
               ),
             ),
           ],
@@ -361,9 +321,8 @@ Widget getDesktopAddCategoriesScreen() {
                     width: MediaQuery.of(context).size.width / 1.4,
                     height: MediaQuery.of(context).size.height,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        const SizedBox(height: 20,),
                         const Text(
                           "Edit Category",
                           style: TextStyle(
