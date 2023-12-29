@@ -49,10 +49,10 @@ class ExploreDrawer extends StatelessWidget {
             },
           ),
           ProfileMenu(
-            text: "Subscriptions",
+            text: "Rewards",
             icon: Icons.monetization_on_sharp,
             press: () {
-              Navigator.of(context).pushReplacementNamed(Routes.subscribersScreen);
+              Navigator.of(context).pushReplacementNamed(Routes.rewardConfigScreen);
             },
           ),
           ProfileMenu(

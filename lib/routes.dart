@@ -5,8 +5,9 @@ import 'package:digiday_admin_panel/screens/cm/cm_details_screen.dart';
 import 'package:digiday_admin_panel/screens/login/sign_in_screen.dart';
 import 'package:digiday_admin_panel/screens/cm/cm_screen.dart';
 import 'package:digiday_admin_panel/screens/home/home_page.dart';
-import 'package:digiday_admin_panel/screens/product/product_details_screen.dart';
 import 'package:digiday_admin_panel/screens/product/products_screen.dart';
+import 'package:digiday_admin_panel/screens/reward_config/edit_rewards_config_screen.dart';
+import 'package:digiday_admin_panel/screens/reward_config/reward_config_screen.dart';
 import 'package:digiday_admin_panel/screens/subscribers/subscribers_screen.dart';
 import 'package:digiday_admin_panel/screens/vendor/vendor_details_screen.dart';
 import 'package:digiday_admin_panel/screens/vendor/vendor_screen.dart';
@@ -27,6 +28,8 @@ class Routes {
   static const String addCategoryScreen = '/addCategoryScreen';
   static const String profileScreen = '/profileScreen';
   static const String subscribersScreen = '/subscribersScreen';
+  static const String rewardConfigScreen = '/rewardConfigScreen';
+  static const String editRewardConfigScreen = '/editRewardConfigScreen';
 
   static final routes = <String, WidgetBuilder>{
     login: (BuildContext context) => LogInScreen(),
@@ -41,5 +44,7 @@ class Routes {
     addCategoryScreen: (BuildContext context) => AddCategoryScreen(),
     profileScreen: (BuildContext context) => ProfileScreen(),
     subscribersScreen: (BuildContext context) => SubscribersScreen(),
+    rewardConfigScreen: (BuildContext context) => RewardConfigScreen(),
+    editRewardConfigScreen: (BuildContext context) => EditRewardsConfigScreen(),
   };
 }

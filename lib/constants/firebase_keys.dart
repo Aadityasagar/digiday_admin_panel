@@ -13,6 +13,7 @@ class FirebaseKeys{
   static const categoriesCollection = "categories";
   static const rejectedProductsCollection = "rejectedProducts";
   static const vendorSubscription = "vendorSubscriptions";
+  static const rewardsConfig = "rewardsConfig";
 
 
   // document

@@ -1,6 +1,7 @@
 import 'package:digiday_admin_panel/provider/categories_provider.dart';
 import 'package:digiday_admin_panel/provider/payouts_provider.dart';
 import 'package:digiday_admin_panel/provider/products_provider.dart';
+import 'package:digiday_admin_panel/provider/reward_config_provider.dart';
 import 'package:digiday_admin_panel/provider/subscription_provider.dart';
 import 'package:digiday_admin_panel/provider/vendors_provider.dart';
 import 'package:digiday_admin_panel/screens/login/sign_in_screen.dart';
@@ -40,6 +41,7 @@ Future main() async{
         ChangeNotifierProvider(create: (_) => CategoriesProvider()),
         ChangeNotifierProvider(create: (_) => PayoutProvider()),
         ChangeNotifierProvider(create: (_) => SubscribersProvider()),
+        ChangeNotifierProvider(create: (_) => RewardConfigProvider()),
       ],
       child: MyApp(
       )));
