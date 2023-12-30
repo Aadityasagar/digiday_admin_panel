@@ -13,6 +13,8 @@ class FirebaseKeys{
   static const categoriesCollection = "categories";
   static const rejectedProductsCollection = "rejectedProducts";
   static const vendorSubscription = "vendorSubscriptions";
+  static const orders = "orders";
+  static const walletsCollection = "wallets";
 
 
   // document

@@ -51,5 +51,30 @@ class CmRepository {
 
 }
 
+  Future<String?> fetchCmWalletBalance(String? cmId) async{
+    try{
+      if(cmId!=null){
+        return  FirebaseService.fetchDocByDocID(docId: cmId, collection: FirebaseKeys.walletsCollection)
+            .then((DocumentSnapshot? documentSnapshot) async {
+          if (documentSnapshot?.data() !=null) {
+            Map<String,dynamic>? userData=documentSnapshot?.data() as Map<String,dynamic>?;
+
+            if(userData!=null){
+              String? _walletbalance = userData?['balance'];
+              return _walletbalance;
+            }
+
+          }
+          else{
+            return "0.0";
+          }
+        });
+      }
+    }on FirebaseService catch(e){
+      rethrow;
+    }
+
+  }
+
 
 }

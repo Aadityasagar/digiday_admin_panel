@@ -1,12 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
+import 'package:digiday_admin_panel/constants/firebase_keys.dart';
+import 'package:digiday_admin_panel/models/Product.dart';
+import 'package:digiday_admin_panel/models/orders_model.dart';
 import 'package:digiday_admin_panel/models/plan_model.dart';
 import 'package:digiday_admin_panel/models/subscription.dart';
 import 'package:digiday_admin_panel/models/user_model.dart';
+import 'package:digiday_admin_panel/screens/common/common_functions.dart';
+import 'package:digiday_admin_panel/screens/common/widgets/alerts-and-popups/single_button_popup.dart';
 import 'package:digiday_admin_panel/screens/subscribers/data/subscribers_repository.dart';
 import 'package:digiday_admin_panel/screens/vendor/data/vendor_repository.dart';
+import 'package:digiday_admin_panel/utils/services/network/api_exception.dart';
+import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class VendorProvider extends ChangeNotifier {
   final VendorRepository _vendorRepository = VendorRepository();
@@ -16,6 +24,10 @@ class VendorProvider extends ChangeNotifier {
   List<UserData> activeVendorMates = <UserData>[];
   List<UserData> inactiveVendorMates = <UserData>[];
   List<UserData> itemsToDisplay = <UserData>[];
+
+  List<Product> vendorsProducts = <Product>[];
+
+  List<OrderData> vendorOrders = <OrderData>[];
   DocumentSnapshot<Object?>? lastDocument;
   int currentPage = 1;
   int itemsPerPageLimit = 100;
@@ -27,6 +39,8 @@ class VendorProvider extends ChangeNotifier {
   ];
 
   UserData? selectedVendor;
+
+  RxInt currentVendorWalletBalance=0.obs;
 
   VendorProvider() {
     fetchActiveVendorsData();
@@ -201,4 +215,97 @@ class VendorProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+  Future<List<Product>?> fetchProductsByVendorId(String vendorId) async{
+    vendorsProducts.clear();
+    try{
+      return FirebaseService.fetchDocsByWhereClause( filterKey : FirebaseKeys.ownerId, filterValue : vendorId, collection: FirebaseKeys.businessesCollection)
+          .then((QuerySnapshot? snapshot)async{
+        if (snapshot != null) {
+          for (var element in snapshot.docs) {
+            String? businessId=element.id;
+
+            return FirebaseService.fetchDocsByWhereClause(filterKey: FirebaseKeys.businessId, filterValue: businessId, collection: FirebaseKeys.productsCollection)
+                .then((QuerySnapshot? snapshot){
+              if (snapshot!=null) {
+                for (var element in snapshot.docs) {
+                  var product=element.data()  as Map<String,dynamic>;
+                  Product obj=Product.fromJson(product);
+                  vendorsProducts.add(obj); }
+              }
+            });
+          }
+
+          if(vendorsProducts!=null){
+            return vendorsProducts;
+          }
+        }
+        else{
+          debugPrint("No Products available");
+        }
+      });
+    }
+    on FirebaseException catch(e){
+      debugPrint(e.message);
+    }
+
+  }
+
+  Future<List<OrderData>?> fetchOrdersByVendorId(String vendorId) async{
+    vendorOrders.clear();
+    try{
+      return FirebaseService.fetchDocsByWhereClause( filterKey : FirebaseKeys.ownerId, filterValue : vendorId, collection: FirebaseKeys.businessesCollection)
+          .then((QuerySnapshot? snapshot)async{
+        if (snapshot != null) {
+          for (var element in snapshot.docs) {
+            String? businessId=element.id;
+
+            await FirebaseService.fetchDocsByWhereClause(filterKey: FirebaseKeys.businessId, filterValue: businessId, collection: FirebaseKeys.orders)
+                .then((QuerySnapshot? snapshot){
+              if (snapshot!=null) {
+                for (var element in snapshot.docs) {
+                  var orders=element.data()  as Map<String,dynamic>;
+                  OrderData obj=OrderData.fromJson(orders);
+                  vendorOrders.add(obj); }
+              }
+            });
+          }
+
+          if(vendorOrders!=null){
+            return vendorOrders;
+          }
+        }
+        else{
+          debugPrint("No Orders available");
+        }
+      });
+    }
+    on FirebaseException catch(e){
+      debugPrint(e.message);
+    }
+
+  }
+
+  Future<void> fetchWalletBalanceByVendorId(String vendorId) async {
+    currentVendorWalletBalance.value=0;
+    try{
+      String? walletBalance =await _vendorRepository.fetchVendorWalletBalance(vendorId);
+      if(walletBalance!=null){
+        currentVendorWalletBalance.value= int.parse(walletBalance);
+      }
+      else{
+        print("Users wallet data not available");
+
+      }
+    }
+    on ApiException catch(e){
+      if(e.status==ApiExceptionCode.sessionExpire){
+        CommonFunctions.showSnackBar(title: "Alert", message: "Session Expired", type: PopupType.error);
+        // Get.offAll(()=> LogInScreen());
+      }
+    }
+
+  }
+
 }

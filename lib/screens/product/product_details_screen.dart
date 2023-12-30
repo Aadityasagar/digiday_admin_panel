@@ -84,112 +84,118 @@ Widget getMobileProductsDetailsScreen(BuildContext context, Product selectedProd
               height: 10,
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Column(children: [
+            Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Column(children: [
 
-                /// category
+                      /// category
 
-                Text(
-                  selectedProduct?.productCategory ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                      fontWeight: FontWeight.w600),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                /// title
-
-                Text(
-                  selectedProduct?.productTitle ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/25,
-                      fontWeight: FontWeight.w600, color: Colors.black),
-                ),
-
-                /// brand
-
-                Text(
-                  selectedProduct?.productBrand ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/40, fontWeight: FontWeight.w400,),
-                ),
-
-                /// price
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      /// sale price
-
-                      Row(
-                        children: [
-                          Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                              fontWeight: FontWeight.w600),
-                          ),
-
-                          const SizedBox(width: 5),
-
-                          Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                fontWeight: FontWeight.w400, color: Colors.black),
-                          ),
-                        ],
+                      Text(
+                        selectedProduct?.productCategory ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                            fontWeight: FontWeight.w600),
                       ),
 
-                      /// regular price
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-                      Row(
-                        children: [
-                          Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                              fontWeight: FontWeight.w600),
-                          ),
+                      /// title
 
-                          const SizedBox(width: 5),
+                      Text(
+                        selectedProduct?.productTitle ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/30,
+                            fontWeight: FontWeight.w600, color: Colors.black),
+                      ),
 
-                          Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                                fontWeight: FontWeight.w400, color: Colors.black),
-                          ),
-                        ],
+                      /// brand
+
+                      Text(
+                        selectedProduct?.productBrand ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/60, fontWeight: FontWeight.w400,),
+                      ),
+
+                      /// price
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            /// sale price
+
+                            Row(
+                              children: [
+                                Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                    fontWeight: FontWeight.w600),
+                                ),
+
+                                const SizedBox(width: 5),
+
+                                Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                      fontWeight: FontWeight.w400, color: Colors.black),
+                                ),
+                              ],
+                            ),
+
+                            /// regular price
+
+                            Row(
+                              children: [
+                                Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                    fontWeight: FontWeight.w600),
+                                ),
+
+                                const SizedBox(width: 5),
+
+                                Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                      fontWeight: FontWeight.w400, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],),
                       ),
                     ],),
-                ),
-              ],),
-            ),
-
-            const SizedBox(height: 10,),
-            /// description
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Description",
-                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                        fontWeight: FontWeight.w600,)
                   ),
-                  const SizedBox(width: 10,),
 
-                  Flexible(
-                    child: Text(
-                      selectedProduct?.productDescription ?? "",
-                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/35,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black
-                      ),
-                      maxLines: 100,
-                      textAlign: TextAlign.justify,
+                  const SizedBox(height: 10,),
+                  /// description
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Description",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                              fontWeight: FontWeight.w600,)
+                        ),
+                        const SizedBox(width: 10,),
+
+                        Flexible(
+                          child: Text(
+                            selectedProduct?.productDescription ?? "",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black
+                            ),
+                            maxLines: 100,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+
+                      ],
                     ),
                   ),
-
-
-
                 ],
               ),
             ),
+
             const SizedBox(
               height: 10,
             ),
@@ -288,107 +294,114 @@ Widget getTabProductsDetailsScreen(BuildContext context, Product selectedProduct
               height: 10,
             ),
 
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 10.0),
-              child: Column(children: [
+            Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Column(children: [
 
-                /// category
+                      /// category
 
-                Text(
-                  selectedProduct?.productCategory ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                      fontWeight: FontWeight.w600),
-                ),
-
-                const SizedBox(
-                  height: 20,
-                ),
-
-                /// title
-
-                Text(
-                  selectedProduct?.productTitle ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/30,
-                      fontWeight: FontWeight.w600, color: Colors.black),
-                ),
-
-                /// brand
-
-                Text(
-                  selectedProduct?.productBrand ?? "",
-                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/60, fontWeight: FontWeight.w400,),
-                ),
-
-                /// price
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-
-                      /// sale price
-
-                      Row(
-                        children: [
-                          Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                              fontWeight: FontWeight.w600),
-                          ),
-
-                          const SizedBox(width: 5),
-
-                          Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                fontWeight: FontWeight.w400, color: Colors.black),
-                          ),
-                        ],
+                      Text(
+                        selectedProduct?.productCategory ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                            fontWeight: FontWeight.w600),
                       ),
 
-                      /// regular price
+                      const SizedBox(
+                        height: 20,
+                      ),
 
-                      Row(
-                        children: [
-                          Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                              fontWeight: FontWeight.w600),
-                          ),
+                      /// title
 
-                          const SizedBox(width: 5),
+                      Text(
+                        selectedProduct?.productTitle ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/30,
+                            fontWeight: FontWeight.w600, color: Colors.black),
+                      ),
 
-                          Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
-                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                                fontWeight: FontWeight.w400, color: Colors.black),
-                          ),
-                        ],
+                      /// brand
+
+                      Text(
+                        selectedProduct?.productBrand ?? "",
+                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/60, fontWeight: FontWeight.w400,),
+                      ),
+
+                      /// price
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal:10, vertical: 20),
+                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+
+                            /// sale price
+
+                            Row(
+                              children: [
+                                Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                    fontWeight: FontWeight.w600),
+                                ),
+
+                                const SizedBox(width: 5),
+
+                                Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                      fontWeight: FontWeight.w400, color: Colors.black),
+                                ),
+                              ],
+                            ),
+
+                            /// regular price
+
+                            Row(
+                              children: [
+                                Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                    fontWeight: FontWeight.w600),
+                                ),
+
+                                const SizedBox(width: 5),
+
+                                Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                                  style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                      fontWeight: FontWeight.w400, color: Colors.black),
+                                ),
+                              ],
+                            ),
+                          ],),
                       ),
                     ],),
-                ),
-              ],),
-            ),
-
-            const SizedBox(height: 10,),
-            /// description
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
-              child: Row(crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Description",
-                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                        fontWeight: FontWeight.w600,)
                   ),
-                  const SizedBox(width: 10,),
 
-                  Flexible(
-                    child: Text(
-                      selectedProduct?.productDescription ?? "",
-                      style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
-                          fontWeight: FontWeight.w400,
-                          color: Colors.black
-                      ),
-                      maxLines: 100,
-                      textAlign: TextAlign.justify,
+                  const SizedBox(height: 10,),
+                  /// description
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 20),
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Description",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                              fontWeight: FontWeight.w600,)
+                        ),
+                        const SizedBox(width: 10,),
+
+                        Flexible(
+                          child: Text(
+                            selectedProduct?.productDescription ?? "",
+                            style: TextStyle(fontSize: MediaQuery.of(context).size.width/50,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.black
+                            ),
+                            maxLines: 100,
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+
+                      ],
                     ),
                   ),
-
                 ],
               ),
             ),
@@ -487,6 +500,10 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
 
                       Column(
                           children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+
                             Padding(
                               padding: const EdgeInsets.symmetric(vertical: 10.0),
                               child: Container(
@@ -531,7 +548,7 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                                       ),)),
 
                                 const SizedBox(
-                                  width: 20,
+                                  width: 10,
                                 ),
 
                                 MaterialButton(onPressed: (){
@@ -575,84 +592,92 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                       ),
 
                       Flexible(
-                        child: Column(
-                          children: [
-                            Column(children: [
+                        child: Container(
+                          height: 330,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5), color: Colors.white),
+                          child: Column(children: [
 
-                              const SizedBox(
-                                height: 10,
+                            const SizedBox(
+                              height: 20,
+                            ),
+
+                            /// category
+
+                            // Text(
+                            //   productProvider.selectedProduct?.productCategory ?? "",
+                            //   style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                            //     fontWeight: FontWeight.w600),
+                            // ),
+                            //
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+
+                            Padding(
+                              padding: const EdgeInsets.symmetric( vertical: 20, horizontal: 10),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  /// title
+
+                                  Text(
+                                    selectedProduct?.productTitle ?? "",
+                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/60,
+                                        fontWeight: FontWeight.w600, color: Colors.black),
+                                  ),
+
+                                  /// brand
+
+                                  Text(
+                                    selectedProduct?.productBrand ?? "",
+                                    style: TextStyle(fontSize: MediaQuery.of(context).size.width/70, fontWeight: FontWeight.w500,),
+                                  ),
+                                ],
                               ),
+                            ),
 
-                              /// category
+                            /// price
 
-                              // Text(
-                              //   productProvider.selectedProduct?.productCategory ?? "",
-                              //   style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                              //     fontWeight: FontWeight.w600),
-                              // ),
-                              //
-                              // const SizedBox(
-                              //   height: 20,
-                              // ),
+                            Padding(
+                              padding: const EdgeInsets.symmetric( vertical: 20, horizontal: 10),
+                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
 
-                              /// title
+                                  /// sale price
 
-                              Text(
-                                selectedProduct?.productTitle ?? "",
-                                style: TextStyle(fontSize: MediaQuery.of(context).size.width/60,
-                                    fontWeight: FontWeight.w600, color: Colors.black),
-                              ),
+                                  Row(
+                                    children: [
+                                      Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                          fontWeight: FontWeight.w600),
+                                      ),
 
-                              /// brand
+                                      const SizedBox(width: 5),
 
-                              Text(
-                                selectedProduct?.productBrand ?? "",
-                                style: TextStyle(fontSize: MediaQuery.of(context).size.width/110, fontWeight: FontWeight.w400,),
-                              ),
+                                      Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
+                                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                            fontWeight: FontWeight.w400, color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
 
-                              /// price
+                                  /// regular price
 
-                              Padding(
-                                padding: const EdgeInsets.symmetric( vertical: 20, horizontal: 10),
-                                child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
+                                  Row(
+                                    children: [
+                                      Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                          fontWeight: FontWeight.w600),
+                                      ),
 
-                                    /// sale price
+                                      const SizedBox(width: 5),
 
-                                    Row(
-                                      children: [
-                                        Text("Sale Price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                            fontWeight: FontWeight.w600),
-                                        ),
-
-                                        const SizedBox(width: 5),
-
-                                        Text("${"₹"}${selectedProduct?.productSalePrice ?? ""}",
-                                          style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                              fontWeight: FontWeight.w400, color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-
-                                    /// regular price
-
-                                    Row(
-                                      children: [
-                                        Text("Regular price:", style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                            fontWeight: FontWeight.w600),
-                                        ),
-
-                                        const SizedBox(width: 5),
-
-                                        Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
-                                          style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
-                                              fontWeight: FontWeight.w400, color: Colors.black),
-                                        ),
-                                      ],
-                                    ),
-                                  ],),
-                              ),
-                            ],),
+                                      Text("${"₹"}${selectedProduct?.productRegularPrice ?? ""}",
+                                        style: TextStyle(fontSize: MediaQuery.of(context).size.width/90,
+                                            fontWeight: FontWeight.w400, color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                ],),
+                            ),
 
                             const SizedBox(height: 20,),
                             /// description
@@ -674,13 +699,15 @@ Widget getDesktopProductsDetailsScreen(Product selectedProduct) {
                                           fontWeight: FontWeight.w400,
                                           color: Colors.black
                                       ),
-                                      maxLines: 100,
+                                      maxLines: 4,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
+
+                          ],),
                         ),
                       )
                     ],

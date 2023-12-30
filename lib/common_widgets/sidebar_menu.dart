@@ -27,35 +27,35 @@ class SideBarMenu extends StatelessWidget {
                 text: "All Vendors",
                 icon: Icons.add_business_sharp,
                 press: () {
-                  Navigator.of(context).pushReplacementNamed(Routes.vendorScreen);
+                  Navigator.of(context).pushNamed(Routes.vendorScreen);
                 },
               ),
               ProfileMenu(
                 text: "All Circle Managers",
                 icon: Icons.person,
                 press: () {
-                  Navigator.of(context).pushReplacementNamed(Routes.cmScreen);
+                  Navigator.of(context).pushNamed(Routes.cmScreen);
                 },
               ),
               ProfileMenu(
                 text: "All Products",
                 icon: Icons.account_balance_wallet_rounded,
                 press: () {
-                  Navigator.of(context).pushReplacementNamed(Routes.productsScreen);
+                  Navigator.of(context).pushNamed(Routes.productsScreen);
                 },
               ),
               ProfileMenu(
                 text: "All Categories",
                 icon: Icons.category,
                 press: () {
-                  Navigator.of(context).pushReplacementNamed(Routes.categoriesScreen);
+                  Navigator.of(context).pushNamed(Routes.categoriesScreen);
                 },
               ),
               ProfileMenu(
                 text: "Subscriptions",
                 icon: Icons.monetization_on_sharp,
                 press: () {
-                  Navigator.of(context).pushReplacementNamed(Routes.subscribersScreen);
+                  Navigator.of(context).pushNamed(Routes.subscribersScreen);
                 },
               ),
               ProfileMenu(

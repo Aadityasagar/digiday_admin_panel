@@ -1,12 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:digiday_admin_panel/constants/app_urls.dart';
+import 'package:digiday_admin_panel/constants/firebase_keys.dart';
 import 'package:digiday_admin_panel/models/plan_model.dart';
 import 'package:digiday_admin_panel/models/subscription.dart';
 import 'package:digiday_admin_panel/models/user_model.dart';
+import 'package:digiday_admin_panel/provider/account_provider.dart';
 import 'package:digiday_admin_panel/screens/cm/data/cm_repository.dart';
+import 'package:digiday_admin_panel/screens/common/common_functions.dart';
+import 'package:digiday_admin_panel/screens/common/widgets/alerts-and-popups/single_button_popup.dart';
 import 'package:digiday_admin_panel/screens/subscribers/data/subscribers_repository.dart';
+import 'package:digiday_admin_panel/utils/services/network/api_exception.dart';
+import 'package:digiday_admin_panel/utils/services/network/firebase_service.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CmProvider extends ChangeNotifier {
   final CmRepository _myCmTeamRepository = CmRepository();
@@ -16,6 +23,12 @@ class CmProvider extends ChangeNotifier {
   List<UserData> activeCmTeamMates = <UserData>[];
   List<UserData> inactiveCmTeamMates = <UserData>[];
   List<UserData> itemsToDisplay = <UserData>[];
+
+
+  List<UserData> myCmTeamMates = <UserData>[];
+
+  List<UserData> myVendorTeamMates = <UserData>[];
+
   DocumentSnapshot<Object?>? lastDocument;
   int currentPage = 1;
   int itemsPerPageLimit = 100;
@@ -27,6 +40,8 @@ class CmProvider extends ChangeNotifier {
   ];
 
   UserData? selectedCm;
+
+  RxDouble currentCmWalletBalance=0.0.obs;
 
   CmProvider() {
     fetchActiveCmTeamData();
@@ -204,6 +219,92 @@ class CmProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<List<UserData>?> fetchCmTeamData(String cmReferralCode) async{
+    myCmTeamMates.clear();
+    try{
+      return FirebaseService.fetchDocsByWhereAndWhereClause(filterKey : FirebaseKeys.referredBy, filterValue: cmReferralCode,
+          filterKeySecond: FirebaseKeys.isCm,
+          filterValueSecond : true
+          ,collection : FirebaseKeys.usersCollection)
+          .then((QuerySnapshot? snapshot)async{
+        if (snapshot != null) {
+          for (var element in snapshot.docs) {
+            var userData=element.data()  as Map<String,dynamic>;
+            if (userData != null) {
+
+              UserData _cmTeamData = UserData(
+                firstName: userData['firstName'],
+                lastName: userData['lastName'],
+                email: userData['email'],
+                phone: userData['phone'],
+              );
+              myCmTeamMates.add(_cmTeamData);
+            }
+          }
+          return myCmTeamMates;
+
+        }}
+      );
+    } on FirebaseService catch(e){
+      rethrow;
+    }
+
+  }
+
+  Future<List<UserData>?> fetchVendorTeamData(String cmReferralCode) async{
+    myVendorTeamMates.clear();
+    try{
+      return FirebaseService.fetchDocsByWhereAndWhereClause(filterKey : FirebaseKeys.referredBy, filterValue: cmReferralCode,
+          filterKeySecond: FirebaseKeys.isVendor,
+          filterValueSecond : true
+          ,collection : FirebaseKeys.usersCollection)
+          .then((QuerySnapshot? snapshot)async{
+        if (snapshot != null) {
+          for (var element in snapshot.docs) {
+            var userData=element.data()  as Map<String,dynamic>;
+            if (userData != null) {
+
+              UserData _cmTeamData = UserData(
+                firstName: userData['firstName'],
+                lastName: userData['lastName'],
+                email: userData['email'],
+                phone: userData['phone'],
+              );
+              myVendorTeamMates.add(_cmTeamData);
+            }
+          }
+          return myVendorTeamMates;
+
+        }}
+      );
+    } on FirebaseService catch(e){
+      rethrow;
+    }
+
+  }
+
+  Future<void> fetchWalletBalanceByCmId(String cmId) async {
+    currentCmWalletBalance.value=0;
+    try{
+      String? walletBalance =await _myCmTeamRepository.fetchCmWalletBalance(cmId);
+      if(walletBalance!=null){
+        currentCmWalletBalance.value= double.parse(walletBalance);
+      }
+      else{
+        print("Users wallet data not available");
+
+      }
+    }
+    on ApiException catch(e){
+      if(e.status==ApiExceptionCode.sessionExpire){
+        CommonFunctions.showSnackBar(title: "Alert", message: "Session Expired", type: PopupType.error);
+        // Get.offAll(()=> LogInScreen());
+      }
+    }
+
+  }
+
 
   void updateView() {}
 }
